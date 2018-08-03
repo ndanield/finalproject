@@ -228,6 +228,7 @@ body {
 }
 
 .portrait .profile-pic {
+    overflow: hidden;
     width: 128px;
     height: 128px;
     z-index: auto;

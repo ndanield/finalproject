@@ -89,7 +89,8 @@ public class Main {
         get("/", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.INDEX));
 
         get("/wall", (request, response) -> {
-            int page = Integer.parseInt(request.queryParams("page"));
+//            int page = Integer.parseInt(request.queryParams("page"));
+            int page = 0;
             List<Post> postList = postDAO.findSome( page * 10 );
             Map<String, Object> model = new HashMap<>();
             model.put("postList", postList);
