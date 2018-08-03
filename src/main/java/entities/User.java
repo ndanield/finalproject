@@ -27,8 +27,8 @@ public class User implements Serializable {
 
     private boolean isAdministrator;
 
-    @OneToMany
-    private List<User> friendList;
+    /*@OneToMany
+    private List<User> friendList;*/
 
 //    @OneToMany
 //    private List<EstudyPlace> estudyPlace;

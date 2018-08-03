@@ -25,4 +25,5 @@ dependencies {
     compile 'com.thedeanda:lorem:2.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.j2html:j2html:1.0.0'
+    compile group: 'org.eclipse.jetty', name: 'jetty-http-spi', version: '9.4.4.v20170414'
 }

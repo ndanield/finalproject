@@ -12,6 +12,8 @@ public class Post {
     @GeneratedValue
     private long id;
 
+    private String title;
+
     private String content;
 
     private Date date;
@@ -22,10 +24,19 @@ public class Post {
     public Post() {
     }
 
-    public Post(String content, Date date, User user) {
+    public Post(String title, String content, Date date, User user) {
+        this.title = title;
         this.content = content;
         this.date = date;
         this.user = user;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public long getId() {
