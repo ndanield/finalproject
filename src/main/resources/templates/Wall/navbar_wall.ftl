@@ -17,7 +17,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/" data-toggle="tooltip" data-placement="top" title="Ir a inicio" data-original-title="Tooltip on top">
-                    <i class="fa fa-users"></i> Inicio
+                    <i class="fa fa-home"></i> Inicio
                 </a>
             </li>
             <li class="nav-item">
