@@ -6,18 +6,15 @@ import dao.PostDAO;
 import dao.UserDAO;
 import entities.City;
 import entities.Post;
-import entities.Post;
 import entities.User;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
 import spark.Request;
 import spark.Session;
-import spark.template.freemarker.FreeMarkerEngine;
 import util.Filters;
 import util.Path;
 import util.Rest.JSONUtil;
 import util.Rest.ResService;
-import util.Soap.SoapMain;
 import util.ViewUtil;
 import util.BootStrapServices;
 
@@ -92,9 +89,21 @@ public class Main {
         get("/wall", (request, response) -> {
 //            int page = Integer.parseInt(request.queryParams("page"));
             int page = 0;
-            List<Post> postList = postDAO.findSome( page * 10 );
+            List<Post> postList = postDAO.findSomeByUser( page * 10 , request.session().attribute("currentUser"));
             Map<String, Object> model = new HashMap<>();
             model.put("postList", postList);
+            model.put("user", request.session().attribute("currentUser"));
+            return ViewUtil.render(request, model, Path.WALL);
+        });
+
+        get("/walls/:user", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            //            int page = Integer.parseInt(request.queryParams("page"));
+            int page = 0;
+            User user = userDAO.find(request.params("user"));
+            List<Post> postList = postDAO.findSomeByUser( page * 10 , user);
+            model.put("postList", postList);
+            model.put("user", user);
             return ViewUtil.render(request, model, Path.WALL);
         });
 

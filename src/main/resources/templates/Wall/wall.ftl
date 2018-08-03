@@ -30,8 +30,8 @@
         <div class="col-lg-3">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3><strong>${ currentUser.name }</strong></h3>
-                    <h6>${ currentUser.username }</h6>
+                    <h3><strong>${ user.name }</strong></h3>
+                    <h6>${ user.username }</h6>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>

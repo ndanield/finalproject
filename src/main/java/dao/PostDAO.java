@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Post;
+import entities.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,9 +26,10 @@ public class PostDAO extends DAOImpl<Post, Long> {
     }
 
     // Post Controller
-    public List<Post> findSome(int position) {
+    public List<Post> findSomeByUser(int position, User user) {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Post> query = em.createQuery("from Post p order by p.date desc", Post.class);
+        TypedQuery<Post> query = em.createQuery("from Post p where p.user = :user order by p.date desc", Post.class);
+        query.setParameter("user", user);
         query.setMaxResults(10);
         query.setFirstResult(position);
         return query.getResultList();

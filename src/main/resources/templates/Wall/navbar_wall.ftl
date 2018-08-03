@@ -12,7 +12,12 @@
             </li>
             <li class="nav-item active">
                 <a class="nav-link active" href="/wall" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
-                    <strong>${currentUser.name}</strong>
+                    <strong>${ currentUser.name }</strong>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/" data-toggle="tooltip" data-placement="top" title="Ir a inicio" data-original-title="Tooltip on top">
+                    <i class="fa fa-users"></i> Inicio
                 </a>
             </li>
             <li class="nav-item">
