@@ -32,15 +32,11 @@ public class ViewUtil {
         return render(request, model, Path.ERROR);
     };
 
-    public static String renderWithUser(Request request, Map<String, Object> model, String templatePath) {
-        model.put("currentUser", request.session().attribute("currentUser"));
-
-        return getConfiguredEngine().render(new ModelAndView(model, templatePath));
-    }
-
     public static String render(Request request, Map<String, Object> model, String templatePath) {
-        model.put("currentUser", request.session().attribute("currentUser"));
-
+        // Si a causa del filtro se redirige al /login con el metodo GET esta variable aun no teniene uso
+        if (request.session().attribute("currentUser") != null) {
+            model.put("currentUser", request.session().attribute("currentUser"));
+        }
         return getConfiguredEngine().render(new ModelAndView(model, templatePath));
     }
 

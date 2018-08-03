@@ -43,7 +43,7 @@
         <div class="col-lg-5 mx-auto">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title"><strong>${currentUser.name}</strong></h5>
+                    <h5 class="card-title"><strong>${ currentUser.name }</strong></h5>
                     <h6 class="card-subtitle text-muted">Actualizó su foto de portada  <time datetime="2018-07-20" style="float: right"> 20-07-2018 1:08 AM</time></h6>
 
                 <img style="height: 200px; width: 100%; display: block;" src="/images/playa.jpg" alt="Card image">
@@ -77,15 +77,15 @@
                 <div class="card-body">
                     <h4 class="card-title">Comparte lo que piensas</h4>
                     <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-                    <form action="" method="POST">
+                    <form action="/post" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <!-- <label for="exampleTextarea">Example textarea</label> -->
-                                <textarea class="form-control" id="exampleTextarea" placeholder="Escribe aquí" rows="5"></textarea>
+                                <textarea name="post-content" class="form-control" id="exampleTextarea" placeholder="Escribe aquí" rows="5"></textarea>
                             </div>
                             <div class="form-inline">
-                                <button type="button" class="btn btn-primary"><i class="fa fa-image"> Sube una Foto</i></button>
-                                <button type="button" class="btn btn-success mx-sm-3"><i class="fa fa-share-alt"> Publicar</i></button>
+                                <button type="button" class="btn btn-primary disabled"><i class="fa fa-image"> Sube una Foto</i></button>
+                                <button type="submit" class="btn btn-success mx-sm-3"><i class="fa fa-share-alt"> Publicar</i></button>
                             </div>
                         </fieldset>
                     </form>

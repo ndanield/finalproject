@@ -8,10 +8,16 @@
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link active" href="/wall" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top" style="border-right: 1px solid">
-                    <img src="/images/playa.jpg" alt="Avatar" class="avatar"/> <strong>${ currentUser.name }</strong>
+                    <#if currentUser??>
+                    <p>CurrentUser llego NULO</p>
+                        <#else>
+                        <img src="/images/playa.jpg" alt="Avatar" class="avatar"/> <strong>${ currentUser.name }</strong>
+                    </#if>
+
+
                 </a>
             </li>
-            <li class="nav-item" style="border-right: 1px solid">
+            <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Solicitudes de amistad" data-original-title="Tooltip on top"><i class="fa fa-users    "></i></a>
             </li>
             <li class="nav-item" style="border-right: 1px solid">

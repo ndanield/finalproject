@@ -34,16 +34,28 @@
                                 <input  class="form-control" name="password" placeholder="Contraseña" type="password">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="custom-control custom-checkbox">
-                                <label class="custom-control-label" for="remember-me-check">Recuerdame</label>
-                                <input class="custom-control-input" id="remember-me-check" type="checkbox" name="remember-me">
-                            </div>
-                        </div>
+                        <#--<div class="form-group row">-->
+                            <#--<div class="custom-control custom-checkbox">-->
+                                <#--<label class="custom-control-label" for="remember-me-check">Recuerdame</label>-->
+                                <#--<input class="custom-control-input" id="remember-me-check" type="checkbox" name="remember-me">-->
+                            <#--</div>-->
+                        <#--</div>-->
                         <div class="form-group row">
                             <button type="submit" class="btn btn-success mx-auto"><i class="fa fa-sign-in-alt"> <strong>Entrar</strong></i></button>
                         </div>
+
+                        <#if loginRedirect?has_content>
+                            <input type="hidden" name="loginRedirect" value="${ loginRedirect }">
+                        </#if>
+
+
+                        #end
                     </form>
+                </div>
+            </div>
+            <div class="card border-primary mx-auto">
+                <div class="card-body" align="center">
+                    <p class="card-text">¿No tienes Cuenta? <a href="/register" class="card-link">registrate</a></p>
                 </div>
             </div>
         </div>

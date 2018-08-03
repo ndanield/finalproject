@@ -2,11 +2,13 @@ package main;
 
 import com.google.gson.Gson;
 import dao.DAOImpl;
+import dao.PostDAO;
+import dao.UserDAO;
+import entities.Post;
 import entities.Post;
 import entities.User;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
-import spark.ModelAndView;
 import spark.Request;
 import spark.template.freemarker.FreeMarkerEngine;
 import util.Filters;
@@ -28,6 +30,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -35,8 +38,8 @@ import static spark.Spark.*;
 public class Main {
 
     // Declare dependencies
-    public static DAOImpl<User, String> userDAO;
-    public static BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
+    public static UserDAO userDAO;
+    public static PostDAO postDAO;
     public final static String ACCEPT_TYPE_JSON = "application/json";
 
 
@@ -62,11 +65,13 @@ public class Main {
         staticFiles.externalLocation("parcial2UploadImages");
 
         //Instantiate dependencies
-        userDAO = new DAOImpl<>(User.class);
+        userDAO = new UserDAO(User.class);
+        postDAO = new PostDAO(Post.class);
 
 
         // Creating default user if there are none
         if (userDAO.findAll().isEmpty()) {
+            BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
             User user = new User("admin", "Escanor", "Castilla",
                     new Date(), encryptor.encryptPassword("admin123"), true);
             userDAO.persist(user);
@@ -80,10 +85,28 @@ public class Main {
         internalServerError(ViewUtil.internalServerError);
 
         // Register routes
-        get("/", (request, response) -> ViewUtil.renderWithUser(request, new HashMap<>(), Path.INDEX));
+        get("/", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.INDEX));
 
-        get("/wall", (request, response) ->
-                ViewUtil.renderWithUser(request, new HashMap<>(), Path.WALL));
+        get("/wall", (request, response) -> {
+            int page = Integer.parseInt(request.queryParams("page"));
+            List<Post> postList = postDAO.findSome( page * 10 );
+            Map<String, Object> model = new HashMap<>();
+            model.put("postList", postList);
+            return ViewUtil.render(request, model, Path.WALL);
+        });
+
+        post("/post", (request, response) -> {
+            Post post = new Post();
+            post.setContent(request.queryParams("post-content"));
+            post.setDate(new Date());
+            post.setUser(request.session().attribute("currentUser"));
+
+            postDAO.persist(post);
+
+            response.redirect("/wall");
+
+            return null;
+        });
 
         get("/register", (request, response) -> {
             return ViewUtil.render(request, new HashMap<>(), Path.REGISTER);
@@ -91,13 +114,12 @@ public class Main {
 
         post("/register",(request,response)->{
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
-
             User user = new User();
             user.setUsername(request.queryParams("username"));
             user.setPassword(encryptor.encryptPassword(request.queryParams("password")));
-            user.setName(request.queryParams("personName"));
+            user.setName(request.queryParams("firstName"));
             user.setLastname(request.queryParams("lastName"));
-            user.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(request.queryParams("born")));
+            user.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(request.queryParams("bornDate")));
             user.setAdministrator(false);
 
             userDAO.persist(user);
@@ -202,7 +224,7 @@ public class Main {
            });
         });
 
-        get("/album", (request, response) -> ViewUtil.renderWithUser(request, new HashMap<>(), Path.ALBUM));
+        get("/album", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.ALBUM));
 
         post("/album", (request, response) -> {
             java.nio.file.Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
@@ -223,6 +245,7 @@ public class Main {
 
     // User Controller
     public static boolean authenticate(String username, String password) {
+        BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
         if (username.isEmpty() || password.isEmpty())
             return false;
 
@@ -235,7 +258,10 @@ public class Main {
         return encryptor.checkPassword(password, user.getPassword());
     }
 
-    // methods used for logging
+
+
+
+    // methods used for logging With image unpload
     private static void logInfo(Request req, java.nio.file.Path tempFile) throws IOException, ServletException {
         System.out.println("Uploaded file '" + getFileName(req.raw().getPart("uploaded_file")) + "' saved as '" + tempFile.toAbsolutePath() + "'");
     }

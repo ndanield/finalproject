@@ -6,18 +6,20 @@
 <div class="content">
     <div class="row">
         <div class="col-lg-6">
-
+            <p class="card-text">Registrate en la red donde puedes compartir tus pensamientos</p>
         </div>
         <div class="col-lg-6">
+            <div class="row" id="error-in-form">
+                <#-- Added by JS-->
+            </div>
             <div class="row">
                 <div class="card border-primary mb-3 mx-auto" style="max-width: 20rem;">
                     <div class="card-body">
                         <h4 class="card-title" align="center" style="font-family: leaf; font-size: 50px; color: #316a3a">BanaGreen</h4>
-                        <p class="card-text">Registrate en la red donde puedes compartir tus pensamientos</p>
-                        <form action="/register" autocomplete="off" method="post">
+                        <form action="/register" method="post" autocomplete="off">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <input class="form-control" name="personName" placeholder="Nombre" type="text">
+                                    <input class="form-control" name="firstName" placeholder="Nombre" type="text">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <input class="form-control" name="lastName" placeholder="Apellido" type="text">
@@ -27,10 +29,10 @@
                                 <input class="form-control" name="username" placeholder="Usuario" type="text">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" name="password" placeholder="Contraseña" type="password">
+                                <input id="password" class="form-control" name="password" placeholder="Contraseña" type="password">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" name="confirmPassword" placeholder="Confirmar contraseña" type="password">
+                                <input id="confirmPassword" class="form-control" name="confirmPassword" placeholder="Confirmar contraseña" type="password">
                             </div>
                             <div class="form-group">
                                 <input class="form-control" name="bornDate" type="date">
@@ -44,7 +46,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button id="registerButton" type="submit" class="btn btn-success mx-auto"><strong>Registrarse</strong></button>
+                                <button id="registerButton" type="submit" class="btn btn-success mx-auto "><strong>Registrarse</strong></button>
                             </div>
                         </form>
                     </div>
