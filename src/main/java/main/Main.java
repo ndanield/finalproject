@@ -1,6 +1,8 @@
 package main;
 
+import com.google.gson.Gson;
 import dao.DAOImpl;
+import entities.Post;
 import entities.User;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
@@ -8,6 +10,9 @@ import spark.Request;
 import spark.template.freemarker.FreeMarkerEngine;
 import util.Filters;
 import util.Path;
+import util.Rest.JSONUtil;
+import util.Rest.ResService;
+import util.Soap.SoapMain;
 import util.ViewUtil;
 import util.BootStrapServices;
 
@@ -30,11 +35,22 @@ public class Main {
 
     // Declare dependencies
     public static DAOImpl<User, String> userDAO;
+    public final static String ACCEPT_TYPE_JSON = "application/json";
+
 
     public static void main(String[] args) {
         // Launch Database
         BootStrapServices.getInstance().init();
 
+        // Launch SOAPServices
+        try{
+            SoapMain.init();
+        }catch (Exception e) {
+            System.out.println("No se pudeo inicializar el servicio por: ");
+            e.printStackTrace();
+        }
+
+        ResService resService = new ResService();
         // Configure Spark
         staticFiles.location("/public");
 
@@ -149,6 +165,32 @@ public class Main {
             request.session().attribute("loggedOut", true);
             response.redirect(Path.LOGIN);
             return null;
+        });
+
+        path("/rest", ()->{
+           afterAfter("/*", (request,response)->{
+               if(request.headers("Accept").equalsIgnoreCase(ACCEPT_TYPE_JSON)){
+                   response.header("Content-Type", ACCEPT_TYPE_JSON);
+               }
+           });
+
+           path("/userPosts", ()->{
+               get("/:username",(request,response)->{
+                  return new Gson().toJson(resService.getUserPosts(request.params("username")));
+               },JSONUtil.json());
+
+               post("/createNewPost",ACCEPT_TYPE_JSON,(request,response)->{
+                   Post post = null;
+                   if(request.headers("Content-Type").equalsIgnoreCase(ACCEPT_TYPE_JSON)){
+//                       System.out.println(JSONUtil.toJson(request.body()));
+                        post = new Gson().fromJson(request.body(), Post.class);
+                        System.out.println(post);
+                   }else {
+                       throw new IllegalArgumentException("Este formato no es JSON");
+                   }
+                   return resService.createPost(post);
+               },JSONUtil.json());
+           });
         });
 
         get("/album", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.ALBUM));
