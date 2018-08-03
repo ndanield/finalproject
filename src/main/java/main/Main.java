@@ -50,12 +50,12 @@ public class Main {
         BootStrapServices.getInstance().init();
 
         // Launch SOAPServices
-        try{
-            SoapMain.init();
-        }catch (Exception e) {
-            System.out.println("No se pudeo inicializar el servicio por: ");
-            e.printStackTrace();
-        }
+//        try{
+//            SoapMain.init();
+//        }catch (Exception e) {
+//            System.out.println("No se pudeo inicializar el servicio por: ");
+//            e.printStackTrace();
+//        }
 
         ResService resService = new ResService();
         // Configure Spark
@@ -146,11 +146,12 @@ public class Main {
         // Serve login
         get("/login", (request, response) ->{
             Map<String,String> cookies = request.cookies();
-//            if (request.q)
+            Map<String, Object> model = new HashMap<>();
+
             if (request.cookies().containsKey("JSESSIONID")){
                 for(String key: cookies.keySet()){
                     if(key.equalsIgnoreCase("cookie")){
-                        Map<String, Object> model = new HashMap<>();
+
                         String encryptedText = request.cookie("cookie");
                         BasicTextEncryptor encryptor = new BasicTextEncryptor();
                         encryptor.setPassword("secretPasswd");
@@ -162,9 +163,10 @@ public class Main {
                     }
                 }
             }
-            return ViewUtil.render(request,new HashMap<>(),Path.LOGIN);
 
-        });  //ViewUtil.render(request, new HashMap<>(), Path.LOGIN));
+            return ViewUtil.render(request,model,Path.LOGIN);
+
+        });
 
         // Handle login
         post("/login", (request, response) -> {

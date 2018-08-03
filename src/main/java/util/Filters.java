@@ -15,7 +15,7 @@ public class Filters {
     private static void verifyUserIsLogged(Request request, Response response) {
         if (request.session().attribute("currentUser") == null) {
             request.session(true).attribute("loginRedirect", request.pathInfo());
-            response.redirect("/register");
+            response.redirect("/login");
         }
     }
 }

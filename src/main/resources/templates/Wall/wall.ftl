@@ -46,19 +46,16 @@
                     <#items as post>
                         <div class="card mb-3">
                             <div class="card-header">
-                                <h5 class="card-title"><strong>${ currentUser.name }</strong> compartio una publicacion </h5>
-                                <h6 class="card-subtitle text-muted"><time datetime="2018-07-20" style="float: right"> 20-07-2018 1:08 AM</time></span></h6>
+                                <h5 class="card-title"><strong>${ post.user.name }</strong> compartio una publicación </h5>
+                                <h6 class="card-subtitle text-muted"><time datetime="${ post.date }" style="float: right"> 20-07-2018 1:08 AM</time></span></h6>
                             </div>
 
                             <div class="card-body">
-
-                                <p class="card-text">Aquí disfrutando de una playita</p>
+                                <p class="card-text">${ post.content }</p>
                             </div>
 
                             <div class="card-body">
-
                                 <img style="width: 100%; display: block;" src="/images/playa.jpg" alt="Imagen publicada">
-
                             </div>
 
                         <#--<ul class="list-group list-group-flush">-->
@@ -90,7 +87,7 @@
                 </ul>
             </#list>
 
-            <buttom class="btn btn-link m-auto" type="submit">Cargar ms</buttom>
+            <buttom class="btn btn-link justify-content-center" type="submit">Cargar más publicaciones</buttom>
         </div>
 
         <div class="col-lg-4">
