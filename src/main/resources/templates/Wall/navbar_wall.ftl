@@ -25,13 +25,8 @@
                     <i class="fa fa-bell" aria-hidden="true"></i> Notificaciones
                 </a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menu</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Ajustes</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
-                </div>
+            <li class="nav-item">
+                <a href="/logout"><button class="btn btn-secundary">Cerrar Sesión</button></a>
             </li>
         </ul>
     </div>

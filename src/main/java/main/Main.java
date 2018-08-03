@@ -10,6 +10,7 @@ import entities.User;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
 import spark.Request;
+import spark.Session;
 import spark.template.freemarker.FreeMarkerEngine;
 import util.Filters;
 import util.Path;
@@ -131,24 +132,24 @@ public class Main {
 
         // Serve login
         get("/login", (request, response) ->{
-            Map<String, Object> model = new HashMap<>();
             Map<String,String> cookies = request.cookies();
 //            if (request.q)
             if (request.cookies().containsKey("JSESSIONID")){
                 for(String key: cookies.keySet()){
                     if(key.equalsIgnoreCase("cookie")){
+                        Map<String, Object> model = new HashMap<>();
                         String encryptedText = request.cookie("cookie");
                         BasicTextEncryptor encryptor = new BasicTextEncryptor();
                         encryptor.setPassword("secretPasswd");
                         String usern = encryptor.decrypt(encryptedText);
                         System.out.println(usern);
-                        model.put("authenticationSuceeded",true);
-                        request.session().attribute("currentUser", userDAO.find(usern));
+                        model.put("authenticationSucceeded",true);
+                        request.session(true).attribute("currentUser", userDAO.find(usern));
                         response.redirect("/");
                     }
                 }
             }
-            return ViewUtil.renderWithUser(request,new HashMap<>(),Path.LOGIN);
+            return ViewUtil.render(request,new HashMap<>(),Path.LOGIN);
 
         });  //ViewUtil.render(request, new HashMap<>(), Path.LOGIN));
 
@@ -159,28 +160,24 @@ public class Main {
             if(request.queryParams("remember-me") == null){
                 if (!authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
-                    return ViewUtil.renderWithUser(request, model, Path.LOGIN);
+                    return ViewUtil.render(request, model, Path.LOGIN);
                 }
                 model.put("authenticationSucceeded", true);
                 User user = userDAO.find(request.queryParams("username"));
-                request.session().attribute("currentUser", user);
+                request.session(true).attribute("currentUser", user);
 
             }else if(request.queryParams("remember-me").equals("on")){
                 if (!authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
-                    return ViewUtil.renderWithUser(request, model, Path.LOGIN);
+                    return ViewUtil.render(request, model, Path.LOGIN);
                 }
                 BasicTextEncryptor tempEncryptor = new BasicTextEncryptor();
                 tempEncryptor.setPassword("secretPasswd");
                 response.cookie("/","cookie",tempEncryptor.encrypt(request.queryParams("username")),604800, false);
                 model.put("authenticationSucceeded", true);
                 User user = userDAO.find(request.queryParams("username"));
-                request.session().attribute("currentUser", user);
-
-
+                request.session(true).attribute("currentUser", user);
             }
-
-
 
             if (request.queryParams("loginRedirect") != null) {
                 response.redirect(request.queryParams("loginRedirect"));
@@ -191,10 +188,16 @@ public class Main {
             return null;
         });
 
-        post("/logout", (request, response) -> {
-            request.session().removeAttribute("currentUser");
+        get("/logout", (request, response) -> {
+            /*request.session().removeAttribute("currentUser");
             request.session().attribute("loggedOut", true);
             response.redirect(Path.LOGIN);
+            return null;*/
+            Session activeSession = request.session();
+            activeSession.invalidate();
+            response.removeCookie("cookie");
+            response.redirect("/");
+
             return null;
         });
 

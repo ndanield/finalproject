@@ -17,13 +17,8 @@
             <li class="nav-item" style="border-right: 1px solid">
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top"><i class="fa fa-bell" aria-hidden="true"></i></a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Ajustes</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
-                </div>
+            <li class="nav-item">
+                <a href="/logout"><button class="btn btn-secundary">Cerrar Sesión</button></a>
             </li>
         </ul>
     </div>

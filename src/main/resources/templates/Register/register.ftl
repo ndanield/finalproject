@@ -45,8 +45,8 @@
                                     <input class="form-control" id="citylist" name="city" placeholder="Ciudad" type="text">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <button id="registerButton" type="submit" class="btn btn-success mx-auto "><strong>Registrarse</strong></button>
+                            <div class="form-group row">
+                                <button type="submit" class="btn btn-success mx-auto "><strong>Registrarse</strong></button>
                             </div>
                         </form>
                     </div>
