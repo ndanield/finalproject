@@ -13,7 +13,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Solicitudes de amistad" data-original-title="Tooltip on top">
-                    <i class="fa fa-users    "></i>
+                    <i class="fa fa-users"></i> Solicitudes
                 </a>
             </li>
             <li class="nav-item" style="border-right: 1px solid">
