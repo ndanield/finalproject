@@ -201,7 +201,7 @@ public class Main {
 
            path("/userPosts", ()->{
                get("/:username",(request,response)->{
-                  return new Gson().toJson(resService.getUserPosts(request.params("username")));
+                  return resService.getUserPosts(request.params("username"));
                },JSONUtil.json());
 
                post("/createNewPost",ACCEPT_TYPE_JSON,(request,response)->{
