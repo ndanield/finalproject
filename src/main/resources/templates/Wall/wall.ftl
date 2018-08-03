@@ -28,10 +28,10 @@
 
     <div class="row">
         <div class="col-lg-3">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-body">
                     <h3><strong>${ currentUser.name }</strong></h3>
-                    <h6>${currentUser.username}</h6>
+                    <h6>${ currentUser.username }</h6>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
@@ -40,36 +40,57 @@
             </div>
         </div>
 
-        <div class="col-lg-5 mx-auto">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title"><strong>${ currentUser.name }</strong></h5>
-                    <h6 class="card-subtitle text-muted">Actualizó su foto de portada  <time datetime="2018-07-20" style="float: right"> 20-07-2018 1:08 AM</time></h6>
+        <div id="PostColumn" class="col-lg-5 mx-auto">
+            <#list postList>
+                <ul>
+                    <#items as post>
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="card-title"><strong>${ currentUser.name }</strong> compartio una publicacion </h5>
+                                <h6 class="card-subtitle text-muted"><time datetime="2018-07-20" style="float: right"> 20-07-2018 1:08 AM</time></span></h6>
+                            </div>
 
-                <img style="height: 200px; width: 100%; display: block;" src="/images/playa.jpg" alt="Card image">
-                    <p class="card-text">Aquí disfrutando de una playita</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"> A fulano y otros le ha gustado tu post</li>
+                            <div class="card-body">
+
+                                <p class="card-text">Aquí disfrutando de una playita</p>
+                            </div>
+
+                            <div class="card-body">
+
+                                <img style="width: 100%; display: block;" src="/images/playa.jpg" alt="Imagen publicada">
+
+                            </div>
+
+                        <#--<ul class="list-group list-group-flush">-->
+                        <#--<li class="list-group-item"> A fulano y otros le ha gustado tu post</li>-->
+                        <#--</ul>-->
+
+                            <div class="card-body">
+                                <div class="like-panel">
+                                    <form action="" method="POST" style="display: inline">
+                                        <button class="btn btn-sm btn-outline-success" name="vote" value="like">
+                                            <i class="fa fa-thumbs-up"></i>&nbsp;Me gusta&nbsp;<span class="badge badge-light">0</span>
+                                        </button>
+                                    </form>
+                                    <form action="" method="POST" style="display: inline;">
+                                        <button class="btn btn-sm btn-outline-danger" name="vote" value="dislike">
+                                            <i class="fa fa-thumbs-down"></i>&nbsp;No me gusta&nbsp;<span class="badge badge-light">0</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="card-footer text-muted">
+                                No se ha comentado este post
+                            </div>
+                        </div>
+
+                    </#items>
                 </ul>
-                <div class="card-body">
-                    <div class="like-panel">
-                        <form action="" method="POST" style="display: inline">
-                            <button class="btn btn-sm btn-outline-success" name="vote" value="like">
-                                <i class="fa fa-thumbs-up"></i>&nbsp;Me gusta&nbsp;<span class="badge badge-light">0</span>
-                            </button>
-                        </form>
-                        <form action="" method="POST" style="display: inline;">
-                            <button class="btn btn-sm btn-outline-danger" name="vote" value="dislike">
-                                <i class="fa fa-thumbs-down"></i>&nbsp;No me gusta&nbsp;<span class="badge badge-light">0</span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <div class="card-footer text-muted">
-                    No se ha comentado este post
-                </div>
-            </div>
+            </#list>
+
+            <buttom class="btn btn-link m-auto" type="submit">Cargar ms</buttom>
         </div>
 
         <div class="col-lg-4">
