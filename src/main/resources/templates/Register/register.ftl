@@ -38,9 +38,6 @@
                                 <input class="form-control" name="bornDate" type="date">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" name="bornPlace" placeholder="Lugar de nacimiento" type="text">
-                            </div>
-                            <div class="form-group">
                                 <div class="autocomplete">
                                     <input class="form-control" id="citylist" name="city" placeholder="Ciudad" type="text">
                                 </div>

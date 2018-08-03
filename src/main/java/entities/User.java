@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -20,8 +21,8 @@ public class User implements Serializable {
     private Date birthdate;
 
 //    private String placeborn;
-
-//    private String cityborn;
+    @OneToOne
+    private City cityborn;
 
     private String password;
 
@@ -53,13 +54,14 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator) {
+    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator, City city) {
         this.username = username;
         this.name = name;
         this.lastname = lastname;
         this.birthdate = birthdate;
         this.password = password;
         this.isAdministrator = isAdministrator;
+        this.cityborn = city;
     }
 
     public String getUsername() {
@@ -108,5 +110,13 @@ public class User implements Serializable {
 
     public void setAdministrator(boolean administrator) {
         isAdministrator = administrator;
+    }
+
+    public City getCityborn() {
+        return cityborn;
+    }
+
+    public void setCityborn(City cityborn) {
+        this.cityborn = cityborn;
     }
 }

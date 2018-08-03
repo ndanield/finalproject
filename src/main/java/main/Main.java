@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dao.DAOImpl;
 import dao.PostDAO;
 import dao.UserDAO;
+import entities.City;
 import entities.Post;
 import entities.Post;
 import entities.User;
@@ -67,17 +68,17 @@ public class Main {
 
         //Instantiate dependencies
         userDAO = new UserDAO(User.class);
-        postDAO = new PostDAO(Post.class);
 
 
         // Creating default user if there are none
         if (userDAO.findAll().isEmpty()) {
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
             User user = new User("admin", "Escanor", "Castilla",
-                    new Date(), encryptor.encryptPassword("admin123"), true);
+                    new Date(), encryptor.encryptPassword("admin123"), true,
+                    new City("Santiago de los Caballeros","Santiago","51000","República Dominicana", null,null));
             userDAO.persist(user);
         }
-
+        postDAO = new PostDAO(Post.class);
         // Route filters
         Filters.filters();
 
@@ -114,6 +115,8 @@ public class Main {
         });
 
         post("/register",(request,response)->{
+            DAOImpl<City, String> cittyDao = new DAOImpl<>(City.class);
+            City city = new City();
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
             User user = new User();
             user.setUsername(request.queryParams("username"));
@@ -122,7 +125,16 @@ public class Main {
             user.setLastname(request.queryParams("lastName"));
             user.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(request.queryParams("bornDate")));
             user.setAdministrator(false);
-
+            if(cittyDao.findAll().isEmpty()){
+                city.setName(request.queryParams("city"));
+                city.setProvince(request.queryParams("city"));
+                city.setPostalCode("51000");
+                city.setCountry("República Dominicana");
+                city.setEstudyPlaceList(null);
+                city.setWorkPlaceList(null);
+                cittyDao.persist(city);
+            }
+            user.setCityborn(city);
             userDAO.persist(user);
             request.session().attribute("currentUser", user);
 
