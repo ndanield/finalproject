@@ -1,7 +1,11 @@
 package main;
 
 import com.google.gson.Gson;
+import dao.DAO;
 import dao.DAOImpl;
+import dao.PostDAO;
+import dao.UserDAO;
+import entities.Post;
 import entities.Post;
 import entities.User;
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -27,6 +31,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -34,7 +39,8 @@ import static spark.Spark.*;
 public class Main {
 
     // Declare dependencies
-    public static DAOImpl<User, String> userDAO;
+    public static UserDAO userDAO;
+    public static PostDAO postDAO;
     public final static String ACCEPT_TYPE_JSON = "application/json";
 
 
@@ -60,7 +66,8 @@ public class Main {
         staticFiles.externalLocation("parcial2UploadImages");
 
         //Instantiate dependencies
-        userDAO = new DAOImpl<>(User.class);
+        userDAO = new UserDAO(User.class);
+        postDAO = new PostDAO(Post.class);
 
 
         // Creating default user if there are none
@@ -81,8 +88,26 @@ public class Main {
         // Register routes
         get("/", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.INDEX));
 
-        get("/wall", (request, response) ->
-                ViewUtil.render(request, new HashMap<>(), Path.WALL));
+        get("/wall", (request, response) -> {
+            int page = Integer.parseInt(request.queryParams("page"));
+            List<Post> postList = postDAO.findSome( page * 10 );
+            Map<String, Object> model = new HashMap<>();
+            model.put("postList", postList);
+            return ViewUtil.render(request, model, Path.WALL);
+        });
+
+        post("/post", (request, response) -> {
+            Post post = new Post();
+            post.setContent(request.queryParams("post-content"));
+            post.setDate(new Date());
+            post.setUser(request.session().attribute("currentUser"));
+
+            postDAO.persist(post);
+
+            response.redirect("/wall");
+
+            return null;
+        });
 
         get("/register", (request, response) -> {
             return ViewUtil.render(request, new HashMap<>(), Path.REGISTER);
@@ -227,7 +252,10 @@ public class Main {
         return encryptor.checkPassword(password, user.getPassword());
     }
 
-    // methods used for logging
+
+
+
+    // methods used for logging With image unpload
     private static void logInfo(Request req, java.nio.file.Path tempFile) throws IOException, ServletException {
         System.out.println("Uploaded file '" + getFileName(req.raw().getPart("uploaded_file")) + "' saved as '" + tempFile.toAbsolutePath() + "'");
     }

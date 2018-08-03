@@ -7,9 +7,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 public class DAOImpl<T, K> {
-    private static EntityManagerFactory emf;
+    protected static EntityManagerFactory emf;
 
-    private Class<T> entityClass;
+    protected Class<T> entityClass;
 
     public DAOImpl(Class<T> entityClass) {
         if (emf == null) {
