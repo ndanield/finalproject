@@ -77,11 +77,35 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link EstudyPlace }
+     * 
+     */
+    public EstudyPlace createEstudyPlace() {
+        return new EstudyPlace();
+    }
+
+    /**
+     * Create an instance of {@link City }
+     * 
+     */
+    public City createCity() {
+        return new City();
+    }
+
+    /**
      * Create an instance of {@link User }
      * 
      */
     public User createUser() {
         return new User();
+    }
+
+    /**
+     * Create an instance of {@link WorkPlace }
+     * 
+     */
+    public WorkPlace createWorkPlace() {
+        return new WorkPlace();
     }
 
     /**

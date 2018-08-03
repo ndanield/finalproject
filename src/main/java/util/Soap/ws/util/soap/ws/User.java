@@ -20,6 +20,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *       &lt;sequence>
  *         &lt;element name="administrator" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="birthdate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="cityborn" type="{http://ws.Soap.util/}city" minOccurs="0"/>
  *         &lt;element name="lastname" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -36,6 +37,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlType(name = "user", propOrder = {
     "administrator",
     "birthdate",
+    "cityborn",
     "lastname",
     "name",
     "password",
@@ -46,6 +48,7 @@ public class User {
     protected boolean administrator;
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar birthdate;
+    protected City cityborn;
     protected String lastname;
     protected String name;
     protected String password;
@@ -89,6 +92,30 @@ public class User {
      */
     public void setBirthdate(XMLGregorianCalendar value) {
         this.birthdate = value;
+    }
+
+    /**
+     * Gets the value of the cityborn property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link City }
+     *     
+     */
+    public City getCityborn() {
+        return cityborn;
+    }
+
+    /**
+     * Sets the value of the cityborn property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link City }
+     *     
+     */
+    public void setCityborn(City value) {
+        this.cityborn = value;
     }
 
     /**

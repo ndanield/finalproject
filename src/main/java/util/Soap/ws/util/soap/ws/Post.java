@@ -21,7 +21,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="content" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="title" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="user" type="{http://ws.Soap.util/}user" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -36,7 +35,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "content",
     "date",
     "id",
-    "title",
     "user"
 })
 public class Post {
@@ -45,7 +43,6 @@ public class Post {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar date;
     protected long id;
-    protected String title;
     protected User user;
 
     /**
@@ -110,30 +107,6 @@ public class Post {
      */
     public void setId(long value) {
         this.id = value;
-    }
-
-    /**
-     * Gets the value of the title property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets the value of the title property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTitle(String value) {
-        this.title = value;
     }
 
     /**

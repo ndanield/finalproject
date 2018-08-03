@@ -21,8 +21,8 @@ public class User implements Serializable {
     private Date birthdate;
 
 //    private String placeborn;
-    @OneToOne
-    private City cityborn;
+//    @OneToOne
+//    private City cityborn;
 
     private String password;
 
@@ -54,14 +54,14 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator, City city) {
+    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator){ //City city) {
         this.username = username;
         this.name = name;
         this.lastname = lastname;
         this.birthdate = birthdate;
         this.password = password;
         this.isAdministrator = isAdministrator;
-        this.cityborn = city;
+//        this.cityborn = city;
     }
 
     public String getUsername() {
@@ -112,11 +112,11 @@ public class User implements Serializable {
         isAdministrator = administrator;
     }
 
-    public City getCityborn() {
+    /*public City getCityborn() {
         return cityborn;
     }
 
     public void setCityborn(City cityborn) {
         this.cityborn = cityborn;
-    }
+    }*/
 }

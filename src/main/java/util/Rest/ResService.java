@@ -1,6 +1,7 @@
 package util.Rest;
 
 import dao.DAOImpl;
+import dao.UserDAO;
 import entities.Post;
 import entities.User;
 
@@ -24,10 +25,15 @@ public class ResService {
         return temp;
     }
 
-    public Post createPost(Post post){
-        DAOImpl<User, String> userDao = new DAOImpl<>(User.class);
+    public Post createPost(String content, String image, String user){
+        UserDAO userDao = new UserDAO(User.class);
         DAOImpl<Post, String> postDao = new DAOImpl<>(Post.class);
-        postDao.persist(new Post(post.getTitle(), post.getContent(), post.getDate(), post.getUser()));
+        Post post = new Post();
+        post.setContent(content.replace("\"",""));
+        post.setDate(new Date());
+        post.setUser(userDao.find(user.replace("\"","")));
+        postDao.persist(post);
         return post;
     }
+
 }

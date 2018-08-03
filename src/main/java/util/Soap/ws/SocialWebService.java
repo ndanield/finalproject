@@ -16,7 +16,7 @@ import java.util.List;
 public class SocialWebService {
 
     @WebMethod
-    public ArrayList<Post> getUserPosts(String username){
+    public List<Post> getUserPosts(String username){
         DAOImpl<Post,String> postDAO = new DAOImpl<>(Post.class);
         ArrayList<Post> temp = new ArrayList<>();
         for (Post p: postDAO.findAll()) {
@@ -32,7 +32,6 @@ public class SocialWebService {
         DAOImpl<User, String> userDao = new DAOImpl<>(User.class);
         DAOImpl<Post, String> postDao = new DAOImpl<>(Post.class);
         Post post = new Post();
-        post.setTitle(title);
         post.setContent(content);
 //        post.setImage(image);
         post.setDate(new Date());

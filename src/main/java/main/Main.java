@@ -1,6 +1,7 @@
 package main;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import dao.DAOImpl;
 import dao.PostDAO;
 import dao.UserDAO;
@@ -71,8 +72,8 @@ public class Main {
         if (userDAO.findAll().isEmpty()) {
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
             User user = new User("admin", "Escanor", "Castilla",
-                    new Date(), encryptor.encryptPassword("admin123"), true,
-                    new City("Santiago de los Caballeros","Santiago","51000","República Dominicana", null,null));
+                    new Date(), encryptor.encryptPassword("admin123"), true);
+                    //new City("Santiago de los Caballeros","Santiago","51000","República Dominicana", null,null));
             userDAO.persist(user);
         }
         postDAO = new PostDAO(Post.class);
@@ -144,7 +145,7 @@ public class Main {
                 city.setWorkPlaceList(null);
                 cittyDao.persist(city);
             }
-            user.setCityborn(city);
+//            user.setCityborn(city);
             userDAO.persist(user);
             request.session().attribute("currentUser", user);
 
@@ -238,15 +239,19 @@ public class Main {
                },JSONUtil.json());
 
                post("/createNewPost",ACCEPT_TYPE_JSON,(request,response)->{
-                   Post post = null;
+                   String username ="";
+                   String image = "";
+                   String content = "";
                    if(request.headers("Content-Type").equalsIgnoreCase(ACCEPT_TYPE_JSON)){
 //                       System.out.println(JSONUtil.toJson(request.body()));
-                        post = new Gson().fromJson(request.body(), Post.class);
-                        System.out.println(post);
+                       JsonObject jsonObject = new Gson().fromJson(request.body(), JsonObject.class);
+                       username += jsonObject.get("username");
+                       content += jsonObject.get("content");
+                       image += jsonObject.get("image");
                    }else {
                        throw new IllegalArgumentException("Este formato no es JSON");
                    }
-                   return resService.createPost(post);
+                   return resService.createPost(content,image,username);
                },JSONUtil.json());
            });
         });
