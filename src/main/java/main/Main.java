@@ -6,6 +6,7 @@ import dao.DAOImpl;
 import dao.PostDAO;
 import dao.UserDAO;
 import entities.City;
+import entities.FriendRequest;
 import entities.Post;
 import entities.User;
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -270,6 +271,14 @@ public class Main {
             logInfo(request, tempFile);
 
             response.redirect("/album");
+            return null;
+        });
+
+        post("/friends", (request, response) -> {
+            FriendRequest friendRequest = new FriendRequest();
+            friendRequest.setRequestUser(request.session().attribute("currentUser"));
+            friendRequest.setAccepted(false);
+//            friendRequest.setTargetUser();
             return null;
         });
 

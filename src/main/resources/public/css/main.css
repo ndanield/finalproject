@@ -224,7 +224,7 @@ body {
     width: 100%;
     height: 240px;
     background: url('/images/default-portrait.png') no-repeat;
-    background-size: cover;;
+    background-size: cover;
 }
 
 .portrait .profile-pic {
@@ -232,9 +232,9 @@ body {
     width: 128px;
     height: 128px;
     z-index: auto;
+    border-color: black;
     padding-top: 100px;
     padding-left: 10px;
-    border-color: black;
 }
 
 .portrait .profile-pic img {
