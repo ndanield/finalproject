@@ -13,11 +13,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Solicitudes de amistad" data-original-title="Tooltip on top">
-                    <i class="fa fa-users    "></i>
+                    <i class="fa fa-users"></i>
                 </a>
             </li>
             <li class="nav-item" style="border-right: 1px solid">
-                <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top"><i class="fa fa-bell" aria-hidden="true"></i></a>
+                <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                </a>
             </li>
             <li class="nav-item">
                 <a href="/logout"><button class="btn btn-secundary">Cerrar Sesión</button></a>

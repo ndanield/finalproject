@@ -7,7 +7,12 @@ import static spark.Spark.before;
 
 public class Filters {
     public static void filters() {
-        before("/", Filters::verifyUserIsLogged);
+        before("/", (request, response) -> {
+            if (request.session().attribute("currentUser") == null) {
+                request.session(true).attribute("loginRedirect", request.pathInfo());
+                response.redirect("/register");
+            }
+        });
         before("/wall", Filters::verifyUserIsLogged);
         before("/album", Filters::verifyUserIsLogged);
     }
