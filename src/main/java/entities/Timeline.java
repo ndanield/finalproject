@@ -1,4 +1,4 @@
-package dao;
+package entities;
 
 import entities.Post;
 import entities.User;

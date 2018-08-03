@@ -13,7 +13,9 @@
             <h1 class="mt-5 ml-2">Escanor</h1>
         </div>
 
-        <button class="btn btn-success mr-3" style="float: right;">Solicitar amistad</button>
+        <form action="/friendRequest/${ user.username }" method="post">
+            <button type="submit" class="btn btn-success mr-3" style="float: right;">Solicitar amistad</button>
+        </form>
     </div>
 
     <div class="row">
