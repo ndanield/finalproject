@@ -1,1 +1,1 @@
-web: build/install/banagreen/bin/banagreen
+web: build/install/FinalProyect/bin/FinalProyect
