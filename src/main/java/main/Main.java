@@ -48,6 +48,8 @@ public class Main {
         // Launch Database
         BootStrapServices.getInstance().init();
 
+        port(getHerokuAsignatedPort());
+
         //Instantiate dependencies
         userDAO = new UserDAO(User.class);
         postDAO = new PostDAO(Post.class);
@@ -55,7 +57,6 @@ public class Main {
         notificationDAO = new NotificationDAO(Notification.class);
         imageDAO = new ImageDAO(Image.class);
 
-        port(getHerokuAsignatedPort());
         // Launch SOAPServices
         try{
             SoapMain.init();
@@ -140,7 +141,7 @@ public class Main {
                 Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            logInfo(request, tempFile);
+            //logInfo(request, tempFile);
 
             response.redirect("/wall");
 
