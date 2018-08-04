@@ -1,7 +1,6 @@
 package util;
 
 import freemarker.template.Configuration;
-import javafx.beans.binding.ObjectExpression;
 import main.Main;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.ModelAndView;
