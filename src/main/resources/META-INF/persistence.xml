@@ -10,6 +10,8 @@
         <class>entities.City</class>
         <class>entities.WorkPlace</class>
         <class>entities.EstudyPlace</class>
+        <class>entities.Notification</class>
+        <class>entities.FriendRequest</class>
         <properties>
             <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />-->
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/~/final" />

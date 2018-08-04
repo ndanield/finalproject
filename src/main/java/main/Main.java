@@ -2,10 +2,7 @@ package main;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import dao.DAOImpl;
-import dao.FriendRequestDAO;
-import dao.PostDAO;
-import dao.UserDAO;
+import dao.*;
 import entities.*;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
@@ -40,7 +37,7 @@ public class Main {
     public static UserDAO userDAO;
     public static PostDAO postDAO;
     public static FriendRequestDAO friendRequestDAO;
-    public static DAOImpl<Notification, Long> notificationDAO;
+    public static NotificationDAO notificationDAO;
     public final static String ACCEPT_TYPE_JSON = "application/json";
 
 
@@ -69,7 +66,7 @@ public class Main {
         userDAO = new UserDAO(User.class);
         postDAO = new PostDAO(Post.class);
         friendRequestDAO = new FriendRequestDAO(FriendRequest.class);
-        notificationDAO = new DAOImpl<Notification, Long>(Notification.class);
+        notificationDAO = new NotificationDAO(Notification.class);
 
         // Creating default user if there are none
         if (userDAO.findAll().isEmpty()) {
@@ -91,12 +88,15 @@ public class Main {
         get("/", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.INDEX));
 
         get("/wall", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
 //            int page = Integer.parseInt(request.queryParams("page"));
             int page = 0;
+
+            List<Notification> notificationList = notificationDAO.findAll();
             List<Post> postList = postDAO.findSomeByUser( page * 10 , request.session().attribute("currentUser"));
-            Map<String, Object> model = new HashMap<>();
             model.put("postList", postList);
             model.put("user", request.session().attribute("currentUser"));
+            model.put("notificationList", notificationList);
             return ViewUtil.render(request, model, Path.WALL);
         });
 
@@ -285,7 +285,7 @@ public class Main {
             friendRequestDAO.persist(friendRequest);
 
             Notification notification = new Notification();
-            notification.setDescription(targetUser.getName() + "te ha mandado una solicitud de amistad");
+            notification.setDescription(targetUser.getName() + " te ha mandado una solicitud de amistad");
             notification.setType(NotificationType.FRIEND_REQUEST);
             notification.setUser(targetUser);
             notification.setDate(new Date());
@@ -293,6 +293,7 @@ public class Main {
 
             notificationDAO.persist(notification);
 
+            response.redirect("/walls/"+targetUser.getUsername());
             return null;
         });
 

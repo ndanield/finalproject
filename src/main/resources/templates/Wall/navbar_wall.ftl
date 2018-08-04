@@ -29,6 +29,7 @@
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top">
                     <i class="fa fa-bell" aria-hidden="true"></i> Notificaciones
                 </a>
+                <span class="badge badge-notify">${ notificationList?size }</span>
             </li>
             <li class="nav-item">
                 <a href="/logout"><button class="btn btn-secundary">Cerrar Sesión</button></a>

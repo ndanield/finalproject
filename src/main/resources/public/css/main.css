@@ -245,3 +245,9 @@ body {
     background: white;
 }
 
+.badge-notify {
+    background: red;
+    position: relative;
+    top: -38px;
+    color: white;
+}
