@@ -91,15 +91,18 @@
                 <div class="card-body">
                     <h4 class="card-title">Comparte lo que piensas</h4>
                     <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-                    <form action="/post" method="POST">
+                    <form action="/post" method="POST" enctype="multipart/form-data">
                         <fieldset>
                             <div class="form-group">
                                 <!-- <label for="exampleTextarea">Example textarea</label> -->
                                 <textarea name="post-content" class="form-control" id="exampleTextarea" placeholder="Escribe aquí" rows="5"></textarea>
                             </div>
                             <div class="form-inline">
-                                <button type="button" class="btn btn-primary disabled"><i class="fa fa-image"> Sube una Foto</i></button>
-                                <button type="submit" class="btn btn-success mx-sm-3"><i class="fa fa-share-alt"> Publicar</i></button>
+                                <div class="upload-btn-wrapper">
+                                    <button type="button" class="btn btn-link"><i class="fa fa-image"></i>  Sube una Foto</button>
+                                    <input type="file" name="unploadImage">
+                                </div>
+                                <button type="submit" class="btn btn-success mx-sm-3"><i class="fa fa-share-alt"></i> Publicar</button>
                             </div>
                         </fieldset>
                     </form>

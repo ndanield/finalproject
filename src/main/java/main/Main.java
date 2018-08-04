@@ -39,12 +39,22 @@ public class Main {
     public static PostDAO postDAO;
     public static FriendRequestDAO friendRequestDAO;
     public static NotificationDAO notificationDAO;
+    public static ImageDAO imageDAO;
+
     public final static String ACCEPT_TYPE_JSON = "application/json";
 
 
     public static void main(String[] args) {
         // Launch Database
         BootStrapServices.getInstance().init();
+
+        //Instantiate dependencies
+        userDAO = new UserDAO(User.class);
+        postDAO = new PostDAO(Post.class);
+        friendRequestDAO = new FriendRequestDAO(FriendRequest.class);
+        notificationDAO = new NotificationDAO(Notification.class);
+        imageDAO = new ImageDAO(Image.class);
+
         port(getHerokuAsignatedPort());
         // Launch SOAPServices
         try{
@@ -63,11 +73,7 @@ public class Main {
 
         staticFiles.externalLocation("parcial2UploadImages");
 
-        //Instantiate dependencies
-        userDAO = new UserDAO(User.class);
-        postDAO = new PostDAO(Post.class);
-        friendRequestDAO = new FriendRequestDAO(FriendRequest.class);
-        notificationDAO = new NotificationDAO(Notification.class);
+
 
         // Creating default user if there are none
         if (userDAO.findAll().isEmpty()) {
@@ -119,6 +125,22 @@ public class Main {
             post.setUser(request.session().attribute("currentUser"));
 
             postDAO.persist(post);
+
+            Image image = new Image();
+            image.setPath(uploadDir.toPath().toString());
+            image.setUser(request.session().attribute("currentUser"));
+            image.setPost(post);
+
+            imageDAO.persist(image);
+
+            java.nio.file.Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+
+            try (InputStream input = request.raw().getPart("unploadImage").getInputStream()) {
+                Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            logInfo(request, tempFile);
 
             response.redirect("/wall");
 
@@ -263,15 +285,6 @@ public class Main {
         get("/album", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.ALBUM));
 
         post("/album", (request, response) -> {
-            java.nio.file.Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
-
-            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
-
-            try (InputStream input = request.raw().getPart("uploaded_file").getInputStream()) { // getPart needs to use same "name" as input field in form
-                Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            logInfo(request, tempFile);
 
             response.redirect("/album");
             return null;
@@ -318,19 +331,19 @@ public class Main {
 
 
 
-    // methods used for logging With image unpload
-    private static void logInfo(Request req, java.nio.file.Path tempFile) throws IOException, ServletException {
-        System.out.println("Uploaded file '" + getFileName(req.raw().getPart("uploaded_file")) + "' saved as '" + tempFile.toAbsolutePath() + "'");
-    }
-
-    private static String getFileName(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
-    }
+//    // methods used for logging With image unpload
+//    private static void logInfo(Request req, java.nio.file.Path tempFile) throws IOException, ServletException {
+//        System.out.println("Uploaded file '" + getFileName(req.raw().getPart("uploaded_file")) + "' saved as '" + tempFile.toAbsolutePath() + "'");
+//    }
+//
+//    private static String getFileName(Part part) {
+//        for (String cd : part.getHeader("content-disposition").split(";")) {
+//            if (cd.trim().startsWith("filename")) {
+//                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+//            }
+//        }
+//        return null;
+//    }
 
     private static int getHerokuAsignatedPort(){
         ProcessBuilder processBuilder = new ProcessBuilder();

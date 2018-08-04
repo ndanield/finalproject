@@ -12,18 +12,19 @@ public class Image {
 
     private String path;
 
-    private String description;
-
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "POST_ID")
+    private Post post;
+
     public Image() {
     }
 
-    public Image(String path, String description, User user) {
+    public Image(String path, User user) {
         this.path = path;
-        this.description = description;
         this.user = user;
     }
 
@@ -43,19 +44,19 @@ public class Image {
         this.path = path;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }
