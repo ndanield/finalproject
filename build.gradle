@@ -2,11 +2,23 @@
     id 'java'
 }*/
 
+apply plugin: 'java'
+apply plugin: 'application'
+
+
 group 'edu.web.finalProyect'
 version '1.0-SNAPSHOT'
-apply plugin: 'java'
+
 
 sourceCompatibility = 1.8
+
+mainClassName = "main.Main"
+
+defaultTasks = ['stage']
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
+}
 
 repositories {
     mavenCentral()
@@ -27,4 +39,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.j2html:j2html:1.0.0'
     compile group: 'org.eclipse.jetty', name: 'jetty-http-spi', version: '9.4.4.v20170414'
+}
+
+task stage {
+    dependsOn installDist
 }
