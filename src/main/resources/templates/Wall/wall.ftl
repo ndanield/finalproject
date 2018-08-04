@@ -32,6 +32,9 @@
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                 </div>
+                <div class="card-body" id="gpsPos">
+                    <#--<p id="gpsPos">...</p>-->
+                </div>
             </div>
         </div>
 
