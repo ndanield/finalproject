@@ -244,4 +244,6 @@ body {
     box-sizing: border-box;
     background: white;
 }
-
+#gpsPos{
+    height: 200px;
+}
