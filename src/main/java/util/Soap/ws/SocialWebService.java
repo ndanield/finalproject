@@ -28,7 +28,7 @@ public class SocialWebService {
     }
 
     @WebMethod
-    public void createPost(String title, String content, String image, String username){
+    public void createPost(String content, String image, String username){
         DAOImpl<User, String> userDao = new DAOImpl<>(User.class);
         DAOImpl<Post, String> postDao = new DAOImpl<>(Post.class);
         Post post = new Post();

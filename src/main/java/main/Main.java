@@ -12,6 +12,7 @@ import util.Filters;
 import util.Path;
 import util.Rest.JSONUtil;
 import util.Rest.ResService;
+import util.Soap.SoapMain;
 import util.ViewUtil;
 import util.BootStrapServices;
 
@@ -44,14 +45,14 @@ public class Main {
     public static void main(String[] args) {
         // Launch Database
         BootStrapServices.getInstance().init();
-
+        port(getHerokuAsignatedPort());
         // Launch SOAPServices
-//        try{
-//            SoapMain.init();
-//        }catch (Exception e) {
-//            System.out.println("No se pudeo inicializar el servicio por: ");
-//            e.printStackTrace();
-//        }
+        try{
+            SoapMain.init();
+        }catch (Exception e) {
+            System.out.println("No se pudeo inicializar el servicio por: ");
+            e.printStackTrace();
+        }
 
         ResService resService = new ResService();
         // Configure Spark
@@ -329,6 +330,14 @@ public class Main {
             }
         }
         return null;
+    }
+
+    private static int getHerokuAsignatedPort(){
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567;
     }
 
 }
