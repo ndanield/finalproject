@@ -45,7 +45,6 @@ public class Main {
         // Launch Database
         BootStrapServices.getInstance().init();
 
-        port(getHerokuAssignedPort());
         // Launch SOAPServices
 //        try{
 //            SoapMain.init();
@@ -332,12 +331,5 @@ public class Main {
         return null;
     }
 
-    private static int getHerokuAssignedPort(){
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        if(processBuilder.environment().get("PORT") != null){
-            return Integer.parseInt(processBuilder.environment().get("PORT"));
-        }
-        return 4567;
-    }
 }
 
