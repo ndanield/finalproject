@@ -6,9 +6,9 @@ import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-public class CityDAO extends DAOImpl<User, String> {
+public class CityDAO extends DAOImpl<City, Long> {
 
-    public CityDAO(Class<User> entityClass) {
+    public CityDAO(Class<City> entityClass) {
         super(entityClass);
     }
 
