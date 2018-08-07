@@ -66,10 +66,10 @@ public class Main {
         // Configure Spark
         staticFiles.location("/public");
 
-        File uploadDir = new File("parcial2UploadImages");
-        uploadDir.mkdir();
+        File uploadDir = new File("UploadedImages");
+        System.out.println(uploadDir.mkdir());
 
-        staticFiles.externalLocation("parcial2UploadImages");
+        staticFiles.externalLocation("UploadedImages");
 
 
 
@@ -124,12 +124,6 @@ public class Main {
 
             postDAO.persist(post);
 
-            Image image = new Image();
-            image.setPath(uploadDir.toPath().toString());
-            image.setUser(request.session().attribute("currentUser"));
-            image.setPost(post);
-
-            imageDAO.persist(image);
 
             java.nio.file.Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
             request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
@@ -138,7 +132,10 @@ public class Main {
                 Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            logInfo(request, tempFile);
+            Image image = new Image();
+            image.setPath(uploadDir.toPath() + "/" + tempFile.getFileName());
+
+            imageDAO.persist(image);
 
             response.redirect("/wall");
 

@@ -1,10 +1,8 @@
 package entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+@Entity
 public class Image {
     @Id
     @GeneratedValue
@@ -12,20 +10,11 @@ public class Image {
 
     private String path;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "POST_ID")
-    private Post post;
-
     public Image() {
     }
 
-    public Image(String path, User user) {
+    public Image(String path) {
         this.path = path;
-        this.user = user;
     }
 
     public long getId() {
@@ -44,19 +33,4 @@ public class Image {
         this.path = path;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
 }

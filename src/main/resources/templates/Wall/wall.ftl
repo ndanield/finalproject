@@ -44,16 +44,20 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <h5 class="card-title"><strong>${ post.user.name }</strong> compartio una publicación </h5>
-                            <h6 class="card-subtitle text-muted"><time datetime="${ post.date }" style="float: right"> 20-07-2018 1:08 AM</time></span></h6>
+                            <h6 class="card-subtitle text-muted"><time datetime="${ post.date }" style="float: right">${ post.date }</time></span></h6>
                         </div>
 
-                        <div class="card-body">
-                            <p class="card-text">${ post.content }</p>
-                        </div>
+                        <#if post.content?has_content>
+                            <div class="card-body">
+                                <p class="card-text">${ post.content }</p>
+                            </div>
+                        </#if>
 
-                        <div class="card-body">
-                            <img style="width: 100%; display: block;" src="/images/playa.jpg" alt="Imagen publicada">
-                        </div>
+                        <#if post.image.path?has_content>
+                            <div class="card-body">
+                                <img style="width: 100%; display: block;" src="${ post.image.path }" alt="Imagen publicada">
+                            </div>
+                        </#if>
 
                     <#--<ul class="list-group list-group-flush">-->
                     <#--<li class="list-group-item"> A fulano y otros le ha gustado tu post</li>-->
@@ -90,11 +94,9 @@
             <div class="card friendsnpost" >
                 <div class="card-body">
                     <h4 class="card-title">Comparte lo que piensas</h4>
-                    <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
                     <form action="/post" method="POST" enctype="multipart/form-data">
                         <fieldset>
                             <div class="form-group">
-                                <!-- <label for="exampleTextarea">Example textarea</label> -->
                                 <textarea name="post-content" class="form-control" id="exampleTextarea" placeholder="Escribe aquí" rows="5"></textarea>
                             </div>
                             <div class="form-inline">
@@ -106,6 +108,7 @@
                             </div>
                         </fieldset>
                     </form>
+
                 </div>
             </div>
             <ul class="list-group my-3 ">

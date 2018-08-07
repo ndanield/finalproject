@@ -1,9 +1,6 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -19,13 +16,26 @@ public class Post {
     @ManyToOne
     private User user;
 
+    @OneToOne
+    private Image image;
+
     public Post() {
     }
 
-    public Post(String content, Date date, User user) {
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Post(String content, Date date, User user, Image image) {
         this.content = content;
         this.date = date;
         this.user = user;
+        this.image = image;
+
     }
 
     public long getId() {
