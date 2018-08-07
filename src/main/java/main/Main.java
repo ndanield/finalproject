@@ -12,6 +12,7 @@ import util.Filters;
 import util.Path;
 import util.Rest.JSONUtil;
 import util.Rest.ResService;
+import util.Soap.SoapMain;
 import util.ViewUtil;
 import util.BootStrapServices;
 
@@ -47,6 +48,8 @@ public class Main {
         // Launch Database
         BootStrapServices.getInstance().init();
 
+        port(getHerokuAsignatedPort());
+
         //Instantiate dependencies
         userDAO = new UserDAO(User.class);
         postDAO = new PostDAO(Post.class);
@@ -55,12 +58,12 @@ public class Main {
         imageDAO = new ImageDAO(Image.class);
 
         // Launch SOAPServices
-//        try{
-//            SoapMain.init();
-//        }catch (Exception e) {
-//            System.out.println("No se pudeo inicializar el servicio por: ");
-//            e.printStackTrace();
-//        }
+        try{
+            SoapMain.init();
+        }catch (Exception e) {
+            System.out.println("No se pudeo inicializar el servicio por: ");
+            e.printStackTrace();
+        }
 
         ResService resService = new ResService();
         // Configure Spark
@@ -132,6 +135,7 @@ public class Main {
                 Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
             }
 
+            //logInfo(request, tempFile);
             Image image = new Image();
             image.setPath(uploadDir.toPath() + "/" + tempFile.getFileName());
 
@@ -339,6 +343,14 @@ public class Main {
 //        }
 //        return null;
 //    }
+
+    private static int getHerokuAsignatedPort(){
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567;
+    }
 
 }
 
