@@ -31,6 +31,13 @@
                 </a>
                 <span class="badge badge-notify">${ notificationList?size }</span>
             </li>
+            <#if currentUser.administrator >
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Ajustes" data-original-title="Tooltip on top">
+                        <i class="fa fa-cog"></i> Ajustes
+                    </a>
+                </li>
+            </#if>
             <li class="nav-item">
                 <a href="/logout"><button class="btn btn-secundary">Cerrar Sesión</button></a>
             </li>
