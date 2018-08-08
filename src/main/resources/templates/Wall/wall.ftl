@@ -91,7 +91,7 @@
         </div>
 
         <div class="col-lg-4">
-            <div class="card friendsnpost" >
+            <div class="card friends-post" >
                 <div class="card-body">
                     <h4 class="card-title">Comparte lo que piensas</h4>
                     <form action="/post" method="POST" enctype="multipart/form-data">

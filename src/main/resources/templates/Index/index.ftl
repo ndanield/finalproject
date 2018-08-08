@@ -5,9 +5,24 @@
     <#include "../menu.ftl">
     <div class="container mt-3">
         <div class="row">
-            <div class="col"></div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">Sugerencias de amistad</div>
+                    <div class="card-body">
+                        <#list suggestedFriendList>
+                            <div class="list-group my-3 ">
+                                <#items as suggestedFriend>
+                                    <a href="/walls/${ suggestedFriend.username }" class="list-group-item d-flex justify-content-between align-items-center">
+                                        ${ suggestedFriend.name + suggestedFriend.lastname }
+                                    </a>
+                                </#items>
+                            </div>
+                        </#list>
+                    </div>
+                </div>
+            </div>
 
-            <div id="PostColumn" class="col-lg-5 mx-auto">
+            <div class="col-lg-5 mx-auto" id="PostColumn">
                 <#--<#list postList>-->
                     <#--<#items as post>-->
                         <div class="card mb-3">
@@ -56,7 +71,7 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="card friendsnpost">
+                <div class="card friends-post">
                     <div class="card-body">
                         <h4 class="card-title">Comparte lo que piensas</h4>
                         <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
@@ -77,20 +92,7 @@
                         </form>
                     </div>
                 </div>
-                <ul class="list-group my-3 ">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Fulanito
-                        <!-- <span class="badge badge-primary badge-pill">14</span> -->
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Pperencejo
-                        <!-- <span class="badge badge-primary badge-pill">2</span> -->
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Pepito
-                        <!-- <span class="badge badge-primary badge-pill">1</span> -->
-                    </li>
-                </ul>
             </div>
-        </div>    </div>
+        </div>
+    </div>
 </@b.base>

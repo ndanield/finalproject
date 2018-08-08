@@ -19,6 +19,7 @@ import javax.servlet.MultipartConfigElement;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.NotDirectoryException;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,7 +69,10 @@ public class Main {
         staticFiles.location("/public");
 
         File uploadDir = new File("UploadedImages");
-        System.out.println(uploadDir.mkdir());
+
+        if (uploadDir.mkdir()) {
+            System.out.println("The **Uploaded Images** directory was created");
+        }
 
         staticFiles.externalLocation("UploadedImages");
 
@@ -92,7 +96,12 @@ public class Main {
         internalServerError(ViewUtil.internalServerError);
 
         // Register routes
-        get("/", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.INDEX));
+        get("/", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            User user = request.session().attribute("currentUser");
+            model.put("suggestedFriendList", userDAO.getSuggestedFriends(user));
+            return ViewUtil.render(request, model, Path.INDEX) ;
+        });
 
         get("/wall", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
@@ -179,7 +188,6 @@ public class Main {
                         BasicTextEncryptor encryptor = new BasicTextEncryptor();
                         encryptor.setPassword("secretPasswd");
                         String usern = encryptor.decrypt(encryptedText);
-                        System.out.println(usern);
                         model.put("authenticationSucceeded",true);
                         request.session(true).attribute("currentUser", userDAO.find(usern));
                         response.redirect("/");
