@@ -113,7 +113,7 @@ public class Main {
             List<Post> postList = postDAO.findSomeByUser( page * 10 , user);
 
             model.put("postList", postList);
-            model.put("user", user);
+            model.put("wallOwner", user);
             model.put("notificationList", notificationList);
 
             return ViewUtil.render(request, model, Path.WALL);

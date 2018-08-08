@@ -10,11 +10,11 @@
         <#--<img src="/images/playa.jpg" alt="Imagen de portada">-->
         <div class="profile-pic d-flex">
             <img src="/images/monkey-face.png" class="image-avatar image-special" alt="Avatar">
-            <h1 class="mt-5 ml-2">${ user.name }</h1>
+            <h1 class="mt-5 ml-2">${ wallOwner.name }</h1>
         </div>
 
-        <#if user.username != currentUser.username>
-            <form action="/friendRequest/${ user.username }" method="post">
+        <#if wallOwner.username != currentUser.username>
+            <form action="/friendRequest/${ wallOwner.username }" method="post">
                 <button type="submit" class="btn btn-success mr-3" style="float: right;">Solicitar amistad</button>
             </form>
         </#if>
@@ -25,8 +25,8 @@
         <div class="col">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3><strong>${ user.name }</strong></h3>
-                    <h6>${ user.username }</h6>
+                    <h3><strong>${ wallOwner.name }</strong></h3>
+                    <h6>${ wallOwner.username }</h6>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
