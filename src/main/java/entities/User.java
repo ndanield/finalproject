@@ -1,10 +1,10 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -20,28 +20,27 @@ public class User implements Serializable {
 
     private Date birthdate;
 
-//    private String placeborn;
-//    @OneToOne
-//    private City cityborn;
+    @Transient
+    private int edad;
 
     private String password;
 
     private boolean isAdministrator;
 
-    /*@OneToMany
-    private List<User> friendList;*/
+    private String sexo;
 
-//    @OneToMany
-//    private List<EstudyPlace> estudyPlace;
-//
-//    @OneToMany
-//    private List<WorkPLace> workPlace;
-//
-//    private List<String> interests;
-//
-//    @OneToMany
-//    private List<Notification> notificationList;
-//
+    private String nationality;
+
+    private String city;
+
+    // De aqui para abajo son datos que se llenan al interactuar con el sistema
+    @OneToMany
+    private List<User> friendList;
+
+    private String estudyPlace;
+
+    private String workPlace;
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Comment> commentList;
 //
@@ -54,14 +53,23 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator){ //City city) {
+    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator, String city) {
         this.username = username;
         this.name = name;
         this.lastname = lastname;
         this.birthdate = birthdate;
         this.password = password;
         this.isAdministrator = isAdministrator;
-//        this.cityborn = city;
+        this.city = city;
+
+        this.edad = calculateAge(birthdate);
+    }
+
+    private int calculateAge(Date birthdate) {
+        LocalDate bd = birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+
+        return Period.between(bd, currentDate).getYears();
     }
 
     public String getUsername() {
@@ -112,11 +120,59 @@ public class User implements Serializable {
         isAdministrator = administrator;
     }
 
-    /*public City getCityborn() {
-        return cityborn;
+    public String getSexo() {
+        return sexo;
     }
 
-    public void setCityborn(City cityborn) {
-        this.cityborn = cityborn;
-    }*/
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getEstudyPlace() {
+        return estudyPlace;
+    }
+
+    public void setEstudyPlace(String estudyPlace) {
+        this.estudyPlace = estudyPlace;
+    }
+
+    public String getWorkPlace() {
+        return workPlace;
+    }
+
+    public void setWorkPlace(String workPlace) {
+        this.workPlace = workPlace;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public List<User> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<User> friendList) {
+        this.friendList = friendList;
+    }
 }

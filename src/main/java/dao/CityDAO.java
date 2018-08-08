@@ -1,7 +1,6 @@
 package dao;
 
 import entities.City;
-import entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

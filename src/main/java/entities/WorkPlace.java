@@ -27,8 +27,6 @@ public class WorkPlace implements Serializable {
 
     private String mail;
 
-
-
     public WorkPlace() {
     }
 

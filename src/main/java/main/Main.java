@@ -6,7 +6,6 @@ import dao.*;
 import entities.*;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
-import spark.Request;
 import spark.Session;
 import util.Filters;
 import util.Path;
@@ -17,10 +16,7 @@ import util.ViewUtil;
 import util.BootStrapServices;
 
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -35,13 +31,13 @@ import static spark.Spark.*;
 public class Main {
 
     // Declare dependencies
-    public static UserDAO userDAO;
-    public static PostDAO postDAO;
-    public static FriendRequestDAO friendRequestDAO;
-    public static NotificationDAO notificationDAO;
-    public static ImageDAO imageDAO;
+    private static UserDAO userDAO;
+    private static PostDAO postDAO;
+    private static FriendRequestDAO friendRequestDAO;
+    private static NotificationDAO notificationDAO;
+    private static ImageDAO imageDAO;
 
-    public final static String ACCEPT_TYPE_JSON = "application/json";
+    private final static String ACCEPT_TYPE_JSON = "application/json";
 
 
     public static void main(String[] args) {
@@ -57,7 +53,7 @@ public class Main {
         notificationDAO = new NotificationDAO(Notification.class);
         imageDAO = new ImageDAO(Image.class);
 
-        // Launch SOAPServices
+        // Launch SOAP Services
         try{
             SoapMain.init();
         }catch (Exception e) {
@@ -65,7 +61,9 @@ public class Main {
             e.printStackTrace();
         }
 
+        // Launch REST Services
         ResService resService = new ResService();
+
         // Configure Spark
         staticFiles.location("/public");
 
@@ -75,13 +73,14 @@ public class Main {
         staticFiles.externalLocation("UploadedImages");
 
 
-
         // Creating default user if there are none
-        if (userDAO.findAll().isEmpty()) {
+        if (userDAO.isEmpty()) {
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
-            User user = new User("admin", "Escanor", "Castilla",
-                    new Date(), encryptor.encryptPassword("admin123"), true);
-                    //new City("Santiago de los Caballeros","Santiago","51000","República Dominicana", null,null));
+            User user = new User("admin", "Demon King", "Meliodas",
+                    new Date(),
+                    encryptor.encryptPassword("admin123"),
+                    true,
+                    "Santiago de los Caballeros");
             userDAO.persist(user);
         }
 
@@ -146,32 +145,21 @@ public class Main {
             return null;
         });
 
-        get("/register", (request, response) -> {
-            return ViewUtil.render(request, new HashMap<>(), Path.REGISTER);
-        });
+        get("/register", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.REGISTER));
 
         post("/register",(request,response)->{
-            DAOImpl<City, String> cittyDao = new DAOImpl<>(City.class);
-            City city = new City();
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
             User user = new User();
+
             user.setUsername(request.queryParams("username"));
             user.setPassword(encryptor.encryptPassword(request.queryParams("password")));
             user.setName(request.queryParams("firstName"));
             user.setLastname(request.queryParams("lastName"));
             user.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(request.queryParams("bornDate")));
             user.setAdministrator(false);
-            if(cittyDao.findAll().isEmpty()){
-                city.setName(request.queryParams("city"));
-                city.setProvince(request.queryParams("city"));
-                city.setPostalCode("51000");
-                city.setCountry("República Dominicana");
-                city.setEstudyPlaceList(null);
-                city.setWorkPlaceList(null);
-                cittyDao.persist(city);
-            }
-//            user.setCityborn(city);
+            user.setCity(request.queryParams("city"));
             userDAO.persist(user);
+
             request.session().attribute("currentUser", user);
 
             response.redirect("/");
@@ -208,7 +196,7 @@ public class Main {
             Map<String, Object> model = new HashMap<>();
 
             if(request.queryParams("remember-me") == null){
-                if (!authenticate(request.queryParams("username"), request.queryParams("password"))) {
+                if (authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
                     return ViewUtil.render(request, model, Path.LOGIN);
                 }
@@ -217,7 +205,7 @@ public class Main {
                 request.session(true).attribute("currentUser", user);
 
             }else if(request.queryParams("remember-me").equals("on")){
-                if (!authenticate(request.queryParams("username"), request.queryParams("password"))) {
+                if (authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
                     return ViewUtil.render(request, model, Path.LOGIN);
                 }
@@ -259,9 +247,7 @@ public class Main {
            });
 
            path("/userPosts", ()->{
-               get("/:username",(request,response)->{
-                  return resService.getUserPosts(request.params("username"));
-               },JSONUtil.json());
+               get("/:username",(request,response)-> resService.getUserPosts(request.params("username")),JSONUtil.json());
 
                post("/createNewPost",ACCEPT_TYPE_JSON,(request,response)->{
                    String username ="";
@@ -313,36 +299,19 @@ public class Main {
     }
 
     // User Controller
-    public static boolean authenticate(String username, String password) {
+    private static boolean authenticate(String username, String password) {
         BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
         if (username.isEmpty() || password.isEmpty())
-            return false;
+            return true;
 
         User user = userDAO.find(username);
 
         if (user == null) {
-            return false;
+            return true;
         }
 
-        return encryptor.checkPassword(password, user.getPassword());
+        return !encryptor.checkPassword(password, user.getPassword());
     }
-
-
-
-
-//    // methods used for logging With image unpload
-//    private static void logInfo(Request req, java.nio.file.Path tempFile) throws IOException, ServletException {
-//        System.out.println("Uploaded file '" + getFileName(req.raw().getPart("uploaded_file")) + "' saved as '" + tempFile.toAbsolutePath() + "'");
-//    }
-//
-//    private static String getFileName(Part part) {
-//        for (String cd : part.getHeader("content-disposition").split(";")) {
-//            if (cd.trim().startsWith("filename")) {
-//                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-//            }
-//        }
-//        return null;
-//    }
 
     private static int getHerokuAsignatedPort(){
         ProcessBuilder processBuilder = new ProcessBuilder();
