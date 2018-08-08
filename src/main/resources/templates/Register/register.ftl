@@ -5,10 +5,10 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-lg-6">
-            <p class="card-text">Registrate en la red donde puedes compartir tus pensamientos</p>
+        <div class="col-lg-7" id="bgImgRegister">
+            <h2 class="card-text" style="color: white">Registrate en la red donde puedes compartir tus pensamientos</h2>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="row" id="error-in-form">
                 <#-- Added by JS-->
             </div>

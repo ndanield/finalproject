@@ -269,3 +269,23 @@ body {
 #gpsPos{
     height: 200px;
 }
+
+#bgImgRegister{
+    background: url("../images/Inicio.jpg") no-repeat;
+    background-size: cover;
+    height: 780px;
+
+}
+
+#loginBgImg{
+    background: url("../images/loginImg.jpg") no-repeat;
+    background-size: cover;
+    height: 780px;
+}
+
+.centeredText{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -4,8 +4,8 @@
     <#include "navbar_login.ftl">
 <div class="content">
     <div class="row justify-content-around">
-        <div class="col-lg-6">
-            Frace
+        <div class="col-lg-8" id="loginBgImg">
+            <h2 id="quoteText" class="centeredText" style="color: white"></h2>
         </div>
         <div class="col-lg-3">
             <#if authenticationFailed!false>
@@ -59,5 +59,6 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/TypingEffect.js"></script>
 </@b.base>
