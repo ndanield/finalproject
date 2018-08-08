@@ -13,7 +13,7 @@ public class Filters {
                 response.redirect("/register");
             }
         });
-        before("/wall", Filters::verifyUserIsLogged);
+        before("/walls/*", Filters::verifyUserIsLogged);
         before("/album", Filters::verifyUserIsLogged);
     }
 

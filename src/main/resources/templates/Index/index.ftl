@@ -13,7 +13,7 @@
                             <div class="list-group my-3 ">
                                 <#items as suggestedFriend>
                                     <a href="/walls/${ suggestedFriend.username }" class="list-group-item d-flex justify-content-between align-items-center">
-                                        ${ suggestedFriend.name + suggestedFriend.lastname }
+                                        ${ suggestedFriend.name + " " + suggestedFriend.lastname }
                                     </a>
                                 </#items>
                             </div>

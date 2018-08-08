@@ -11,7 +11,7 @@
                 <img src="/images/monkey-face.png" alt="Avatar" class="avatar p-0"/>
             </li>
             <li class="nav-item active">
-                <a class="nav-link active" href="/wall" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
+                <a class="nav-link active" href="/walls/${ currentUser.username }" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
                     <strong>${ currentUser.name }</strong>
                 </a>
             </li>

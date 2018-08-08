@@ -7,7 +7,7 @@
     <div>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link active" href="/wall" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
+                <a class="nav-link active" href="/walls/${ currentUser.username }" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
                     <strong>${ currentUser.name }</strong>
                 </a>
             </li>

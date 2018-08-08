@@ -10,10 +10,10 @@
         <#--<img src="/images/playa.jpg" alt="Imagen de portada">-->
         <div class="profile-pic d-flex">
             <img src="/images/monkey-face.png" class="image-avatar image-special" alt="Avatar">
-            <h1 class="mt-5 ml-2">Escanor</h1>
+            <h1 class="mt-5 ml-2">${ user.name }</h1>
         </div>
 
-        <#if user.username != currentUser>
+        <#if user.username != currentUser.username>
             <form action="/friendRequest/${ user.username }" method="post">
                 <button type="submit" class="btn btn-success mr-3" style="float: right;">Solicitar amistad</button>
             </form>

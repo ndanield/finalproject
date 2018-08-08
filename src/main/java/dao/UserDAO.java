@@ -37,8 +37,11 @@ public class UserDAO extends DAOImpl<User, String> {
     public List<User> getSuggestedFriends(User user) {
         EntityManager em = emf.createEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery("from User u where u.username != :username and u.nationality = :nationality or " +
-                    "u.city = :city or u.estudyPlace = :estudyPlace or u.workPlace = :workPlace", User.class)
+            TypedQuery<User> query = em.createQuery("from User u where u.username <> :username and " +
+                    "u.city = :city or " +
+                    "u.nationality = :nationality or " +
+                    "u.estudyPlace = :estudyPlace or " +
+                    "u.workPlace = :workPlace", User.class)
                     .setParameter("username", user.getUsername())
                     .setParameter("nationality", user.getNationality())
                     .setParameter("city", user.getCity())

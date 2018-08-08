@@ -103,35 +103,29 @@ public class Main {
             return ViewUtil.render(request, model, Path.INDEX) ;
         });
 
-        get("/wall", (request, response) -> {
+        get("/walls/:user", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
 //            int page = Integer.parseInt(request.queryParams("page"));
             int page = 0;
 
-            List<Notification> notificationList = notificationDAO.findAll();
-            List<Post> postList = postDAO.findSomeByUser( page * 10 , request.session().attribute("currentUser"));
-            model.put("postList", postList);
-            model.put("user", request.session().attribute("currentUser"));
-            model.put("notificationList", notificationList);
-            return ViewUtil.render(request, model, Path.WALL);
-        });
-
-        get("/walls/:user", (request, response) -> {
-            Map<String, Object> model = new HashMap<>();
-            //            int page = Integer.parseInt(request.queryParams("page"));
-            int page = 0;
             User user = userDAO.find(request.params("user"));
+            List<Notification> notificationList = notificationDAO.findAll();
             List<Post> postList = postDAO.findSomeByUser( page * 10 , user);
+
             model.put("postList", postList);
             model.put("user", user);
+            model.put("notificationList", notificationList);
+
             return ViewUtil.render(request, model, Path.WALL);
         });
 
         post("/post", (request, response) -> {
+            User user = request.session().attribute("currentUser");
+
             Post post = new Post();
             post.setContent(request.queryParams("post-content"));
             post.setDate(new Date());
-            post.setUser(request.session().attribute("currentUser"));
+            post.setUser(user);
 
             postDAO.persist(post);
 
@@ -149,7 +143,7 @@ public class Main {
 
             imageDAO.persist(image);
 
-            response.redirect("/wall");
+            response.redirect("/walls/" + user.getUsername());
 
             return null;
         });
