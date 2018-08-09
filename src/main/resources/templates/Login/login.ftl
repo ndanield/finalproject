@@ -2,9 +2,9 @@
 
 <@b.base>
     <#include "navbar_login.ftl">
-<div class="content">
+<div class="content" id="loginBgImg">
     <div class="row justify-content-around">
-        <div class="col-lg-8" id="loginBgImg">
+        <div class="col-lg-8">
             <h2 id="quoteText" class="centeredText" style="color: white"></h2>
         </div>
         <div class="col-lg-3">

@@ -280,12 +280,11 @@ body {
 #loginBgImg{
     background: url("../images/loginImg.jpg") no-repeat;
     background-size: cover;
-    height: 780px;
 }
 
 .centeredText{
     position: absolute;
-    top: 50%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
