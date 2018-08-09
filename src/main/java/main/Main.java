@@ -106,11 +106,13 @@ public class Main {
             Map<String, Object> model = new HashMap<>();
 //            int page = Integer.parseInt(request.queryParams("page"));
             int page = 0;
-
+            
+            User currentUser = request.session().attribute("currentUser");
             User wallOwner = userDAO.find(request.params("user"));
             List<Post> postList = postDAO.findSomeByUser( page * 10 , wallOwner);
-            FriendRequest friendRequest = friendRequestDAO.
-
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
+            
+            model.put("friendRequest", friendRequest);
             model.put("postList", postList);
             model.put("wallOwner", wallOwner);
 

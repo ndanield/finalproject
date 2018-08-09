@@ -14,10 +14,22 @@
         </div>
 
         <#if wallOwner.username != currentUser.username>
-            <form action="/friendRequest/${ wallOwner.username }" method="post">
-                <button type="submit" class="btn btn-success mr-3" style="float: right;">Solicitar amistad</button>
-            </form>
+            <#if friendRequest??>
+                <form action="/friendRequest/${ wallOwner.username }" method="post">
+                    <button type="submit" class="btn btn-success mr-3" style="float: right;"> Solicitar amistad</button>
+                </form>
+            <#else>
+                <#if friendRequest.isAccepted>
+                    <form action="#" method="delete">
+                        <button type="submit" class="btn btn-danger mr-3" style="float: right;"> Eliminar amistad</button>
+                    </form>
+                <#else>
+                    <button class="btn btn-info mr-3 disabled" style="float: right;"> Respuesta pendiente</button>
+                </#if>
+            </#if>
         </#if>
+
+
     </div>
 
     <div class="row">

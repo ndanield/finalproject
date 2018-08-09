@@ -27,10 +27,8 @@ public class UserDAO extends DAOImpl<User, String> {
     public boolean isEmpty() {
         EntityManager em = emf.createEntityManager();
         try {
-//            TypedQuery<Long> q = em.createQuery("select count(*) from User u", Long.class);
-//            return Integer.parseInt(q.getSingleResult().toString()) <= 0;
-            TypedQuery<User> q = em.createQuery("from User u", User.class);
-            return q.getResultList() == null;
+            TypedQuery<Long> q = em.createQuery("select count(*) from User u", Long.class);
+            return Integer.parseInt(q.getSingleResult().toString()) <= 0;
         } finally {
             em.close();
         }
