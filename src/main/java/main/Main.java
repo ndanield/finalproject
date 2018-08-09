@@ -109,6 +109,7 @@ public class Main {
 
             User wallOwner = userDAO.find(request.params("user"));
             List<Post> postList = postDAO.findSomeByUser( page * 10 , wallOwner);
+            FriendRequest friendRequest = friendRequestDAO.
 
             model.put("postList", postList);
             model.put("wallOwner", wallOwner);
