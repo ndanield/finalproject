@@ -7,39 +7,46 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <img src="/images/monkey-face.png" alt="Avatar" class="avatar p-0"/>
-            </li>
+            <img src="/images/monkey-face.png" alt="Avatar" class="avatar"/>
             <li class="nav-item active">
-                <a class="nav-link active" href="/walls/${ currentUser.username }" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
-                    <strong>${ currentUser.name }</strong>
+                <a class="nav-link" href="/walls/${ currentUser.username }" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
+                    <span>${ currentUser.name }</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/" data-toggle="tooltip" data-placement="top" title="Ir a inicio" data-original-title="Tooltip on top">
-                    <i class="fa fa-home"></i> Inicio
+                    <i class="fa fa-home fa-lg"></i>
+                    <span>Inicio</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Solicitudes de amistad" data-original-title="Tooltip on top">
-                    <i class="fa fa-users"></i> Solicitudes
-                </a>
-            </li>
+            <#--<li class="nav-item">-->
+                <#--<a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Solicitudes de amistad" data-original-title="Tooltip on top">-->
+                    <#--<i class="fa fa-users fa-lg"></i> -->
+                    <#--<span>Solicitudes</span>-->
+                <#--</a>-->
+            <#--</li>-->
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top">
-                    <i class="fa fa-bell" aria-hidden="true"></i> Notificaciones
+                    <#if notificationList?size gt 0 >
+                        <span class="badge badge-notify">${ notificationList?size }</span>
+                    </#if>
+                    <i class="fa fa-bell fa-lg" aria-hidden="true"></i>
+                    <span>Notificaciones</span>
                 </a>
-                <span class="badge badge-notify">${ notificationList?size }</span>
             </li>
             <#if currentUser.administrator >
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Ajustes" data-original-title="Tooltip on top">
-                        <i class="fa fa-cog"></i> Ajustes
+                        <i class="fa fa-cog fa-lg"></i>
+                        <span>Ajustes</span>
                     </a>
                 </li>
             </#if>
             <li class="nav-item">
-                <a href="/logout"><button class="btn btn-secundary">Cerrar Sesión</button></a>
+                <a class="nav-link" href="/logout" data-toggle="tooltip" data-placement="top" title="Cerrar sesión" data-original-title="Tooltip on top">
+                    <i class="fa fa-sign-out-alt fa-lg"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
             </li>
         </ul>
     </div>

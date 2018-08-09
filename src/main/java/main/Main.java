@@ -19,7 +19,6 @@ import javax.servlet.MultipartConfigElement;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.NotDirectoryException;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +34,7 @@ public class Main {
     private static UserDAO userDAO;
     private static PostDAO postDAO;
     private static FriendRequestDAO friendRequestDAO;
-    private static NotificationDAO notificationDAO;
+    public static NotificationDAO notificationDAO;
     private static ImageDAO imageDAO;
 
     private final static String ACCEPT_TYPE_JSON = "application/json";
@@ -95,7 +94,7 @@ public class Main {
         notFound(ViewUtil.notFound);
         internalServerError(ViewUtil.internalServerError);
 
-        // Register routes
+        // Auth routes
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             User user = request.session().attribute("currentUser");
@@ -108,13 +107,11 @@ public class Main {
 //            int page = Integer.parseInt(request.queryParams("page"));
             int page = 0;
 
-            User user = userDAO.find(request.params("user"));
-            List<Notification> notificationList = notificationDAO.findAll();
-            List<Post> postList = postDAO.findSomeByUser( page * 10 , user);
+            User wallOwner = userDAO.find(request.params("user"));
+            List<Post> postList = postDAO.findSomeByUser( page * 10 , wallOwner);
 
             model.put("postList", postList);
-            model.put("wallOwner", user);
-            model.put("notificationList", notificationList);
+            model.put("wallOwner", wallOwner);
 
             return ViewUtil.render(request, model, Path.WALL);
         });

@@ -1,7 +1,7 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-    <#include "navbar_login.ftl">
+    <#include "navbar_auth.ftl">
 <div class="content">
     <div class="row justify-content-around">
         <div class="col-lg-8" id="loginBgImg">

@@ -1,7 +1,7 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-<#include "navbar.ftl">
+<#include "navbar_auth.ftl">
 
 <div class="content">
     <div class="row">
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card border-primary mb-3 col-lg-6 mx-auto" style="max-width: 20rem;">
+                <div class="card border-primary mb-3 col-lg-6 mx-auto">
                     <div class="card-body" align="center">
                         <!-- <h4 class="card-title">Primary card title</h4> -->
                         <p class="card-text">¿Tienes Cuenta? <a href="/login" class="card-link">Inicia Sesión</a></p>

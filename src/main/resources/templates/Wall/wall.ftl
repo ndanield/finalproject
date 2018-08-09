@@ -1,13 +1,13 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-    <#include "navbar_wall.ftl">
+    <#include "../navbar.ftl">
     <#include "../menu.ftl">
 
 <div class="container">
 
     <div class="portrait mb-3">
-        <#--<img src="/images/playa.jpg" alt="Imagen de portada">-->
+        <img src="/images/playa.jpg" alt="Imagen de portada">
         <div class="profile-pic d-flex">
             <img src="/images/monkey-face.png" class="image-avatar image-special" alt="Avatar">
             <h1 class="mt-5 ml-2">${ wallOwner.name }</h1>
