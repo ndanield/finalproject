@@ -6,6 +6,9 @@ import dao.*;
 import entities.*;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
+import spark.Request;
+import spark.Response;
+import spark.Route;
 import spark.Session;
 import util.BootStrapServices;
 import util.Filters;
@@ -18,9 +21,12 @@ import util.ViewUtil;
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -308,6 +314,69 @@ public class Main {
             return null;
         });
 
+        /*get("/registeredUsers/list",(request,response)->{
+                Map<String, Object> model = new HashMap<>();
+                model.put("usersList", userDAO.findAll());
+
+                return ViewUtil.render(request,model,Path.REGISTEREDUSERS);
+        });
+
+        post("/registeredUsers",(request,response)->{ ;
+                *//*JsonObject jsonObject = new Gson().fromJson(request.body(), JsonObject.class);
+                String tempbool = "";
+                tempbool += jsonObject.get("administrador");*//*
+                User user = userDAO.find(request.queryParams("username"));
+                user.setEdad(Period.between(user.getBirthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getYears());
+//                user.setAdministrator(Boolean.parseBoolean(tempbool));
+                user.setAdministrator(true);
+                userDAO.update(user);
+                response.redirect("/registeredUsers/list");
+                return null;
+            });*/
+        get("/userlist",(request,response)->{
+           Map<String, Object> model = new HashMap<>();
+           model.put("usersList", userDAO.findAll());
+
+           return ViewUtil.render(request,model,Path.REGISTEREDUSERS);
+        });/*
+        post("/userlist", (ICRoute)(request)->{
+            User user = userDAO.find(request.queryParams("username"));
+            user.setEdad(Period.between(user.getBirthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getYears());
+            user.setAdministrator(true);
+            userDAO.update(user);
+//            response.redirect("/userlist");
+        });*/
+        post("/userlist", (request,response)->{
+           User user = userDAO.find(request.queryParams("username"));
+            user.setEdad(Period.between(user.getBirthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getYears());
+            user.setAdministrator(true);
+            userDAO.update(user);
+            response.redirect("/userlist");
+            return null;
+        });
+        /*afterAfter("/registeredUsers/*", (request,response)->{
+            response.header("Content-Type","application/json");
+        });*//*
+        get("/registeredUsers/list",(request,response)->{
+            Map<String, Object> model = new HashMap<>();
+            List<NameValuePair> pairs = URLEncodedUtils.parse(request.body(), Charset.defaultCharset());
+            model.put("usersList", userDAO.findAll());
+
+            return ViewUtil.render(request,model,Path.REGISTEREDUSERS);
+        });
+
+        post("/registeredUsers",(request,response)->{ ;
+            JsonObject jsonObject = new Gson().fromJson(request.body(), JsonObject.class);
+            String tempbool = "";
+            tempbool += jsonObject.get("administrador");
+            User user = userDAO.find(request.queryParams("username"));
+            user.setEdad(Period.between(user.getBirthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getYears());
+            user.setAdministrator(Boolean.parseBoolean(tempbool));
+//            user.setAdministrator(true);
+            userDAO.update(user);
+
+            return null;
+        });*/
     }
 
     // User Controller
@@ -323,6 +392,15 @@ public class Main {
         }
 
         return !encryptor.checkPassword(password, user.getPassword());
+    }
+
+    @FunctionalInterface
+    private interface ICRoute extends Route {
+        default Object handle(Request request, Response response) throws Exception {
+            handle(request);
+            return "";
+        }
+        void handle(Request request) throws Exception;
     }
 
     private static int getHerokuAsignatedPort(){

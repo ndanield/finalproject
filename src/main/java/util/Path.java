@@ -8,5 +8,6 @@ public class Path {
     public final static String LOGIN = "/Auth/login.ftl";
     public final static String ALBUM = "/Album/album.ftl";
     public final static String ERROR = "/error.ftl";
+    public final static String REGISTEREDUSERS = "/registeredUsers.ftl";
 
 }

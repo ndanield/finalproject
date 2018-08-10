@@ -36,7 +36,7 @@
             </li>
             <#if currentUser.administrator >
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Ajustes" data-original-title="Tooltip on top">
+                    <a class="nav-link" href="/userlist" data-toggle="tooltip" data-placement="top" title="Ajustes" data-original-title="Tooltip on top">
                         <i class="fa fa-cog fa-lg"></i>
                         <span>Ajustes</span>
                     </a>
