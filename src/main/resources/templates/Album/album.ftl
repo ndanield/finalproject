@@ -1,7 +1,7 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-<#include "navbar_album.ftl">
+<#include "../navbar.ftl">
 
 <div class="content">
     <div class="card col-lg-10 mx-auto">

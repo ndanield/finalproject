@@ -7,19 +7,18 @@ import entities.*;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
 import spark.Session;
+import util.BootStrapServices;
 import util.Filters;
 import util.Path;
 import util.Rest.JSONUtil;
 import util.Rest.ResService;
 import util.Soap.SoapMain;
 import util.ViewUtil;
-import util.BootStrapServices;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.NotDirectoryException;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +34,7 @@ public class Main {
     private static UserDAO userDAO;
     private static PostDAO postDAO;
     private static FriendRequestDAO friendRequestDAO;
-    private static NotificationDAO notificationDAO;
+    public static NotificationDAO notificationDAO;
     private static ImageDAO imageDAO;
 
     private final static String ACCEPT_TYPE_JSON = "application/json";
@@ -95,7 +94,7 @@ public class Main {
         notFound(ViewUtil.notFound);
         internalServerError(ViewUtil.internalServerError);
 
-        // Register routes
+        // Auth routes
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             User user = request.session().attribute("currentUser");
@@ -107,14 +106,15 @@ public class Main {
             Map<String, Object> model = new HashMap<>();
 //            int page = Integer.parseInt(request.queryParams("page"));
             int page = 0;
-
-            User user = userDAO.find(request.params("user"));
-            List<Notification> notificationList = notificationDAO.findAll();
-            List<Post> postList = postDAO.findSomeByUser( page * 10 , user);
-
+            
+            User currentUser = request.session().attribute("currentUser");
+            User wallOwner = userDAO.find(request.params("user"));
+            List<Post> postList = postDAO.findSomeByUser( page * 10 , wallOwner);
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
+            
+            model.put("friendRequest", friendRequest);
             model.put("postList", postList);
-            model.put("user", user);
-            model.put("notificationList", notificationList);
+            model.put("wallOwner", wallOwner);
 
             return ViewUtil.render(request, model, Path.WALL);
         });
@@ -148,7 +148,11 @@ public class Main {
             return null;
         });
 
-        get("/register", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.REGISTER));
+        get("/register", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("bodyBackground", "bgImgRegister");
+            return ViewUtil.render(request, model, Path.REGISTER);
+        });
 
         post("/register",(request,response)->{
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
@@ -189,6 +193,11 @@ public class Main {
                 }
             }
 
+            model.put("loginRedirect", request.session().attribute("loginRedirect"));
+            request.session().removeAttribute("loginRedirect");
+
+            model.put("bodyBackground", "loginBgImg");
+
             return ViewUtil.render(request,model,Path.LOGIN);
 
         });
@@ -197,30 +206,31 @@ public class Main {
         post("/login", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
 
-            if(request.queryParams("remember-me") == null){
+            if (request.queryParams("remember-me") == null) {
                 if (authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
                     return ViewUtil.render(request, model, Path.LOGIN);
                 }
-                model.put("authenticationSucceeded", true);
-                User user = userDAO.find(request.queryParams("username"));
-                request.session(true).attribute("currentUser", user);
 
-            }else if(request.queryParams("remember-me").equals("on")){
+            } else if(request.queryParams("remember-me").equals("on")) {
                 if (authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
                     return ViewUtil.render(request, model, Path.LOGIN);
                 }
+
                 BasicTextEncryptor tempEncryptor = new BasicTextEncryptor();
                 tempEncryptor.setPassword("secretPasswd");
                 response.cookie("/","cookie",tempEncryptor.encrypt(request.queryParams("username")),604800, false);
-                model.put("authenticationSucceeded", true);
-                User user = userDAO.find(request.queryParams("username"));
-                request.session(true).attribute("currentUser", user);
+
             }
+
+            model.put("authenticationSucceeded", true);
+            User user = userDAO.find(request.queryParams("username"));
+            request.session(true).attribute("currentUser", user);
 
             if (request.queryParams("loginRedirect") != null) {
                 response.redirect(request.queryParams("loginRedirect"));
+                halt();
             }
 
             response.redirect("/");

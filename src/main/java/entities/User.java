@@ -27,11 +27,14 @@ public class User implements Serializable {
 
     private boolean isAdministrator;
 
-    private String sexo;
+    private String genre;
 
     private String nationality;
 
     private String city;
+
+    @OneToOne
+    private Image profileImage;
 
     // De aqui para abajo son datos que se llenan al interactuar con el sistema
     @OneToMany
@@ -120,12 +123,12 @@ public class User implements Serializable {
         isAdministrator = administrator;
     }
 
-    public String getSexo() {
-        return sexo;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public void setGenre(String sexo) {
+        this.genre = sexo;
     }
 
     public String getNationality() {

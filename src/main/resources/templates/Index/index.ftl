@@ -1,7 +1,7 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-    <#include "navbar_index.ftl">
+    <#include "../navbar.ftl">
     <#include "../menu.ftl">
     <div class="container mt-3">
         <div class="row">
@@ -28,7 +28,7 @@
                         <div class="card mb-3">
                             <div class="card-header">
                                 <h5 class="card-title"><strong>Fulano</strong> compartio una publicación </h5>
-                                <h6 class="card-subtitle text-muted"><time datetime="Hoy" style="float: right"> 20-07-2018 1:08 AM</time></span></h6>
+                                <h6 class="card-subtitle text-muted"><time datetime="Hoy"> 20-07-2018 1:08 AM</time></span></h6>
                             </div>
 
                             <div class="card-body">

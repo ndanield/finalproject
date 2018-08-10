@@ -4,6 +4,7 @@ import spark.Request;
 import spark.Response;
 
 import static spark.Spark.before;
+import static spark.Spark.halt;
 
 public class Filters {
     public static void filters() {
@@ -21,6 +22,7 @@ public class Filters {
         if (request.session().attribute("currentUser") == null) {
             request.session(true).attribute("loginRedirect", request.pathInfo());
             response.redirect("/login");
+            halt();
         }
     }
 }

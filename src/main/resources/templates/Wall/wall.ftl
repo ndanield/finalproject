@@ -1,7 +1,7 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-    <#include "navbar_wall.ftl">
+    <#include "../navbar.ftl">
     <#include "../menu.ftl">
 
 <div class="container">
@@ -9,15 +9,32 @@
     <div class="portrait mb-3">
         <#--<img src="/images/playa.jpg" alt="Imagen de portada">-->
         <div class="profile-pic d-flex">
-            <img src="/images/monkey-face.png" class="image-avatar image-special" alt="Avatar">
-            <h1 class="mt-5 ml-2">${ user.name }</h1>
+            <#--<img src="/images/monkey-face.png" class="image-avatar image-special" alt="Avatar">-->
+            <#if wallOwner.image?has_content>
+                <img src="${ wallOwner.image.path }" class="image-avatar image-special" alt="Avatar">
+            <#else>
+                <img src="/images/monkey-face.png" class="image-avatar" alt="Avatar">
+            </#if>
+            <h1 class="mt-5 ml-2 border-text">${ wallOwner.name }</h1>
         </div>
 
-        <#if user.username != currentUser.username>
-            <form action="/friendRequest/${ user.username }" method="post">
-                <button type="submit" class="btn btn-success mr-3" style="float: right;">Solicitar amistad</button>
-            </form>
+        <#if wallOwner.username != currentUser.username>
+            <#if friendRequest?has_content>
+                <#if friendRequest.accepted>
+                    <form action="#" method="delete">
+                        <button type="submit" class="btn btn-sm btn-danger mr-3" style="float: right;"> Eliminar amistad</button>
+                    </form>
+                <#else>
+                    <button class="btn btn-info btn-sm mr-3 disabled" style="float: right;"> Respuesta pendiente</button>
+                </#if>
+            <#else>
+                <form action="/friendRequest/${ wallOwner.username }" method="post">
+                    <button type="submit" class="btn btn-sm btn-success mr-3" style="float: right;"> Solicitar amistad</button>
+                </form>
+            </#if>
         </#if>
+
+
     </div>
 
     <div class="row">
@@ -25,8 +42,8 @@
         <div class="col">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3><strong>${ user.name }</strong></h3>
-                    <h6>${ user.username }</h6>
+                    <h3><strong>${ wallOwner.name }</strong></h3>
+                    <h6>${ wallOwner.username }</h6>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
                     <button type="button" class="btn btn-link"><i class="fa fa-images"> Crear Album</i></button>
@@ -87,7 +104,7 @@
                 </#items>
             </#list>
 
-            <buttom class="btn btn-link justify-content-center" type="submit">Cargar más publicaciones</buttom>
+            <button class="btn btn-link justify-content-center" type="submit">Cargar más publicaciones</buttom>
         </div>
 
         <div class="col-lg-4">

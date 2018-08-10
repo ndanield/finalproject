@@ -1,5 +1,8 @@
 package util;
 
+import dao.NotificationDAO;
+import entities.Notification;
+import entities.User;
 import freemarker.template.Configuration;
 import main.Main;
 import org.eclipse.jetty.http.HttpStatus;
@@ -10,6 +13,7 @@ import spark.Route;
 import spark.template.freemarker.FreeMarkerEngine;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ViewUtil {
@@ -32,10 +36,15 @@ public class ViewUtil {
     };
 
     public static String render(Request request, Map<String, Object> model, String templatePath) {
-        // Si a causa del filtro se redirige al /login con el metodo GET esta variable aun no teniene uso
-        if (request.session().attribute("currentUser") != null) {
-            model.put("currentUser", request.session().attribute("currentUser"));
-        }
+
+        User currentUser = request.session().attribute("currentUser");
+
+        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);
+
+        model.put("notificationList", notificationList);
+        model.put("currentUser", currentUser);
+
+
         return getConfiguredEngine().render(new ModelAndView(model, templatePath));
     }
 
