@@ -2,12 +2,6 @@ html, body {
     height: 100%;
 }
 
-body {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
 .content {
     flex: 1 0 auto;
     padding: 20px;
@@ -252,6 +246,10 @@ body {
     color: white;
 }
 
+.bg-success {
+    border-color: #229e26 !important;
+}
+
 .upload-btn-wrapper {
     position: relative;
     overflow: hidden;
@@ -270,17 +268,17 @@ body {
     height: 200px;
 }
 
-#bgImgRegister{
+body#bgImgRegister{
     background: url("/images/Inicio.jpg") no-repeat;
     background-size: cover;
-    height: 780px;
-
+    height: 100%;
 }
 
-#loginBgImg{
-    background: url("/images/loginImg.jpg") no-repeat;
+body#loginBgImg{
     background-size: cover;
-    height: 780px;
+    /*height: 780px;*/
+    background: url("/images/loginImg.jpg") no-repeat;
+    height: 100%;
 }
 
 .centeredText{
@@ -288,4 +286,9 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.border-text {
+    color: white;
+    text-shadow: -1px 0 gray, 0 1px gray, 1px 0 gray, 0 -1px gray;
 }

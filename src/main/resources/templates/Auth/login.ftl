@@ -1,12 +1,14 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-    <#include "navbar_auth.ftl">
+<#include "navbar_auth.ftl">
+
 <div class="content">
     <div class="row justify-content-around">
-        <div class="col-lg-8" id="loginBgImg">
+        <div class="col-lg-8">
             <h2 id="quoteText" class="centeredText" style="color: white"></h2>
         </div>
+
         <div class="col-lg-3">
             <#if authenticationFailed!false>
                 <div class="alert alert-dismissible alert-danger">
@@ -21,8 +23,7 @@
             </#if>
             <div class="card border-primary mb-3 mx-auto">
                 <div class="card-body">
-                    <h4 class="card-title" align="center" style="font-family: leaf; font-size: 50px; color: #316a3a">BanaGreen</h4>
-                    <!-- <p class="card-text">Registrate en la red donde puedes compartir tus pensamientos</p> -->
+                    <h4 class="card-title" align="center" style="font-family: leaf,serif; font-size: 50px; color: #316a3a">BanaGreen</h4>
                     <form action="/login" method="post">
                         <div class="form-group row">
                             <div class="col-md-12" style="margin: 0 auto;">
@@ -36,8 +37,8 @@
                         </div>
                         <div class="form-group row">
                             <div class="custom-control custom-checkbox mx-auto">
-                                    <input class="custom-control-input" id="remember-me" name="remember-me" type="checkbox">
-                                    <label class="custom-control-label" for="remember-me">Recuerdame</label>
+                                <input class="custom-control-input" id="remember-me" name="remember-me" type="checkbox">
+                                <label class="custom-control-label" for="remember-me">Recuerdame</label>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -47,10 +48,10 @@
                         <#if loginRedirect?has_content>
                             <input type="hidden" name="loginRedirect" value="${ loginRedirect }">
                         </#if>
-
                     </form>
                 </div>
             </div>
+
             <div class="card border-primary mx-auto">
                 <div class="card-body" align="center">
                     <p class="card-text">¿No tienes Cuenta? <a href="/register" class="card-link">registrate</a></p>

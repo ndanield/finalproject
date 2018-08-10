@@ -148,7 +148,11 @@ public class Main {
             return null;
         });
 
-        get("/register", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.REGISTER));
+        get("/register", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("bodyBackground", "bgImgRegister");
+            return ViewUtil.render(request, model, Path.REGISTER);
+        });
 
         post("/register",(request,response)->{
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
@@ -191,6 +195,8 @@ public class Main {
 
             model.put("loginRedirect", request.session().attribute("loginRedirect"));
             request.session().removeAttribute("loginRedirect");
+
+            model.put("bodyBackground", "loginBgImg");
 
             return ViewUtil.render(request,model,Path.LOGIN);
 
