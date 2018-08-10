@@ -7,13 +7,13 @@ import entities.*;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
 import spark.Session;
+import util.BootStrapServices;
 import util.Filters;
 import util.Path;
 import util.Rest.JSONUtil;
 import util.Rest.ResService;
 import util.Soap.SoapMain;
 import util.ViewUtil;
-import util.BootStrapServices;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
@@ -189,6 +189,9 @@ public class Main {
                 }
             }
 
+            model.put("loginRedirect", request.session().attribute("loginRedirect"));
+            request.session().removeAttribute("loginRedirect");
+
             return ViewUtil.render(request,model,Path.LOGIN);
 
         });
@@ -197,30 +200,31 @@ public class Main {
         post("/login", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
 
-            if(request.queryParams("remember-me") == null){
+            if (request.queryParams("remember-me") == null) {
                 if (authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
                     return ViewUtil.render(request, model, Path.LOGIN);
                 }
-                model.put("authenticationSucceeded", true);
-                User user = userDAO.find(request.queryParams("username"));
-                request.session(true).attribute("currentUser", user);
 
-            }else if(request.queryParams("remember-me").equals("on")){
+            } else if(request.queryParams("remember-me").equals("on")) {
                 if (authenticate(request.queryParams("username"), request.queryParams("password"))) {
                     model.put("authenticationFailed", true);
                     return ViewUtil.render(request, model, Path.LOGIN);
                 }
+
                 BasicTextEncryptor tempEncryptor = new BasicTextEncryptor();
                 tempEncryptor.setPassword("secretPasswd");
                 response.cookie("/","cookie",tempEncryptor.encrypt(request.queryParams("username")),604800, false);
-                model.put("authenticationSucceeded", true);
-                User user = userDAO.find(request.queryParams("username"));
-                request.session(true).attribute("currentUser", user);
+
             }
+
+            model.put("authenticationSucceeded", true);
+            User user = userDAO.find(request.queryParams("username"));
+            request.session(true).attribute("currentUser", user);
 
             if (request.queryParams("loginRedirect") != null) {
                 response.redirect(request.queryParams("loginRedirect"));
+                halt();
             }
 
             response.redirect("/");

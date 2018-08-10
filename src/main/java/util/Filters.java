@@ -19,7 +19,6 @@ public class Filters {
     }
 
     private static void verifyUserIsLogged(Request request, Response response) {
-        System.out.println(">>>>>>>>>> INTENTO DE ENTRADA A "+request.pathInfo()+" REDIRIGIDO A /LOGIN <<<<<<<<<<<<<");
         if (request.session().attribute("currentUser") == null) {
             request.session(true).attribute("loginRedirect", request.pathInfo());
             response.redirect("/login");
