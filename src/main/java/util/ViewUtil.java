@@ -2,6 +2,7 @@ package util;
 
 import dao.NotificationDAO;
 import entities.Notification;
+import entities.User;
 import freemarker.template.Configuration;
 import main.Main;
 import org.eclipse.jetty.http.HttpStatus;
@@ -35,11 +36,15 @@ public class ViewUtil {
     };
 
     public static String render(Request request, Map<String, Object> model, String templatePath) {
-        List<Notification> notificationList = Main.notificationDAO.findAll();
+
+        User currentUser = request.session().attribute("currentUser");
+
+        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);
+
         model.put("notificationList", notificationList);
-        if (request.session().attribute("currentUser") != null) {
-            model.put("currentUser", request.session().attribute("currentUser"));
-        }
+        model.put("currentUser", currentUser);
+
+
         return getConfiguredEngine().render(new ModelAndView(model, templatePath));
     }
 
