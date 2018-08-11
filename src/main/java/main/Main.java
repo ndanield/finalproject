@@ -21,7 +21,6 @@ import util.ViewUtil;
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
@@ -291,6 +290,10 @@ public class Main {
 
             response.redirect("/album");
             return null;
+        });
+
+        get("/friendRequests", (request, response) -> {
+           return null;
         });
 
         post("/friendRequest/:username", (request, response) -> {

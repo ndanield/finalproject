@@ -276,7 +276,7 @@ body#bgImgRegister{
 
 body#loginBgImg{
     /*height: 780px;*/
-    background: url("/images/loginImg.jpg") no-repeat;
+    background: url('/images/loginImg.jpg') no-repeat;
     background-size: cover;
     height: 100%;
 }

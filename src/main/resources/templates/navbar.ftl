@@ -19,12 +19,12 @@
                     <span>Inicio</span>
                 </a>
             </li>
-            <#--<li class="nav-item">-->
-                <#--<a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Solicitudes de amistad" data-original-title="Tooltip on top">-->
-                    <#--<i class="fa fa-users fa-lg"></i> -->
-                    <#--<span>Solicitudes</span>-->
-                <#--</a>-->
-            <#--</li>-->
+            <li class="nav-item">
+                <a id="friendRequestPopover" role="button" class="nav-link" data-toggle="popover" data-placement="bottom" data-title="Solicitudes de amistad" data-original-title="Tooltip on top">
+                    <i class="fa fa-users fa-lg"></i>
+                    <span>Solicitudes</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top">
                     <#if notificationList?size gt 0 >
@@ -49,6 +49,35 @@
                 </a>
             </li>
         </ul>
+    </div>
+
+    <div id="popover_content_wrapper" class="d-none">
+<div>
+        <div class="solicitud">
+            <img class="profile" src="perfil.jpg" alt="perfil">
+            <span><strong>Fernando Rojas</strong> quiere ser t&uacute; amigo</span>
+            <form class="d-inline">
+                <button type="submit" id="acceptButton1" class="btn btn-sm btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-sm btn-secondary">Rechazar</button>
+            </div>
+        </div>
+        <div class="solicitud">
+            <img class="profile" src="perfil.jpg" alt="perfil">
+            <span><strong>Fernando Rojas</strong> quiere ser t&uacute; amigo</span>
+            <form class="d-inline">
+                <button type="submit" id="acceptButton1" class="btn btn-sm btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-sm btn-secondary">Rechazar</button>
+            </div>
+        </div>
+        <div class="solicitud">
+            <img class="profile" src="perfil.jpg" alt="perfil">
+            <span><strong>Fernando Rojas</strong> quiere ser t&uacute; amigo</span>
+            <form class="d-inline">
+                <button type="submit" id="acceptButton1" class="btn btn-sm btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-sm btn-secondary">Rechazar</button>
+            </div>
+        </div>
+</div>
     </div>
 
     <#--<div>-->
