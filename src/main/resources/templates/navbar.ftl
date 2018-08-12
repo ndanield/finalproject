@@ -14,29 +14,32 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/" data-toggle="tooltip" data-placement="top" title="Ir a inicio" data-original-title="Tooltip on top">
+                <a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Ir a inicio">
                     <i class="fa fa-home fa-lg"></i>
                     <span>Inicio</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a id="friendRequestPopover" role="button" class="nav-link" data-toggle="popover" data-placement="bottom" data-title="Solicitudes de amistad" data-original-title="Tooltip on top">
+                <a id="friendRequestPopover" class="nav-link" data-toggle="popover" data-container="body" data-placement="bottom" data-title="Solicitudes de amistad" >
+                    <#if friendRequestList?size gt 0>
+                        <span class="badge badge-notify">${ friendRequestList?size }</span>
+                    </#if>
                     <i class="fa fa-users fa-lg"></i>
                     <span>Solicitudes</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top">
-                    <#if notificationList?size gt 0 >
-                        <span class="badge badge-notify">${ notificationList?size }</span>
-                    </#if>
-                    <i class="fa fa-bell fa-lg" aria-hidden="true"></i>
-                    <span>Notificaciones</span>
-                </a>
-            </li>
+            <#--<li class="nav-item">-->
+                <#--<a class="nav-link" data-toggle="popover" data-placement="bottom" title="Notificaciones">-->
+                    <#--<#if notificationList?size gt 0 >-->
+                        <#--<span class="badge badge-notify">${ notificationList?size }</span>-->
+                    <#--</#if>-->
+                    <#--<i class="fa fa-bell fa-lg" aria-hidden="true"></i>-->
+                    <#--<span>Notificaciones</span>-->
+                <#--</a>-->
+            <#--</li>-->
             <#if currentUser.administrator >
                 <li class="nav-item">
-                    <a class="nav-link" href="/userlist" data-toggle="tooltip" data-placement="top" title="Ajustes" data-original-title="Tooltip on top">
+                    <a class="nav-link" href="/userlist" data-toggle="tooltip" data-placement="bottom" title="Ajustes">
                         <i class="fa fa-cog fa-lg"></i>
                         <span>Ajustes</span>
                     </a>
@@ -50,61 +53,21 @@
             </li>
         </ul>
     </div>
-
-    <div id="popover_content_wrapper" class="d-none">
-<div>
-        <div class="solicitud">
-            <img class="profile" src="perfil.jpg" alt="perfil">
-            <span><strong>Fernando Rojas</strong> quiere ser t&uacute; amigo</span>
-            <form class="d-inline">
-                <button type="submit" id="acceptButton1" class="btn btn-sm btn-primary">Aceptar</button>
-                <button type="button" class="btn btn-sm btn-secondary">Rechazar</button>
-            </div>
-        </div>
-        <div class="solicitud">
-            <img class="profile" src="perfil.jpg" alt="perfil">
-            <span><strong>Fernando Rojas</strong> quiere ser t&uacute; amigo</span>
-            <form class="d-inline">
-                <button type="submit" id="acceptButton1" class="btn btn-sm btn-primary">Aceptar</button>
-                <button type="button" class="btn btn-sm btn-secondary">Rechazar</button>
-            </div>
-        </div>
-        <div class="solicitud">
-            <img class="profile" src="perfil.jpg" alt="perfil">
-            <span><strong>Fernando Rojas</strong> quiere ser t&uacute; amigo</span>
-            <form class="d-inline">
-                <button type="submit" id="acceptButton1" class="btn btn-sm btn-primary">Aceptar</button>
-                <button type="button" class="btn btn-sm btn-secondary">Rechazar</button>
-            </div>
-        </div>
-</div>
-    </div>
-
-    <#--<div>-->
-        <#--<ul class="nav nav-pills">-->
-            <#--<li class="nav-item">-->
-                <#--<a class="nav-link active" href="/wall" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top" >-->
-                    <#--<img src="/images/monkey-face.png" alt="Avatar" class="avatar"/> <strong>${currentUser.name}</strong>-->
-                <#--</a>-->
-            <#--</li>-->
-            <#--<li class="nav-item">-->
-                <#--<a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Solicitudes de amistad" data-original-title="Tooltip on top">-->
-                    <#--<i class="fa fa-users"></i>-->
-                <#--</a>-->
-            <#--</li>-->
-            <#--<li class="nav-item">-->
-                <#--<a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Notificaciones" data-original-title="Tooltip on top">-->
-                    <#--<i class="fa fa-bell" aria-hidden="true"></i>-->
-                <#--</a>-->
-            <#--</li>-->
-            <#--<li class="nav-item dropdown">-->
-                <#--<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"></a>-->
-                <#--<div class="dropdown-menu">-->
-                    <#--<a class="dropdown-item" href="#">Ajustes</a>-->
-                    <#--<div class="dropdown-divider"></div>-->
-                    <#--<a class="dropdown-item" href="/logout">Cerrar Sesión</a>-->
-                <#--</div>-->
-            <#--</li>-->
-        <#--</ul>-->
-    <#--</div>-->
 </nav>
+
+<div id="popover_content_wrapper" class="d-none">
+    <#list friendRequestList>
+        <#items as friendRequest>
+            <div class="friend-request">
+                <img class="avatar" src="images/monkey-face.png" alt="perfil">
+                <span><strong>${ friendRequest.requestUser.name + " " +  friendRequest.requestUser.lastname }</strong> quiere ser t&uacute; amigo</span>
+                <form action="/friendRequest/${ friendRequest.requestUser.username }" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-primary">Aceptar</button>
+                    <button type="button" class="btn btn-sm btn-secondary">Rechazar</button>
+                    <#--TODO - este input solo tiene propositos de prueba-->
+                    <#--<input type="hidden" name="loginRedirect" value="${ re }">-->
+                </form>
+            </div>
+        </#items>
+    </#list>
+</div>

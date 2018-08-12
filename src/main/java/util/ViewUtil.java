@@ -1,7 +1,6 @@
 package util;
 
-import dao.NotificationDAO;
-import entities.Notification;
+import entities.FriendRequest;
 import entities.User;
 import freemarker.template.Configuration;
 import main.Main;
@@ -39,11 +38,20 @@ public class ViewUtil {
 
         User currentUser = request.session().attribute("currentUser");
 
-        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);
+        // En register y en login explotaria este codigo sin este if
+        if (currentUser != null) {
+            List<FriendRequest> friendRequestList = Main.friendRequestDAO.getFriendRequestsByUser(currentUser);
+            model.put("friendRequestList", friendRequestList);
 
-        model.put("notificationList", notificationList);
+            //Inicializo la lista de amigos
+            List<User> friends = Main.userDAO.getFriends(currentUser);
+            currentUser.setFriendList(friends);
+        }
+
+//        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);
+//        model.put("notificationList", notificationList);
+
         model.put("currentUser", currentUser);
-
 
         return getConfiguredEngine().render(new ModelAndView(model, templatePath));
     }

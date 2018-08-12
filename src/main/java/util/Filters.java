@@ -14,11 +14,14 @@ public class Filters {
                 response.redirect("/register");
             }
         });
-        before("/walls/*", Filters::verifyUserIsLogged);
-        before("/album", Filters::verifyUserIsLogged);
+        before("/*", Filters::verifyUserIsLogged);
     }
 
     private static void verifyUserIsLogged(Request request, Response response) {
+        if (request.pathInfo().equals("/login") || request.pathInfo().equals("/register")) {
+            return;
+        }
+
         if (request.session().attribute("currentUser") == null) {
             request.session(true).attribute("loginRedirect", request.pathInfo());
             response.redirect("/login");

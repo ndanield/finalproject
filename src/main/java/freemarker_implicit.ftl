@@ -1,5 +1,7 @@
 [#ftl]
 [#-- @implicitly included --]
+[#-- @ftlvariable name="friendRequest" type="entities.FriendRequest" --]
+[#-- @ftlvariable name="friendRequestList" type="java.util.List<FriendRequest>" file="templates/navbar.ftl" --]
 [#-- @ftlvariable name="bodyBackground" type="java.lang.String" file="templates/base.ftl" --]
 [#-- @ftlvariable name="loginRedirect" type="java.lang.String" file="templates/Auth/login.ftl" --]
 [#-- @ftlvariable name="authenticationFailed" type="java.lang.Boolean" file="templates/Auth/login.ftl" --]

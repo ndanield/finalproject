@@ -36,9 +36,9 @@ import static spark.Spark.*;
 public class Main {
 
     // Declare dependencies
-    private static UserDAO userDAO;
+    public static UserDAO userDAO;
     private static PostDAO postDAO;
-    private static FriendRequestDAO friendRequestDAO;
+    public static FriendRequestDAO friendRequestDAO;
     public static NotificationDAO notificationDAO;
     private static ImageDAO imageDAO;
 
@@ -78,7 +78,7 @@ public class Main {
             System.out.println("The **Uploaded Images** directory was created");
         }
 
-        staticFiles.externalLocation("UploadedImages");
+        staticFiles.externalLocation("/UploadedImages");
 
 
         // Creating default user if there are none
@@ -292,12 +292,19 @@ public class Main {
             return null;
         });
 
-        get("/friendRequests", (request, response) -> {
-           return null;
+        post("/friendRequest/:request-user", (request, response) -> {
+            //TODO - Esto funcionaría mejor por AJAX
+            User requestUser = userDAO.find(request.params("request-user"));
+            User targetUser = request.session().attribute("currentUser");
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, targetUser);
+            friendRequestDAO.acceptFriendRequest(friendRequest);
+            userDAO.establishFriendship(requestUser, targetUser);
+            response.redirect("/");
+            return null;
         });
 
-        post("/friendRequest/:username", (request, response) -> {
-            User targetUser = userDAO.find(request.params("username"));
+        post("/friendRequest/:target-user", (request, response) -> {
+            User targetUser = userDAO.find(request.params("target-user"));
             FriendRequest friendRequest = new FriendRequest();
             friendRequest.setRequestUser(request.session().attribute("currentUser"));
             friendRequest.setAccepted(false);

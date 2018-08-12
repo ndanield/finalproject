@@ -2,7 +2,8 @@ package dao;
 
 import entities.User;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class UserDAO extends DAOImpl<User, String> {
@@ -51,5 +52,32 @@ public class UserDAO extends DAOImpl<User, String> {
         } finally {
             em.close();
         }
+    }
+
+    public void establishFriendship(User requestUser, User targetUser) {
+        targetUser.getFriendList().add(requestUser); // This is already initialized in ViewUtil.java
+        requestUser.setFriendList(getFriends(requestUser)); // Initialize first
+        requestUser.getFriendList().add(targetUser);
+        update(targetUser);
+        update(requestUser);
+    }
+
+    public List<User> getFriends(User user) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<User> tq = em.createQuery(
+                    "select distinct u " +
+                            "from User u " +
+                            "join fetch u.friendList fl " +
+                            "where u.username = :username", User.class)
+                    .setParameter("username", user.getUsername());
+//            Query q = em.createNativeQuery("SELECT FRIENDLIST_USERNAME FROM USER_USER WHERE USER_USERNAME = "+user.getUsername(), User.class);
+            return tq.getResultList();
+        } catch (Exception e) {
+            System.out.println("Buscar los amigos del usuario " + user.getUsername() + " salio mal: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+        return null;
     }
 }
