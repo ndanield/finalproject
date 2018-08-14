@@ -46,6 +46,7 @@ public class ViewUtil {
             //Inicializo la lista de amigos
             List<User> friends = Main.userDAO.getFriends(currentUser);
             currentUser.setFriendList(friends);
+            model.put("friendList", friends);
         }
 
 //        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);

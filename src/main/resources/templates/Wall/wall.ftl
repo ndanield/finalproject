@@ -104,7 +104,7 @@
                 </#items>
             </#list>
 
-            <button class="btn btn-link justify-content-center" type="submit">Cargar más publicaciones</buttom>
+            <button class="btn btn-link justify-content-center" type="submit">Cargar más publicaciones</button>
         </div>
 
         <div class="col-lg-4">
@@ -128,20 +128,9 @@
 
                 </div>
             </div>
-            <ul class="list-group my-3 ">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Fulanito
-                    <!-- <span class="badge badge-primary badge-pill">14</span> -->
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Pperencejo
-                    <!-- <span class="badge badge-primary badge-pill">2</span> -->
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Pepito
-                    <!-- <span class="badge badge-primary badge-pill">1</span> -->
-                </li>
-            </ul>
+
+            <#include "friendList.ftl">
+
         </div>
     </div>
 </div>
