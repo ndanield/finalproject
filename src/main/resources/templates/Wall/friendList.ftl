@@ -4,11 +4,13 @@
     </div>
     <div class="card-body">
         <#list friendList>
-            <ul class="list-group">
+            <div class="list-group">
                 <#items as friend>
-                    <li>${ friend.name + friend.lastname }</li>
+                    <a href="/walls/${ friend.username }" class="list-group-item list-group-action">
+                        ${ friend.name + friend.lastname }
+                    </a>
                 </#items>
-            </ul>
+            </div>
         </#list>
     </div>
 </div>

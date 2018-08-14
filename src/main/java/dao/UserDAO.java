@@ -48,7 +48,17 @@ public class UserDAO extends DAOImpl<User, String> {
                     .setParameter("city", user.getCity())
                     .setParameter("estudyPlace", user.getEstudyPlace())
                     .setParameter("workPlace", user.getWorkPlace());
-            return query.getResultList();
+    
+            List<User> suggestedFriends = query.getResultList();
+            if (!user.getFriendList().isEmpty()) {
+                for (User friend : user.getFriendList()) {
+                    if (suggestedFriends.contains(friend)) {
+                        suggestedFriends.remove(friend);
+                    }
+                }
+            }
+
+            return suggestedFriends;
         } finally {
             em.close();
         }

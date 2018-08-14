@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class User implements Serializable {
 
-    @Id
+	@Id
     private String username;
 
     private String name;
@@ -64,8 +64,10 @@ public class User implements Serializable {
         this.password = password;
         this.isAdministrator = isAdministrator;
         this.city = city;
-
         this.edad = calculateAge(birthdate);
+        this.profileImage = null;
+        this.estudyPlace = null;
+        this.workPlace = null;
     }
 
     private int calculateAge(Date birthdate) {
@@ -161,6 +163,14 @@ public class User implements Serializable {
 
     public void setWorkPlace(String workPlace) {
         this.workPlace = workPlace;
+    }
+
+    public Image getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(Image profileImage) {
+        this.profileImage = profileImage;
     }
 
     public int getEdad() {

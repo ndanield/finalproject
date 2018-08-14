@@ -7,9 +7,7 @@
 <div class="container">
 
     <div class="portrait mb-3">
-        <#--<img src="/images/playa.jpg" alt="Imagen de portada">-->
         <div class="profile-pic d-flex">
-            <#--<img src="/images/monkey-face.png" class="image-avatar image-special" alt="Avatar">-->
             <#if wallOwner.image?has_content>
                 <img src="${ wallOwner.image.path }" class="image-avatar image-special" alt="Avatar">
             <#else>
@@ -56,29 +54,34 @@
         </div>
 
         <div id="PostColumn" class="col-lg-5 mx-auto">
+            
+            <#if postList?size gt 0>
+
             <#list postList>
                 <#items as post>
                     <div class="card mb-3">
                         <div class="card-header">
-                            <h5 class="card-title"><strong>${ post.user.name }</strong> compartio una publicación </h5>
-                            <h6 class="card-subtitle text-muted"><time datetime="${ post.date }" style="float: right">${ post.date }</time></span></h6>
+                            <#if wallOwner.username != currentUser.username>
+                                <h5 class="card-title"><strong>${ post.user.name }</strong> hizo una publicación </h5>
+                            <#else>
+                                <h5 class="card-title"><strong>Tú</strong> hiciste una publicación </h5>
+                            </#if>
+                            <h6 class="card-subtitle text-muted"><time datetime="${ post.date }">${ post.date }</time></span></h6>
                         </div>
 
-                        <#if post.content?has_content>
+                        <#if post.image?has_content>
+                            <img style="width: 100%; display: block;" src="${ post.image.path }" alt="Imagen publicada">
+
+                            <#if post.content?has_content>
+                                <div class="card-body">
+                                    <p class="card-text">${ post.content }</p>
+                                </div>
+                            </#if>
+                        <#else>
                             <div class="card-body">
-                                <p class="card-text">${ post.content }</p>
+                                <h4 class="card-title">${ post.content }</p>
                             </div>
                         </#if>
-
-                        <#if post.image.path?has_content>
-                            <div class="card-body">
-                                <img style="width: 100%; display: block;" src="${ post.image.path }" alt="Imagen publicada">
-                            </div>
-                        </#if>
-
-                    <#--<ul class="list-group list-group-flush">-->
-                    <#--<li class="list-group-item"> A fulano y otros le ha gustado tu post</li>-->
-                    <#--</ul>-->
 
                         <div class="card-body">
                             <div class="like-panel">
@@ -105,6 +108,16 @@
             </#list>
 
             <button class="btn btn-link justify-content-center" type="submit">Cargar más publicaciones</button>
+            <#else>
+            
+            <div class="card border-info mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">No hay publicaciónes</h4>
+                    <p class="card-text">¡Crea una nueva publicación ahora para llenar este espacio!</p>
+                </div>
+            </div>
+            
+            </#if>
         </div>
 
         <div class="col-lg-4">

@@ -10,6 +10,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.Session;
+import spark.utils.IOUtils;
 import util.BootStrapServices;
 import util.Filters;
 import util.Path;
@@ -19,8 +20,11 @@ import util.Soap.SoapMain;
 import util.ViewUtil;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.Part;
+
 import java.io.File;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
@@ -70,15 +74,15 @@ public class Main {
         ResService resService = new ResService();
 
         // Configure Spark
-        staticFiles.location("/public");
-
         File uploadDir = new File("UploadedImages");
 
         if (uploadDir.mkdir()) {
             System.out.println("The **Uploaded Images** directory was created");
         }
 
-        staticFiles.externalLocation("/UploadedImages");
+        staticFiles.externalLocation("UploadedImages");
+
+        staticFiles.location("/public");
 
 
         // Creating default user if there are none
@@ -101,10 +105,9 @@ public class Main {
 
         // Auth routes
         get("/", (request, response) -> {
-            Map<String, Object> model = new HashMap<>();
-            User user = request.session().attribute("currentUser");
-            model.put("suggestedFriendList", userDAO.getSuggestedFriends(user));
-            return ViewUtil.render(request, model, Path.INDEX) ;
+
+
+            return ViewUtil.render(request, new HashMap<>(), Path.INDEX) ;
         });
 
         get("/walls/:user", (request, response) -> {
@@ -127,26 +130,30 @@ public class Main {
         post("/post", (request, response) -> {
             User user = request.session().attribute("currentUser");
 
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+
             Post post = new Post();
             post.setContent(request.queryParams("post-content"));
             post.setDate(new Date());
             post.setUser(user);
 
-            postDAO.persist(post);
-
-
             java.nio.file.Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
-            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+            Part part = request.raw().getPart("unploadImage");
+            if (!part.getSubmittedFileName().isEmpty()) {
+                try (InputStream input = part.getInputStream()) {
+                    Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+                }
 
-            try (InputStream input = request.raw().getPart("unploadImage").getInputStream()) {
-                Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+                Image image = new Image();
+                // image.setPath(uploadDir.toPath() + "/" + tempFile.getFileName());
+                image.setPath("/" + tempFile.getFileName());
+                imageDAO.persist(image);
+                post.setImage(image);
+            } else {
+                post.setImage(null);
             }
 
-            //logInfo(request, tempFile);
-            Image image = new Image();
-            image.setPath(uploadDir.toPath() + "/" + tempFile.getFileName());
-
-            imageDAO.persist(image);
+            postDAO.persist(post);
 
             response.redirect("/walls/" + user.getUsername());
 
@@ -170,6 +177,8 @@ public class Main {
             user.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(request.queryParams("bornDate")));
             user.setAdministrator(false);
             user.setCity(request.queryParams("city"));
+            user.setProfileImage(null);
+
             userDAO.persist(user);
 
             request.session().attribute("currentUser", user);

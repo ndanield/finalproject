@@ -47,6 +47,9 @@ public class ViewUtil {
             List<User> friends = Main.userDAO.getFriends(currentUser);
             currentUser.setFriendList(friends);
             model.put("friendList", friends);
+
+            // Esto no esta aqui por casualidad moverlo de aqui sin saber que hace puede provocar explosiones
+            model.put("suggestedFriendList", Main.userDAO.getSuggestedFriends(currentUser));
         }
 
 //        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);
