@@ -10,7 +10,6 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.Session;
-import spark.utils.IOUtils;
 import util.BootStrapServices;
 import util.Filters;
 import util.Path;
@@ -24,7 +23,6 @@ import javax.servlet.http.Part;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
@@ -301,7 +299,7 @@ public class Main {
             return null;
         });
 
-        post("/friendRequest/:request-user", (request, response) -> {
+        post("/friendRequest/accept/:request-user", (request, response) -> {
             //TODO - Esto funcionaría mejor por AJAX
             User requestUser = userDAO.find(request.params("request-user"));
             User targetUser = request.session().attribute("currentUser");
