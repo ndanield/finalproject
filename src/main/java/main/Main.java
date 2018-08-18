@@ -117,7 +117,7 @@ public class Main {
             User wallOwner = userDAO.find(request.params("user"));
             List<Post> postList = postDAO.findSomeByUser( page * 10 , wallOwner);
             FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
-            
+
             model.put("friendRequest", friendRequest);
             model.put("postList", postList);
             model.put("wallOwner", wallOwner);
@@ -278,7 +278,7 @@ public class Main {
                    String image = "";
                    String content = "";
                    if(request.headers("Content-Type").equalsIgnoreCase(ACCEPT_TYPE_JSON)){
-//                       System.out.println(JSONUtil.toJson(request.body()));
+
                        JsonObject jsonObject = new Gson().fromJson(request.body(), JsonObject.class);
                        username += jsonObject.get("username");
                        content += jsonObject.get("content");
@@ -302,10 +302,10 @@ public class Main {
         post("/friendRequest/accept/:request-user", (request, response) -> {
             //TODO - Esto funcionaría mejor por AJAX
             User requestUser = userDAO.find(request.params("request-user"));
-            User targetUser = request.session().attribute("currentUser");
-            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, targetUser);
+            User currentUser = request.session().attribute("currentUser");
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, currentUser);
             friendRequestDAO.acceptFriendRequest(friendRequest);
-            userDAO.establishFriendship(requestUser, targetUser);
+            userDAO.establishFriendship(currentUser, requestUser);
             response.redirect("/");
             return null;
         });
@@ -328,6 +328,14 @@ public class Main {
             notificationDAO.persist(notification);
 
             response.redirect("/walls/"+targetUser.getUsername());
+            return null;
+        });
+
+        get("/friendRequest/delete/:request-user", (request, response) -> {
+            User requestUser = userDAO.find(request.params("request-user"));
+            User targetUser = request.session().attribute("currentUser");
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, targetUser);
+            friendRequestDAO.remove(friendRequest);
             return null;
         });
 

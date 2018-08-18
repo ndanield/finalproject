@@ -1,0 +1,36 @@
+<table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>Administrador</th>
+                    <th>Elevar Permisos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list usersList as u>
+                <tr>
+                    <td>${u.username}</td>
+                    <td>${u.name}</td>
+                    <td>${u.lastname}</td>
+                    <td>${u.edad}</td>
+                    <td>${u.administrator?c}</td>
+                    <td><form method="post">
+                        <div class="form-group" hidden>
+                            <input class="form-control" name="username" value="${u.username}">
+                        </div>
+
+                        <div class="form-group">
+                            <#if !u.administrator>
+                                <button type="submit" class="btn btn-secondary" id="roleChange">Hacer Admin</button>
+                            </#if>
+                        </div>
+
+                    </form>
+                    </td>
+                </tr>
+                </#list>
+                </tbody>
+            </table>

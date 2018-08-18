@@ -1,7 +1,5 @@
 package dao;
 
-import entities.Post;
-
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;

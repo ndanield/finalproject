@@ -37,7 +37,12 @@ public class User implements Serializable {
     private Image profileImage;
 
     // De aqui para abajo son datos que se llenan al interactuar con el sistema
-    @OneToMany
+    @JoinTable(name = "FRIEND", joinColumns = {
+        @JoinColumn(name = "USER1_USERNAME", referencedColumnName = "username", nullable = false)
+    }, inverseJoinColumns = {
+        @JoinColumn(name = "USER2_USERNAME", referencedColumnName = "username", nullable = false)
+    })
+    @ManyToMany
     private List<User> friendList;
 
     private String estudyPlace;
@@ -51,7 +56,7 @@ public class User implements Serializable {
 //    private List<UserPost> userPostList;
 //
 //    @OneToMany(mappedBy = "user")
-//    private List<CommentVote> commentVoteList;
+//    private List<CommentVote> commentVoteLi.st;
 
     public User() {
     }

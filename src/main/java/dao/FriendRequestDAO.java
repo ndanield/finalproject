@@ -14,7 +14,13 @@ public class FriendRequestDAO extends DAOImpl<FriendRequest, Long> {
         super(entityClass);
     }
 
-    public FriendRequest getFriendRequest(User requestUser, User targetUser) {
+    /**
+     * Return a friend request that was made by the requestUser and was targeted to the targetUser.
+     * @param requestUser
+     * @param currentUser
+     * @return A friend request if found, null otherwise.
+     */
+    public FriendRequest getFriendRequest( User currentUser, User requestUser) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<FriendRequest> q = em.createQuery(
@@ -22,11 +28,11 @@ public class FriendRequestDAO extends DAOImpl<FriendRequest, Long> {
                             "where fr.requestUser = :requestUser and fr.targetUser = :targetUser " +
                             "or fr.requestUser = :targetUser and fr.targetUser = :requestUser" , FriendRequest.class);
             q.setParameter("requestUser", requestUser);
-            q.setParameter("targetUser", targetUser);
+            q.setParameter("targetUser", currentUser);
 
             return (FriendRequest) JpaResultHelper.getSingleResultOrNull(q);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Problema consiguiendo la solicitud da amistad: " + e.getCause() + ":" + e.getMessage());
         } finally {
             em.close();
         }
