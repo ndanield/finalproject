@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class User implements Serializable {
     @OneToOne
     private Image profileImage;
 
-    // De aqui para abajo son datos que se llenan al interactuar con el sistema
+//     De aqui para abajo son datos que se llenan al interactuar con el sistema
     @JoinTable(name = "FRIEND", joinColumns = {
         @JoinColumn(name = "USER1_USERNAME", referencedColumnName = "username", nullable = false)
     }, inverseJoinColumns = {

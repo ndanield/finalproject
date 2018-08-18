@@ -1,6 +1,5 @@
 package dao;
 
-import entities.Friend;
 import entities.User;
 
 import javax.persistence.EntityManager;
@@ -80,7 +79,7 @@ public class UserDAO extends DAOImpl<User, String> {
             String qlString = "select distinct u " +
 			        "from User u " +
 			        "join fetch u.friendList fl " +
-                    "where u = :user";
+                    "where fl = :user";
 			TypedQuery<User> tq = em.createQuery(qlString, User.class).setParameter("user", user);
             return tq.getResultList();
         } catch (Exception e) {

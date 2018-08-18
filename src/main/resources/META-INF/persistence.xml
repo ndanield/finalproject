@@ -22,7 +22,7 @@
             <!-- Indica como será la generación de las tablas en el motor-->
             <property name="javax.persistence.schema-generation.database.action" value="update"/>
             <!-- <property name="javax.persistence.schema-generation.create-script-source" value="createScript.sql" /> -->
-            <!-- <property name="javax.persistence.sql-load-script-source" value="insertScript.sql" /> -->
+             <!--<property name="javax.persistence.sql-load-script-source" value="insertScript.sql" /> -->
         </properties>
     </persistence-unit>
 </persistence>
