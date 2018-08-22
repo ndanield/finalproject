@@ -35,7 +35,6 @@ public class ViewUtil {
     };
 
     public static String render(Request request, Map<String, Object> model, String templatePath) {
-
         User currentUser = request.session().attribute("currentUser");
 
         // En register y en login explotaria este codigo sin este if

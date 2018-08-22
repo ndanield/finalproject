@@ -1,3 +1,4 @@
+<#--noinspection ALL-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <a class="navbar-brand" href="/" style="font-family: leaf; font-size: 22px;">Banagreen</a>
 

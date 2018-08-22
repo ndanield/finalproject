@@ -1,3 +1,4 @@
+<#--noinspection ALL-->
 <#import "../base.ftl" as b>
 
 <@b.base>
@@ -18,21 +19,25 @@
 
         <#if wallOwner.username != currentUser.username>
             <#if friendRequest?has_content>
-                <#if friendRequest.accepted>
-                    <form action="#" method="delete">
+                <#if isFriend>
+                    <form action="#" method="get">
                         <button type="submit" class="btn btn-sm btn-danger mr-3" style="float: right;"> Eliminar amistad</button>
                     </form>
                 <#else>
-                    <button class="btn btn-info btn-sm mr-3 disabled" style="float: right;"> Respuesta pendiente</button>
+                    <#if wallOwner.username == friendRequest.requestUser.username>
+                        <button class="btn btn-info btn-sm mr-3" style="float: right;"> Solicitud pendiente</button>
+                    <#elseif wallOwner.username == friendRequest.targetUser.username>
+                        <button class="btn btn-info btn-sm mr-3" style="float: right;"> Respuesta pendiente</button>
+                    </#if>
                 </#if>
             <#else>
                 <form action="/friendRequest/${ wallOwner.username }" method="post">
                     <button type="submit" class="btn btn-sm btn-success mr-3" style="float: right;"> Solicitar amistad</button>
                 </form>
             </#if>
+        <#else >
+            <button class="btn btn-secondary btn-sm mr-3" style="float: right;"> Esto es una prueba de que este es tu muro</button>
         </#if>
-
-
     </div>
 
     <div class="row">
@@ -79,7 +84,7 @@
                             </#if>
                         <#else>
                             <div class="card-body">
-                                <h4 class="card-title">${ post.content }</p>
+                                <h4 class="card-title">${ post.content }</h4>
                             </div>
                         </#if>
 

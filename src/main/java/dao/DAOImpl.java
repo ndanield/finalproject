@@ -1,6 +1,9 @@
 package dao;
 
-import javax.persistence.*;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
@@ -66,7 +69,8 @@ public class DAOImpl<T, K> {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.remove(entity);
+            em.remove(em.contains(entity) ? entity : em.merge(entity));
+//            em.remove(entity);
             em.getTransaction().commit();
         }catch (Exception ex){
             em.getTransaction().rollback();

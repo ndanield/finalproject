@@ -10,48 +10,47 @@
         </div>
 
         <div class="col-lg-3">
-            <#--<div class="alert alert-dismissible alert-danger" id="error-in-form">-->
-                <#--&lt;#&ndash; Added by JS&ndash;&gt;-->
-
-
-
-
-
-
-
-            <#--</div>-->
             <div class="card border-primary mb-3 mx-auto">
                 <div class="card-body">
                     <h4 class="card-title" align="center" style="font-family: leaf,serif; font-size: 50px; color: #316a3a">BanaGreen</h4>
-                    <form action="/register" method="post" autocomplete="off">
+
+                    <form id="registerForm" action="/register" method="POST" autocomplete="off">
+
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <input class="form-control" name="firstName" placeholder="Nombre" type="text">
+                                <input class="form-control fullName" name="firstName" placeholder="Nombres" type="text">
                             </div>
                             <div class="form-group col-md-6">
-                                <input class="form-control" name="lastName" placeholder="Apellido" type="text">
+                                <input class="form-control fullName" name="lastName" placeholder="Apellidos" type="text">
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <input class="form-control" name="username" placeholder="Usuario" type="text">
+                            <input class="form-control" name="username" placeholder="Nombre de usuario" type="text">
                         </div>
+
                         <div class="form-group">
-                            <input id="password" class="form-control" name="password" placeholder="Contraseña" type="password">
+                            <input id="password" class="form-control" name="password" minlength="8"  placeholder="Contraseña" type="password">
                         </div>
-                        <#--<div class="form-group">-->
-                            <#--<input id="confirmPassword" class="form-control" name="confirmPassword" placeholder="Confirmar contraseña" type="password">-->
-                        <#--</div>-->
+
+                        <div class="form-group">
+                            <input id="confirmPassword" class="form-control" name="confirmPassword" minlength="8"  placeholder="Confirmar contraseña" type="password">
+                        </div>
+
                         <div class="form-group">
                             <input class="form-control" name="bornDate" type="date">
                         </div>
+
                         <div class="form-group">
                             <div class="autocomplete">
                                 <input class="form-control" id="citylist" name="city" placeholder="Ciudad" type="text">
                             </div>
                         </div>
+
                         <div class="form-group row">
-                            <button type="submit" class="btn btn-success mx-auto "><strong>Registrarse</strong></button>
+                            <button type="submit" class="btn btn-success mx-auto "><strong>Registrarte</strong></button>
                         </div>
+
                     </form>
                 </div>
             </div>

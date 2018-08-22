@@ -20,7 +20,6 @@ import util.ViewUtil;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
-
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -117,7 +116,9 @@ public class Main {
             User wallOwner = userDAO.find(request.params("user"));
             List<Post> postList = postDAO.findSomeByUser( page * 10 , wallOwner);
             FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
+            boolean isFriend = userDAO.getFriends(currentUser).contains(wallOwner); // Son amigos?
 
+            model.put("isFriend", isFriend);
             model.put("friendRequest", friendRequest);
             model.put("postList", postList);
             model.put("wallOwner", wallOwner);
