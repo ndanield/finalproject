@@ -65,7 +65,6 @@
 </div>
 
 <script type="text/javascript" src="/js/city.js"></script>
-<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script src="/js/register.js"></script>
 

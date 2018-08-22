@@ -53,7 +53,7 @@
     </div>
 
 </div>
-<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+
 <#--<script type="text/javascript" src="/js/updateRole.js"></script>-->
 <script type="text/javascript" src="/js/intercooler-1.2.1.min.js"></script>
 </@b.base>
