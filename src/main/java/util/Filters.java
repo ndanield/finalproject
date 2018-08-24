@@ -25,7 +25,7 @@ public class Filters {
             String lastName = req.queryParams("lastName");
             String bornDate = req.queryParams("bornDate");
             String city = req.queryParams("city");
-            if (username == null ||
+            /*if (username == null ||
             firstName == null ||
             lastName == null ||
             bornDate == null ||
@@ -35,7 +35,7 @@ public class Filters {
 
             if (Main.userDAO.find(username) != null ) {
                 halt();
-            }
+            }*/
         });
 
         before("/walls/*", Filters::verifyUserIsLogged);
