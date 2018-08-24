@@ -33,8 +33,7 @@ public class Filters {
                 halt();
             }
 
-            if (Main.userDAO.find(username) != null ||
-            Date.) {
+            if (Main.userDAO.find(username) != null ) {
                 halt();
             }
         });
