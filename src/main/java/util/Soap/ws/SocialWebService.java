@@ -3,8 +3,10 @@ package util.Soap.ws;
 import dao.DAO;
 import dao.DAOImpl;
 import dao.PostDAO;
+import dao.UserDAO;
 import entities.Post;
 import entities.User;
+import main.Main;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -19,8 +21,11 @@ public class SocialWebService {
     public List<Post> getUserPosts(String username){
         DAOImpl<Post,String> postDAO = new DAOImpl<>(Post.class);
         ArrayList<Post> temp = new ArrayList<>();
+        UserDAO userDAO = new UserDAO(User.class);
+        List<User> friends = Main.userDAO.getFriends(userDAO.find(username));
         for (Post p: postDAO.findAll()) {
             if (p.getUser().getUsername().equalsIgnoreCase(username)) {
+                p.getUser().setFriendList(friends);
                 temp.add(p);
             }
         }
