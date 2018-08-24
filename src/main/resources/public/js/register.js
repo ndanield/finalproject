@@ -12,7 +12,16 @@ $(document).ready(function() {
             },
             username: {
                 required: true,
-                minlength: 2
+                minlength: 4,
+                remote: {
+                    url: 'isUsernameAvailable',
+                    type: 'post',
+                    data: {
+                        username: function () {
+                            return $( '#username' ).val();
+                        }
+                    }
+                }
             },
             password: {
                 required: true,
@@ -31,14 +40,14 @@ $(document).ready(function() {
         },
         messages: {
             firstName: {
-                require_from_group: 'Ambos nombres son requeridos, por favor completalos.'
+                require_from_group: 'Campos requeridos'
             },
             lastName: {
-                require_from_group: 'Ambos nombres son requeridos, por favor completalos.'
+                require_from_group: 'Campos requeridos'
             },
             username: {
                 required: 'Por favor, ingresa un nombre de usuario.',
-                minlength: 'El nombre de usuario debe tener al menos 2 caracteres'
+                minlength: 'El nombre de usuario debe tener al menos 4 caracteres'
             },
             password: {
                 required: 'Por favor, ingresa una contraseña',

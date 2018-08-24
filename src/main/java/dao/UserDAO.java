@@ -5,6 +5,7 @@ import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Set;
 
 public class UserDAO extends DAOImpl<User, String> {
 

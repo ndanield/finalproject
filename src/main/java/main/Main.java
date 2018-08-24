@@ -58,6 +58,7 @@ public class Main {
         friendRequestDAO = new FriendRequestDAO(FriendRequest.class);
         notificationDAO = new NotificationDAO(Notification.class);
         imageDAO = new ImageDAO(Image.class);
+        Gson gson = new Gson();
 
         // Launch SOAP Services
         try{
@@ -339,6 +340,13 @@ public class Main {
             friendRequestDAO.remove(friendRequest);
             return null;
         });
+
+        post("isUsernameAvailable", (request, response) -> {
+            if (userDAO.find(request.queryParams("username")) != null) {
+                return "El nombre de usuario ya esta en uso.";
+            }
+            return true;
+        }, gson::toJson);
 
         /*get("/registeredUsers/list",(request,response)->{
                 Map<String, Object> model = new HashMap<>();

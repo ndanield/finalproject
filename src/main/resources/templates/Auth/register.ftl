@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control" name="username" placeholder="Nombre de usuario" type="text">
+                            <input id="username" class="form-control" name="username" placeholder="Nombre de usuario" type="text">
                         </div>
 
                         <div class="form-group">
@@ -66,7 +66,8 @@
 
 <script type="text/javascript" src="/js/city.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
-<script src="/js/register.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="/js/register.js"></script>
 
 <#include "footer.ftl">
 </@b.base>

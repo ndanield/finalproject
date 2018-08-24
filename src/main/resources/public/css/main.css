@@ -297,3 +297,13 @@ body#loginBgImg{
     max-height: 252px;
     overflow: auto;
 }
+
+label.error {
+    color: #FF4136;
+}
+
+input.error {
+    border-color: #FF4136;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 65, 54, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(255, 65, 54, 0.25);
+}
