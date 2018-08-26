@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control" name="bornDate" type="date">
+                            <input class="form-control" name="bornDate" type="date" min="1900-01-01">
                         </div>
 
                         <div class="form-group">

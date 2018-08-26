@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Main {
 
@@ -82,6 +83,7 @@ public class Main {
 
         staticFiles.location("/public");
 
+        enableDebugScreen();
 
         // Creating default user if there are none
         if (userDAO.isEmpty()) {
@@ -159,6 +161,7 @@ public class Main {
 
             return null;
         });
+
 
         get("/register", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
