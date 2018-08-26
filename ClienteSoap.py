@@ -26,8 +26,9 @@ def getPosts(user):
 def createPost(content, image, user):
     try:
         if not errorhandler(user):
-            client.service.createPosts(content,image,user)
-            return "El post ha sido creado por el usuario {}".format(user)
+            client.service.createPost(content,image,user)
+            print("El post ha sido creado por el usuario {}".format(user))
+            return ""
     except Exception:
         print("Ha ocurrido algún problema con el servicio, intentalo nuevamente y revisa tus parametros")
 
@@ -47,7 +48,7 @@ while True:
         elif opcion == "2":
             tempContent = input("Introduzca el contenido en texto del post: ")
             tempimage = input("Introduzca la ruta de la imagen: ")
-            user = input("Introduzca el usuario que lo está creando")
+            user = input("Introduzca el usuario que lo está creando: ")
             createPost(tempContent, tempimage, user)
         elif opcion == "3":
             break

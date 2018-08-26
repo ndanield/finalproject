@@ -1,9 +1,15 @@
 import unirest
 import json
 
+
 def getPosts(user):
     response = unirest.get("https://banagreen.herokuapp.com/rest/userPosts/{}".format(user), headers={"Accept":"application/json"})
     return response.raw_body
+
+
+# def getPosts(user):
+#     response = unirest.get("http://localhost:4567/rest/userPosts/{}".format(user), headers={"Accept":"application/json"})
+#     return response.raw_body
 
 
 def createPost(content, image, user):
@@ -11,6 +17,13 @@ def createPost(content, image, user):
                                                                                                                             "image": "{}".format(image),
                                                                                                                             "username": "{}".format(user)}))
     return response.raw_body
+
+# def createPost(content, image, user):
+#     response = unirest.post("http://localhost:4567/rest/userPosts/createNewPost", headers={"Content-Type":"application/json", "Accept":"application/json"}, params=json.dumps({"content": "{}".format(content),
+#                                                                                                                             "image": "{}".format(image),
+#                                                                                                                             "username": "{}".format(user)}))
+#     return response.raw_body
+
 
 print "Bienvenido al cliente REST"
 
