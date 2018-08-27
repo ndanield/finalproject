@@ -37,6 +37,9 @@ public class User implements Serializable {
     @OneToOne
     private Image profileImage;
 
+    @OneToOne
+    private Image portraitImage;
+
 //     De aqui para abajo son datos que se llenan al interactuar con el sistema
     @JoinTable(name = "FRIEND", joinColumns = {
         @JoinColumn(name = "USER1_USERNAME", referencedColumnName = "username", nullable = false)
@@ -62,7 +65,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator, String city) {
+    public User(String username, String name, String lastname, Date birthdate, String password, boolean isAdministrator, String city, Image profileImage) {
         this.username = username;
         this.name = name;
         this.lastname = lastname;
@@ -71,7 +74,7 @@ public class User implements Serializable {
         this.isAdministrator = isAdministrator;
         this.city = city;
         this.edad = calculateAge(birthdate);
-        this.profileImage = null;
+        this.profileImage = profileImage;
         this.estudyPlace = null;
         this.workPlace = null;
     }
@@ -177,6 +180,14 @@ public class User implements Serializable {
 
     public void setProfileImage(Image profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public Image getPortraitImage() {
+        return portraitImage;
+    }
+
+    public void setPortraitImage(Image portraitImage) {
+        this.portraitImage = portraitImage;
     }
 
     public int getEdad() {

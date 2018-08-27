@@ -1,16 +1,27 @@
-<div class="card my-3">
+<div class="card">
     <div class="card-header">
         Lista de amigos
     </div>
-    <div class="card-body">
-        <#list friendList>
-            <div class="list-group">
-                <#items as friend>
-                    <a href="/walls/${ friend.username }" class="list-group-item list-group-action">
-                        ${ friend.name + friend.lastname }
-                    </a>
-                </#items>
-            </div>
-        </#list>
+    <#if friendList?size gt 0>
+    <#list friendList>
+    <div class="friend-list">
+        <#items as friend>
+        <div class="friend-list-group">
+            <#if friend.profileImage??>
+                <img src="${ friend.profileImage.path }" alt="Avatar" class="friend-list-pic">
+            <#else>
+                <img src="/images/zeldris.jpg" alt="avatar">
+            </#if>
+            <a href="/walls/${ friend.username }" class="friend-list-item">
+                ${ friend.name } ${ friend.lastname }
+            </a>
+        </div>
+        </#items>
     </div>
+    </#list>
+    <#else >
+        <div class="card-body">
+            <p class="card-text">Aun no tienes amigos</p>
+        </div>
+    </#if>
 </div>

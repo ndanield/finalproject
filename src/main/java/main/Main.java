@@ -27,10 +27,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
@@ -88,11 +85,18 @@ public class Main {
         // Creating default user if there are none
         if (userDAO.isEmpty()) {
             BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
+
+            Image profileImageAdmin = new Image("/images/meliodas.jpg");
+            imageDAO.persist(profileImageAdmin);
+            Image portraitImageAdmin = new Image("/images/holywar.png");
+            imageDAO.persist(portraitImageAdmin);
+
             User user = new User("admin", "Demon King", "Meliodas",
                     new Date(),
                     encryptor.encryptPassword("admin123"),
                     true,
-                    "Santiago de los Caballeros");
+                    "Santiago de los Caballeros", profileImageAdmin);
+            user.setPortraitImage(portraitImageAdmin);
             userDAO.persist(user);
         }
 
@@ -105,9 +109,9 @@ public class Main {
 
         // Auth routes
         get("/", (request, response) -> {
-
-
-            return ViewUtil.render(request, new HashMap<>(), Path.INDEX) ;
+            Map<String, Object> model = new HashMap<>();
+            model.put("postList", new ArrayList<Post>());
+            return ViewUtil.render(request, model, Path.INDEX) ;
         });
 
         get("/walls/:user", (request, response) -> {
@@ -180,7 +184,7 @@ public class Main {
             user.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(request.queryParams("bornDate")));
             user.setAdministrator(false);
             user.setCity(request.queryParams("city"));
-            user.setProfileImage(null);
+            user.setProfileImage(new Image("/images/monkey-face.png"));
 
             userDAO.persist(user);
 

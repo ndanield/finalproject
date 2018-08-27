@@ -1,9 +1,6 @@
 package dao;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
@@ -30,6 +27,8 @@ public class DAOImpl<T, K> {
             System.out.println("The instance" + iae.toString() + "is not an entity. "+ iae.getMessage());
         } catch (EntityExistsException eee) {
             System.out.println("The entity is already persisted. " + eee.getMessage());
+        } catch (TransactionRequiredException tre) {
+            System.out.println("Error de transaccion: " + tre.getMessage());
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw  e;

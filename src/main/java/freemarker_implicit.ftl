@@ -1,5 +1,7 @@
 [#ftl]
 [#-- @implicitly included --]
+[#-- @ftlvariable name="wallOwner" type="entities.User" --]
+[#-- @ftlvariable name="postList" type="java.util.List<Post>" --]
 [#-- @ftlvariable name="isFriend" type="boolean" file="templates/Wall/wall.ftl" --]
 [#-- @ftlvariable name="suggestedFriendList" type="java.util.List<User>" file="templates/Index/index.ftl" --]
 [#-- @ftlvariable name="friendRequest" type="entities.FriendRequest" --]
@@ -17,3 +19,5 @@
 [#-- @ftlvariable name="currentUser" type="entities.User" --]
 [#-- @ftlvariable name="wallOwner.image" type="entities.Image" file="templates/Wall/wall.ftl" --]
 [#-- @ftlvariable name="wallOwner" type="entities.User" file="templates/Wall/wall.ftl" --]
+[#-- @ftlvariable name="friendList" type="java.util.List<User>" file="templates/Wall/friendList.ftl" --]
+[#-- @ftlvariable name="friend" type="entities.User" file="templates/Wall/friendList.ftl" --]

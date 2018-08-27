@@ -64,6 +64,7 @@ html, body {
     transition: .5s ease;
     backface-visibility: hidden;
 }
+
 .image-special:hover{
     opacity: 0.8;
 }
@@ -216,26 +217,55 @@ html, body {
 .portrait {
     width: 100%;
     height: 240px;
-    background: url('/images/default-portrait.png') no-repeat;
-    background-size: cover;
+    padding: 15px;
 }
 
-.portrait .profile-pic {
-    /*overflow: hidden;*/
+.portrait-footer {
+    background-color: #1e7620;
+    margin-bottom: 3rem;
+}
+
+.below-shadow {
+    box-shadow: 0 10px 6px 0 lightgray;
+}
+
+.profile-pic {
+    overflow: hidden;
     width: 128px;
     height: 128px;
     z-index: auto;
-    border-color: black;
-    padding-top: 100px;
-    padding-left: 10px;
+    background-color: white;
+    border: 4px solid #1e7620;
+    margin-left: 15px;
+    margin-top: -128px;
+    margin-right: 20px;
 }
 
-.portrait .profile-pic img {
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    box-sizing: border-box;
-    background: white;
+.profile-text {
+    color: white;
+    font-style: italic;
+    /*text-shadow: -1px 0 gray, 0 1px gray, 1px 0 gray, 0 -1px gray;*/
+}
+
+.friend-list {
+
+}
+
+.friend-list-item {
+    padding: 0.75rem 1.25rem;
+}
+
+.friend-list-pic {
+    width: 64px;
+    height: 64px;
+}
+
+.friend-list-group {
+    background-color: white;
+}
+
+.friend-list-group:hover {
+    background-color: #b0e5b1;
 }
 
 .badge-notify {
@@ -286,11 +316,6 @@ body#loginBgImg{
     top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-.border-text {
-    color: white;
-    text-shadow: -1px 0 gray, 0 1px gray, 1px 0 gray, 0 -1px gray;
 }
 
 .popover-body {

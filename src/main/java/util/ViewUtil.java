@@ -42,6 +42,10 @@ public class ViewUtil {
             List<FriendRequest> friendRequestList = Main.friendRequestDAO.getFriendRequestsByUser(currentUser);
             model.put("friendRequestList", friendRequestList);
 
+            if (currentUser.getProfileImage() == null) {
+
+            }
+
             //Inicializo la lista de amigos
             List<User> friends = Main.userDAO.getFriends(currentUser);
             currentUser.setFriendList(friends);

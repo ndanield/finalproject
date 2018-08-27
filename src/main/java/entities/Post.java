@@ -19,6 +19,9 @@ public class Post {
     @OneToOne
     private Image image;
 
+    @OneToOne
+    private User taggedUser;
+
     public Post() {
     }
 
@@ -30,12 +33,12 @@ public class Post {
         this.image = image;
     }
 
-    public Post(String content, Date date, User user, Image image) {
+    public Post(String content, Date date, User user, Image image, User taggedUser) {
         this.content = content;
         this.date = date;
         this.user = user;
         this.image = image;
-
+        this.taggedUser = taggedUser;
     }
 
     public long getId() {
@@ -68,5 +71,13 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getTaggedUser() {
+        return taggedUser;
+    }
+
+    public void setTaggedUser(User taggedUser) {
+        this.taggedUser = taggedUser;
     }
 }

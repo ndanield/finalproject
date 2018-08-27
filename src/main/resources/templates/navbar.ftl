@@ -8,7 +8,11 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav ml-auto">
-            <img src="/images/monkey-face.png" alt="Avatar" class="avatar"/>
+            <#if currentUser.profileImage??>
+                <img src="${ currentUser.profileImage.path }" alt="Avatar" class="avatar"/>
+            <#else>
+                <img src="/images/zeldris.jpg" class="avatar" alt="avatar">
+            </#if>
             <li class="nav-item active">
                 <a class="nav-link" href="/walls/${ currentUser.username }" data-toggle="tooltip" data-placement="top" title="Perfil" data-original-title="Tooltip on top">
                     <span>${ currentUser.name }</span>
@@ -60,7 +64,11 @@
     <#list friendRequestList>
         <#items as friendRequest>
             <div class="friend-request">
-                <img class="avatar" src="/images/monkey-face.png" alt="perfil">
+                <#if friendRequest.requestUser.profileImage??>
+                    <img class="avatar" src="${ friendRequest.requestUser.profileImage.path }" alt="perfil">
+                <#else >
+                    <img src="/images/zeldris.jpg" alt="avatar">
+                </#if>
                 <span><strong>${ friendRequest.requestUser.name + " " +  friendRequest.requestUser.lastname }</strong> quiere ser t&uacute; amigo</span>
                 <form action="/friendRequest/accept/${ friendRequest.requestUser.username }" method="post" class="d-inline">
                     <button type="submit" class="btn btn-sm btn-primary">Aceptar</button>
