@@ -8,8 +8,7 @@
                 </div>
                 <div class="form-inline">
                     <div class="form-group">
-                        <label for="tag">Etiqueta a un amigo:</label>
-                        <select class="form-control form-control-sm" name="tag" id="tag">
+                        <select class="form-control form-control-sm" name="tag" id="tag" title="Etiqueta a un amigo">
                             <option value="#">Etiqueta a un amigo</option>
                             <#list friendList>
                                 <#items as friend>

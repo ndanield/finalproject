@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        Lista de amigos
+        <span class="card-title">Amigos</span>
     </div>
     <#if friendList?size gt 0>
     <#list friendList>
