@@ -4,11 +4,7 @@
         <#items as post>
             <div class="card mb-3">
                 <div class="card-header">
-                    <#if wallOwner.username != currentUser.username>
-                        <h5 class="card-title"><strong>${ post.user.name }</strong> hizo una publicación </h5>
-                    <#else>
-                        <h5 class="card-title"><strong>Tú</strong> hiciste una publicación </h5>
-                    </#if>
+                    <h5 class="card-title"><strong>${ post.user.name }</strong> hizo una publicación </h5>
                     <h6 class="card-subtitle text-muted"><time datetime="${ post.date }">${ post.date }</time></span></h6>
                 </div>
 

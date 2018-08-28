@@ -51,6 +51,12 @@
             </#if>
 
             <#include "friendList.ftl">
+
+            <div class="card">
+                <div class="card-body" id="gpsPos">
+                <#--<p id="gpsPos">...</p>-->
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-5 mx-auto">

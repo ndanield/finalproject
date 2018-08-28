@@ -29,16 +29,33 @@ public class PostDAO extends DAOImpl<Post, Long> {
 
     /**
      * Busca la lista de publicaciones que realizo el usuario pasado por parametro
-     * @param position
      * @param user
      * @return
      */
-    public List<Post> findSomeByUser(int position, User user) {
+    public List<Post> findSomeByUser(User user) {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Post> query = em.createQuery("from Post p where p.user = :user order by p.date desc", Post.class);
-        query.setParameter("user", user);
-        query.setMaxResults(10);
-        query.setFirstResult(position);
-        return query.getResultList();
+        try {
+            TypedQuery<Post> query = em.createQuery("from Post p where p.user = :user order by p.date desc", Post.class);
+            query.setParameter("user", user);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Post> findAll() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Post> query = em.createQuery("from Post p order by p.date desc", Post.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        } finally {
+            em.close();
+        }
     }
 }

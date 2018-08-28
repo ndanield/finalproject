@@ -111,18 +111,28 @@ public class Main {
         // Auth routes
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
-            model.put("postList", new ArrayList<Post>());
+            User currentUser = request.session().attribute("currentUser");
+            List<Post> postFiltrados = new ArrayList<>();
+            List<User> amigos = userDAO.getFriends(currentUser);
+
+            for (Post post :
+                    postDAO.findAll()) {
+
+                if (amigos.contains(post.getUser()) || post.getUser().equals(currentUser)) {
+                    postFiltrados.add(post);
+                }
+             }
+            
+            model.put("postList", postFiltrados);
             return ViewUtil.render(request, model, Path.INDEX) ;
         });
 
         get("/walls/:user", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
-//            int page = Integer.parseInt(request.queryParams("page"));
-            int page = 0;
             
             User currentUser = request.session().attribute("currentUser");
             User wallOwner = userDAO.find(request.params("user"));
-            List<Post> postList = postDAO.findSomeByUser( page * 10 , wallOwner);
+            List<Post> postList = postDAO.findSomeByUser(wallOwner);
             FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
             boolean isFriend = userDAO.getFriends(currentUser).contains(wallOwner); // Son amigos?
 
@@ -199,7 +209,14 @@ public class Main {
             user.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(request.queryParams("bornDate")));
             user.setAdministrator(false);
             user.setCity(request.queryParams("city"));
-            user.setProfileImage(new Image("/images/monkey-face.png"));
+            Image perfil = new Image("/images/monkey-face.png");
+            imageDAO.persist(perfil);
+            Image portrait = new Image("/images/default-portrait.png");
+            imageDAO.persist(portrait);
+            user.setProfileImage(perfil);
+            user.setPortraitImage(portrait);
+            user.setEstudyPlace(null);
+            user.setWorkPlace(null);
 
             userDAO.persist(user);
 
