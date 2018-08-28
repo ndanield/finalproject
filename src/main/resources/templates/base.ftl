@@ -21,6 +21,12 @@
         <script type="text/javascript" src="/js/bootstrap.js"></script>
         <script type="text/javascript" src="/js/myGpsLocator.js"></script>
         <script type="text/javascript" src="/js/friendRequestPopover.js"></script>
+        <script type="text/javascript" src="/js/city.js"></script>
+        <script type="text/javascript" src="/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="/js/jquery.validate.additional-methods.js"></script>
+        <script type="text/javascript" src="/js/register.js"></script>
+        <script src="/js/postValidation.js"></script>
+        <script src="/js/myAjax.js"></script>
         <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcn110_QgbCgAWXpEjN0stLtvBt9ZtqFw&callback=initMap">
         </script>

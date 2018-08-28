@@ -28,19 +28,20 @@
 
                 <div class="card-body">
                     <div class="like-panel">
-                        <form action="" method="POST" style="display: inline">
-                            <button class="btn btn-sm btn-outline-success" name="vote" value="like">
-                                <i class="fa fa-thumbs-up"></i>&nbsp;Me gusta&nbsp;<span class="badge badge-light">0</span>
+                        <form class="ajax" action="/post/vote" method="POST" style="display: inline;" data-id="${post.id}" data-type="like">
+                            <button class="btn btn-sm btn-outline-success" name="like" value="like">
+                                <i class="fa fa-thumbs-up"></i>&nbsp;Me gusta&nbsp;
+                                <span id="badge-like${post.id}" class="badge badge-light">${ post.getLikesCount() }</span>
                             </button>
                         </form>
-                        <form action="" method="POST" style="display: inline;">
-                            <button class="btn btn-sm btn-outline-danger" name="vote" value="dislike">
-                                <i class="fa fa-thumbs-down"></i>&nbsp;No me gusta&nbsp;<span class="badge badge-light">0</span>
+                        <form class="ajax" action="/post/vote" method="POST" style="display: inline;" data-id="${post.id}" data-type="dislike">
+                            <button class="btn btn-sm btn-outline-danger" name="dislike" value="dislike">
+                                <i class="fa fa-thumbs-down"></i>&nbsp;No me gusta&nbsp;
+                                <span id="badge-dislike${post.id}" class="badge badge-light">${ post.getDislikesCount() }</span>
                             </button>
                         </form>
                     </div>
                 </div>
-
 
                 <div class="card-footer text-muted">
                     No se ha comentado este post

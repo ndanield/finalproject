@@ -1,7 +1,9 @@
 package entities;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -21,6 +23,9 @@ public class Post {
 
     @OneToOne
     private User taggedUser;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
+    private List<Vote> voteList;
 
     public Post() {
     }
@@ -79,5 +84,27 @@ public class Post {
 
     public void setTaggedUser(User taggedUser) {
         this.taggedUser = taggedUser;
+    }
+
+    public long getLikesCount() {
+        long likes = 0;
+        for (Vote vote :
+                voteList) {
+            if (vote.getType().equals("like")) {
+                likes++;
+            }
+        }
+        return likes;
+    }
+
+    public long getDislikesCount() {
+        long dislikes = 0;
+        for (Vote vote :
+                voteList) {
+            if (vote.getType().equals("dislike")) {
+                dislikes++;
+            }
+        }
+        return dislikes;
     }
 }

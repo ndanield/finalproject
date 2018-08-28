@@ -10,6 +10,8 @@
         <class>entities.Notification</class>
         <class>entities.FriendRequest</class>
         <class>entities.Image</class>
+        <class>entities.Comment</class>
+        <class>entities.Vote</class>
         <properties>
             <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />-->
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/~/final" />

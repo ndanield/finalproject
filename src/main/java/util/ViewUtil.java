@@ -1,6 +1,7 @@
 package util;
 
 import entities.FriendRequest;
+import entities.Notification;
 import entities.User;
 import freemarker.template.Configuration;
 import main.Main;
@@ -42,11 +43,7 @@ public class ViewUtil {
             List<FriendRequest> friendRequestList = Main.friendRequestDAO.getFriendRequestsByUser(currentUser);
             model.put("friendRequestList", friendRequestList);
 
-            if (currentUser.getProfileImage() == null) {
-
-            }
-
-            //Inicializo la lista de amigos
+            // Inicializo la lista de amigos
             List<User> friends = Main.userDAO.getFriends(currentUser);
             currentUser.setFriendList(friends);
             model.put("friendList", friends);
@@ -55,8 +52,8 @@ public class ViewUtil {
             model.put("suggestedFriendList", Main.userDAO.getSuggestedFriends(currentUser));
         }
 
-//        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);
-//        model.put("notificationList", notificationList);
+        List<Notification> notificationList = Main.notificationDAO.findByTargetUser(currentUser);
+        model.put("notificationList", notificationList);
 
         model.put("currentUser", currentUser);
 

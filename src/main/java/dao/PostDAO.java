@@ -26,6 +26,13 @@ public class PostDAO extends DAOImpl<Post, Long> {
     }
 
     // Post Controller
+
+    /**
+     * Busca la lista de publicaciones que realizo el usuario pasado por parametro
+     * @param position
+     * @param user
+     * @return
+     */
     public List<Post> findSomeByUser(int position, User user) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Post> query = em.createQuery("from Post p where p.user = :user order by p.date desc", Post.class);

@@ -40,9 +40,9 @@ public class Main {
     public static FriendRequestDAO friendRequestDAO;
     public static NotificationDAO notificationDAO;
     private static ImageDAO imageDAO;
+    private static VoteDAO voteDAO;
 
     private final static String ACCEPT_TYPE_JSON = "application/json";
-
 
     public static void main(String[] args) {
         // Launch Database
@@ -56,6 +56,7 @@ public class Main {
         friendRequestDAO = new FriendRequestDAO(FriendRequest.class);
         notificationDAO = new NotificationDAO(Notification.class);
         imageDAO = new ImageDAO(Image.class);
+        voteDAO = new VoteDAO(Vote.class);
         Gson gson = new Gson();
 
         // Launch SOAP Services
@@ -138,13 +139,27 @@ public class Main {
 
             request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 
+            String username = request.queryParams("tag");
+            User taggedUser = userDAO.find(username);
+
+            if (taggedUser != null) {
+                Notification tagNotification = new Notification();
+                tagNotification.setDate(new Date());
+                tagNotification.setDescription(user.getUsername() + " te ha etiquetado en su " + "publicación");
+                tagNotification.setType(NotificationType.TAGGED);
+                tagNotification.setSeen(false);
+                tagNotification.setUser(taggedUser);
+                notificationDAO.persist(tagNotification);
+            }
+
             Post post = new Post();
-            post.setContent(request.queryParams("post-content"));
+            post.setContent(request.queryParams("postContent"));
             post.setDate(new Date());
             post.setUser(user);
+            post.setTaggedUser(taggedUser);
 
             java.nio.file.Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
-            Part part = request.raw().getPart("unploadImage");
+            Part part = request.raw().getPart("uploadImage");
             if (!part.getSubmittedFileName().isEmpty()) {
                 try (InputStream input = part.getInputStream()) {
                     Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
@@ -260,10 +275,6 @@ public class Main {
         });
 
         get("/logout", (request, response) -> {
-            /*request.session().removeAttribute("currentUser");
-            request.session().attribute("loggedOut", true);
-            response.redirect(Path.LOGIN);
-            return null;*/
             Session activeSession = request.session();
             activeSession.invalidate();
             response.removeCookie("cookie");
@@ -418,6 +429,32 @@ public class Main {
 
             return null;
         });*/
+
+
+        post("/post/vote", (req, res) -> {
+            Long postid = Long.parseLong(req.queryParams("id"));
+            String type = req.queryParams("type");
+
+            User currentUser = req.session().attribute("currentUser");
+            Post post = postDAO.find(postid);
+
+            Vote vote = voteDAO.findByUserNPost(postid, currentUser.getUsername());
+
+            if (vote != null) {
+                vote.setType(type);
+                voteDAO.update(vote);
+            } else {
+                vote = new Vote(type, currentUser, post);
+                voteDAO.persist(vote);
+            }
+
+            String[] counts = new String[2];
+            counts[0] = voteDAO.voteCountByPost(postid, "like");
+            counts[1] = voteDAO.voteCountByPost(postid, "dislike");
+
+            return counts[0] + "," + counts[1];
+        });
+
     }
 
     // User Controller
