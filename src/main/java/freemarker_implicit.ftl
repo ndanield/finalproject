@@ -6,7 +6,7 @@
 [#-- @ftlvariable name="postList" type="java.util.List<entities.Post>" --]
 [#-- @ftlvariable name="wallOwner" type="entities.User" --]
 [#-- @ftlvariable name="isFriend" type="boolean" file="templates/Wall/wall.ftl" --]
-[#-- @ftlvariable name="suggestedFriendList" type="java.util.List<User>" file="templates/Index/index.ftl" --]
+[#-- @ftlvariable name="suggestedFriendList" type="java.util.List<entities.User>" file="templates/Index/index.ftl" --]
 [#-- @ftlvariable name="friendRequest" type="entities.FriendRequest" --]
 [#-- @ftlvariable name="friendRequestList" type="java.util.List<FriendRequest>" file="templates/navbar.ftl" --]
 [#-- @ftlvariable name="bodyBackground" type="java.lang.String" file="templates/base.ftl" --]

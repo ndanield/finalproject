@@ -20,7 +20,7 @@
         <script type="text/javascript" src="/js/popper.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
         <script type="text/javascript" src="/js/myGpsLocator.js"></script>
-        <script type="text/javascript" src="/js/friendRequestPopover.js"></script>
+        <script type="text/javascript" src="/js/popover.js"></script>
         <script type="text/javascript" src="/js/city.js"></script>
         <script type="text/javascript" src="/js/jquery.validate.js"></script>
         <script type="text/javascript" src="/js/jquery.validate.additional-methods.js"></script>

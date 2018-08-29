@@ -18,7 +18,7 @@ public class Post {
     @ManyToOne
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Image image;
 
     @OneToOne

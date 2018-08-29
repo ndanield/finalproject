@@ -34,10 +34,10 @@ public class User implements Serializable {
 
     private String city;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Image profileImage;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Image portraitImage;
 
 //     De aqui para abajo son datos que se llenan al interactuar con el sistema

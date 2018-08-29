@@ -19,6 +19,9 @@ public class Notification implements Serializable {
     private boolean seen;
 
     @ManyToOne
+    private User senderUser;
+
+    @ManyToOne
     private User user;
 
     private Date date;
@@ -26,11 +29,12 @@ public class Notification implements Serializable {
     public Notification() {
     }
 
-    public Notification(long id, NotificationType type, String description, boolean seen, User user, Date date) {
+    public Notification(long id, NotificationType type, String description, boolean seen,User senderUser, User user, Date date) {
         this.id = id;
         this.type = type;
         this.description = description;
         this.seen = seen;
+        this.senderUser = senderUser;
         this.user = user;
         this.date = date;
     }
@@ -81,5 +85,13 @@ public class Notification implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public User getSenderUser() {
+        return senderUser;
+    }
+
+    public void setSenderUser(User senderUser) {
+        this.senderUser = senderUser;
     }
 }

@@ -156,9 +156,10 @@ public class Main {
             if (taggedUser != null) {
                 Notification tagNotification = new Notification();
                 tagNotification.setDate(new Date());
-                tagNotification.setDescription(user.getUsername() + " te ha etiquetado en su " + "publicación");
+                tagNotification.setDescription(user.getName() +" " + user.getLastname() + " te ha etiquetado en su " + "publicación");
                 tagNotification.setType(NotificationType.TAGGED);
                 tagNotification.setSeen(false);
+                tagNotification.setSenderUser(user);
                 tagNotification.setUser(taggedUser);
                 notificationDAO.persist(tagNotification);
             }
@@ -350,15 +351,17 @@ public class Main {
 
         post("/friendRequest/:target-user", (request, response) -> {
             User targetUser = userDAO.find(request.params("target-user"));
+            User currentUser = request.session().attribute("currentUser");
             FriendRequest friendRequest = new FriendRequest();
-            friendRequest.setRequestUser(request.session().attribute("currentUser"));
+            friendRequest.setRequestUser(currentUser);
             friendRequest.setAccepted(false);
             friendRequest.setTargetUser(targetUser);
             friendRequestDAO.persist(friendRequest);
 
             Notification notification = new Notification();
-            notification.setDescription(targetUser.getName() + " te ha mandado una solicitud de amistad");
+            notification.setDescription(currentUser.getName() + " " + currentUser.getLastname() + " te ha mandado una solicitud de amistad");
             notification.setType(NotificationType.FRIEND_REQUEST);
+            notification.setSenderUser(currentUser);
             notification.setUser(targetUser);
             notification.setDate(new Date());
             notification.setSeen(false);
