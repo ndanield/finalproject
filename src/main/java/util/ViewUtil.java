@@ -43,10 +43,8 @@ public class ViewUtil {
             List<FriendRequest> friendRequestList = Main.friendRequestDAO.getFriendRequestsByUser(currentUser);
             model.put("friendRequestList", friendRequestList);
 
-            // Inicializo la lista de amigos
-            List<User> friends = Main.userDAO.getFriends(currentUser);
-            currentUser.setFriendList(friends);
-            model.put("friendList", friends);
+            // Inicializo la lista de amigos para el current User porque se usa esa lista en suggested friends
+            currentUser.setFriendList(Main.userDAO.getFriends(currentUser));
 
             // Esto no esta aqui por casualidad moverlo de aqui sin saber que hace puede provocar explosiones
             model.put("suggestedFriendList", Main.userDAO.getSuggestedFriends(currentUser));

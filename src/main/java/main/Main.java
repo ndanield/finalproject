@@ -132,11 +132,12 @@ public class Main {
             
             User currentUser = request.session().attribute("currentUser");
             User wallOwner = userDAO.find(request.params("user"));
-            List<Post> postList = postDAO.findSomeByUserTagged(wallOwner);
-            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
-            boolean isFriend = userDAO.getFriends(currentUser).contains(wallOwner); // Son amigos?
 
-            model.put("isFriend", isFriend);
+            wallOwner.setFriendList(userDAO.getFriends(wallOwner));
+
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
+            List<Post> postList = postDAO.findSomeByUserTagged(wallOwner);
+
             model.put("friendRequest", friendRequest);
             model.put("postList", postList);
             model.put("wallOwner", wallOwner);

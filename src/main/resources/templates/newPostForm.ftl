@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <select class="form-control custom-select custom-select-sm" name="tag" id="tag" title="Etiqueta a un amigo">
                             <option value="#">Etiqueta a un amigo</option>
-                            <#list friendList>
+                            <#list currentUser.friendList>
                                 <#items as friend>
                                     <option value="${ friend.username }">${friend.name} ${friend.lastname}</option>
                                 </#items>
@@ -22,7 +22,7 @@
                     </div>
                 </#if>
                 <div class="form-group upload-btn-wrapper">
-                    <button type="button" class="btn btn-link mx-1"><i class="fa fa-lg fa-image"></i></button>
+                    <button type="button" class="btn btn-secondary mx-1"><i class="fa fa-lg fa-image"></i></button>
                     <input type="file" name="uploadImage">
                 </div>
                 <button type="submit" class="btn btn-success">Publicar</button>
