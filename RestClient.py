@@ -1,3 +1,5 @@
+import base64
+
 import unirest
 import json
 
@@ -41,7 +43,9 @@ while True:
     elif opcion == "2":
         content = raw_input("Introduce el contenido en texto:")
         image = raw_input("Introduzca ruta de imagen:")
+        with open(image, "rb") as imageFile:
+            image_b64 = base64.b64encode(imageFile.read())
         user = raw_input("introduzca usuario:")
-        print createPost(content, image, user)
+        print createPost(content, image_b64, user)
     elif opcion == "3":
         break
