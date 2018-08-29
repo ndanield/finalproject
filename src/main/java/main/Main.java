@@ -156,7 +156,7 @@ public class Main {
             if (taggedUser != null) {
                 Notification tagNotification = new Notification();
                 tagNotification.setDate(new Date());
-                tagNotification.setDescription(user.getName() +" " + user.getLastname() + " te ha etiquetado en su " + "publicación");
+                tagNotification.setDescription(user.getName() +" " + user.getLastname() + " te ha etiquetado en su " + "publicación. Revisa tú muro.");
                 tagNotification.setType(NotificationType.TAGGED);
                 tagNotification.setSeen(false);
                 tagNotification.setSenderUser(user);
@@ -358,15 +358,15 @@ public class Main {
             friendRequest.setTargetUser(targetUser);
             friendRequestDAO.persist(friendRequest);
 
-            Notification notification = new Notification();
-            notification.setDescription(currentUser.getName() + " " + currentUser.getLastname() + " te ha mandado una solicitud de amistad");
-            notification.setType(NotificationType.FRIEND_REQUEST);
-            notification.setSenderUser(currentUser);
-            notification.setUser(targetUser);
-            notification.setDate(new Date());
-            notification.setSeen(false);
-
-            notificationDAO.persist(notification);
+//            Notification notification = new Notification();
+//            notification.setDescription(currentUser.getName() + " " + currentUser.getLastname() + " te ha mandado una solicitud de amistad");
+//            notification.setType(NotificationType.FRIEND_REQUEST);
+//            notification.setSenderUser(currentUser);
+//            notification.setUser(targetUser);
+//            notification.setDate(new Date());
+//            notification.setSeen(false);
+//
+//            notificationDAO.persist(notification);
 
             response.redirect("/walls/"+targetUser.getUsername());
             return null;
@@ -380,11 +380,13 @@ public class Main {
 //            return null;
 //        });
 //
-//        post("/descartNotification", (request, response) -> {
-//
-//            response.redirect("");
-//            return null;
-//        });
+        get("/descartNotification/:notification_id/:user", (request, response) -> {
+            Notification notification = notificationDAO.find(Long.parseLong(request.params("notification_id")));
+            notification.setSeen(true);
+            notificationDAO.update(notification);
+            response.redirect("/walls/"+request.params("user"));
+            return null;
+        });
 
         post("isUsernameAvailable", (request, response) -> {
             if (userDAO.find(request.queryParams("username")) != null) {

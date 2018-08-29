@@ -22,10 +22,10 @@
                     </div>
                 </#if>
                 <div class="form-group upload-btn-wrapper">
-                    <button type="button" class="btn btn-link btn-sm"><i class="fa fa-2x fa-image"></i></button>
+                    <button type="button" class="btn btn-link mx-1"><i class="fa fa-lg fa-image"></i></button>
                     <input type="file" name="uploadImage">
                 </div>
-                <button type="submit" class="btn btn-success btn-sm">Publicar</button>
+                <button type="submit" class="btn btn-success">Publicar</button>
             </div>
         </form>
     </div>

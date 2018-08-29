@@ -16,7 +16,7 @@ public class NotificationDAO extends DAOImpl<Notification, Long> {
     public List<Notification> findByTargetUser(User targetUser) {
         EntityManager em = emf.createEntityManager();
         try {
-            String qlString = "from Notification n where n.user = :targetUser";
+            String qlString = "from Notification n where n.user = :targetUser and n.seen = false";
             TypedQuery<Notification> q = em.createQuery(qlString, Notification.class);
             return q.setParameter("targetUser", targetUser).getResultList();
         } finally {

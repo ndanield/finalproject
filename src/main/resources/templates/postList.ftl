@@ -6,6 +6,9 @@
                 <div class="card-header">
                     <h5 class="card-title"><strong>${ post.user.name }</strong> hizo una publicación </h5>
                     <h6 class="card-subtitle text-muted"><time datetime="${ post.date }">${ post.date }</time></span></h6>
+                    <#if post.taggedUser??>
+                        <span class="card-subtitle text-muted"><i class="fas fa-tag"></i> Usuario etiquetado: ${post.taggedUser.name} ${post.taggedUser.lastname}</span>
+                    </#if>
                 </div>
 
                 <#if post.image?has_content>
@@ -23,11 +26,6 @@
                 </#if>
 
                 <hr>
-
-                <#--<#if post.taggedUser??>-->
-                    <#--<span class="my-panel">Usuario etiquetado: ${post.taggedUser.name} ${post.taggedUser.lastname}</span>-->
-                    <#--<hr>-->
-                <#--</#if>-->
 
                 <div class="my-panel">
                     <form class="ajax" action="/post/vote" method="POST" style="display: inline;" data-id="${post.id}" data-type="like">

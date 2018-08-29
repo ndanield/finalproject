@@ -82,17 +82,17 @@
 <div id="popover2_content_wrapper" class="d-none">
     <#list notificationList>
         <#items as notification>
-            <div class="">
+            <div class="link-pane">
                 <#if notification.senderUser.profileImage??>
                     <img class="avatar" src="${ notification.senderUser.profileImage.path}" alt="avatar">
                 <#else >
                     <img src="/images/zeldris.jpg" alt="avatar">
                 </#if>
                 <span><strong>${ notification.description }</span>
-                <#--<form action="/descartNotification" method="post" class="d-inline">-->
-                    <#--<input type="hidden" name="id" value="${notification.id}">-->
-                    <#--<button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-times-circle"></i></button>-->
-                <#--</form>-->
+
+                <a href="/descartNotification/${notification.id}/${currentUser.username}">
+                    <span class="link-spanner"></span>
+                </a>
             </div>
         </#items>
     </#list>
