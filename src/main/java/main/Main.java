@@ -331,7 +331,24 @@ public class Main {
            });
         });
 
-        get("/album", (request, response) -> ViewUtil.render(request, new HashMap<>(), Path.ALBUM));
+        get("/album", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            User currentUser = request.session().attribute("currentUser");
+            User wallOwner = userDAO.find(request.params("user"));
+
+            wallOwner.setFriendList(userDAO.getFriends(wallOwner));
+
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
+//            List<Post> postList = postDAO.findSomeByUserTagged(wallOwner);
+
+            model.put("friendRequest", friendRequest);
+//            model.put("postList", postList);
+            model.put("wallOwner", wallOwner);
+            model.put("previousRoute", request.pathInfo());
+
+            return ViewUtil.render(request, new HashMap<>(), Path.ALBUM);
+        });
 
         post("/album", (request, response) -> {
 
