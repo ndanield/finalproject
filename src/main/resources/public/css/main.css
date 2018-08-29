@@ -2,22 +2,25 @@ html, body {
     height: 100%;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 .content {
     flex: 1 0 auto;
-    padding: 20px;
+    padding-top: 20px;
+    /*padding: 20px;*/
 }
 
 .footer {
     background-color: lightgray;
+    flex-shrink: 0;
 }
 
-.likes-panel {
-    margin: 12px 0;
-}
-
-.likes-panel form {
-    display: inline-grid;
-    margin-right: 6px;
+.my-panel {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
 }
 
 .avatar {
@@ -103,6 +106,7 @@ html, body {
     position: sticky;
     position: -webkit-sticky;
     top: 0;
+    box-shadow: 0 4px 6px 0 lightgray;
 }
 
 .autocomplete {
@@ -262,6 +266,11 @@ html, body {
 
 .friend-list-group {
     background-color: white;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.friend-list-group:last-child {
+    border-bottom: 0;
 }
 
 .friend-list-group:hover {

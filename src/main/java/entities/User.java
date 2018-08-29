@@ -206,6 +206,10 @@ public class User implements Serializable {
         this.friendList = friendList;
     }
 
+    public boolean isFriend(User user) {
+        return this.friendList.contains(user);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

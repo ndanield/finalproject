@@ -122,7 +122,7 @@ public class Main {
                     postFiltrados.add(post);
                 }
              }
-            
+            model.put("previousRoute", request.pathInfo());
             model.put("postList", postFiltrados);
             return ViewUtil.render(request, model, Path.INDEX) ;
         });
@@ -132,7 +132,7 @@ public class Main {
             
             User currentUser = request.session().attribute("currentUser");
             User wallOwner = userDAO.find(request.params("user"));
-            List<Post> postList = postDAO.findSomeByUser(wallOwner);
+            List<Post> postList = postDAO.findSomeByUserTagged(wallOwner);
             FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
             boolean isFriend = userDAO.getFriends(currentUser).contains(wallOwner); // Son amigos?
 
@@ -140,6 +140,7 @@ public class Main {
             model.put("friendRequest", friendRequest);
             model.put("postList", postList);
             model.put("wallOwner", wallOwner);
+            model.put("previousRoute", request.pathInfo());
 
             return ViewUtil.render(request, model, Path.WALL);
         });
@@ -186,7 +187,7 @@ public class Main {
 
             postDAO.persist(post);
 
-            response.redirect("/walls/" + user.getUsername());
+            response.redirect(request.queryParams("redirectPath"));
 
             return null;
         });
@@ -368,13 +369,19 @@ public class Main {
             return null;
         });
 
-        get("/friendRequest/delete/:request-user", (request, response) -> {
-            User requestUser = userDAO.find(request.params("request-user"));
-            User targetUser = request.session().attribute("currentUser");
-            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, targetUser);
-            friendRequestDAO.remove(friendRequest);
-            return null;
-        });
+//        get("/friendRequest/delete/:request-user", (request, response) -> {
+//            User requestUser = userDAO.find(request.params("request-user"));
+//            User targetUser = request.session().attribute("currentUser");
+//            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, targetUser);
+//            friendRequestDAO.remove(friendRequest);
+//            return null;
+//        });
+//
+//        post("/descartNotification", (request, response) -> {
+//
+//            response.redirect("");
+//            return null;
+//        });
 
         post("isUsernameAvailable", (request, response) -> {
             if (userDAO.find(request.queryParams("username")) != null) {

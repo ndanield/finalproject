@@ -33,20 +33,20 @@
                     <span>Solicitudes</span>
                 </a>
             </li>
-            <#--<li class="nav-item">-->
-                <#--<a class="nav-link" data-toggle="popover" data-placement="bottom" title="Notificaciones">-->
-                    <#--<#if notificationList?size gt 0 >-->
-                        <#--<span class="badge badge-notify">${ notificationList?size }</span>-->
-                    <#--</#if>-->
-                    <#--<i class="fa fa-bell fa-lg" aria-hidden="true"></i>-->
-                    <#--<span>Notificaciones</span>-->
-                <#--</a>-->
-            <#--</li>-->
+            <li class="nav-item">
+                <a id="notificationPopover" class="nav-link" data-toggle="popover" data-container="body" data-placement="bottom" data-title="Notificaciones">
+                    <#if notificationList?size gt 0 >
+                        <span class="badge badge-notify">${ notificationList?size }</span>
+                    </#if>
+                    <i class="fa fa-bell fa-lg"></i>
+                    <span>Notificaciones</span>
+                </a>
+            </li>
             <#if currentUser.administrator >
                 <li class="nav-item">
                     <a class="nav-link" href="/userlist" data-toggle="tooltip" data-placement="bottom" title="Ajustes">
                         <i class="fa fa-cog fa-lg"></i>
-                        <span>Ajustes</span>
+                        <span>Administrar</span>
                     </a>
                 </li>
             </#if>
@@ -72,10 +72,26 @@
                 <span><strong>${ friendRequest.requestUser.name + " " +  friendRequest.requestUser.lastname }</strong> quiere ser t&uacute; amigo</span>
                 <form action="/friendRequest/accept/${ friendRequest.requestUser.username }" method="post" class="d-inline">
                     <button type="submit" class="btn btn-sm btn-primary">Aceptar</button>
-                    <a href="/friendRequest/delete/${ friendRequest.requestUser.username }" class="btn btn-sm btn-secondary">Rechazar</a>
                 </form>
-                    <#--TODO - este input solo tiene propositos de prueba-->
-                    <#--<input type="hidden" name="loginRedirect" value="${ re }">-->
+            </div>
+        </#items>
+    </#list>
+</div>
+
+<div id="popover2_content_wrapper" class="d-none">
+    <#list notificationList>
+        <#items as notification>
+            <div class="friend-request">
+                <#if notification.user.profileImage??>
+                    <img class="avatar" src="${ notification.user.profileImage.path }" alt="avatar">
+                <#else >
+                    <img src="/images/zeldris.jpg" alt="avatar">
+                </#if>
+                <span><strong>${ notification.description }</span>
+                <#--<form action="/descartNotification" method="post" class="d-inline">-->
+                    <#--<input type="hidden" name="id" value="${notification.id}">-->
+                    <#--<button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-times-circle"></i></button>-->
+                <#--</form>-->
             </div>
         </#items>
     </#list>

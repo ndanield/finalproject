@@ -1,5 +1,8 @@
 [#ftl]
 [#-- @implicitly included --]
+[#-- @ftlvariable name="notificationList" type="java.util.List<entities.Notification>" --]
+[#-- @ftlroot "../resources/templates" --]
+[#-- @ftlvariable name="friendList" type="java.util.List<entities.User>" --]
 [#-- @ftlvariable name="postList" type="java.util.List<entities.Post>" --]
 [#-- @ftlvariable name="wallOwner" type="entities.User" --]
 [#-- @ftlvariable name="isFriend" type="boolean" file="templates/Wall/wall.ftl" --]
