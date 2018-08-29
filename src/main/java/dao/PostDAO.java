@@ -46,6 +46,25 @@ public class PostDAO extends DAOImpl<Post, Long> {
         }
     }
 
+    /**
+     * Busca la lista de publicaciones etiquetadas con el usuario que se pasa
+     * @param user
+     * @return
+     */
+    public List<Post> findSomeByUserTagged(User user) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Post> query = em.createQuery("from Post p where p.taggedUser = :user order by p.date desc", Post.class);
+            query.setParameter("user", user);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
     public List<Post> findAll() {
         EntityManager em = emf.createEntityManager();
         try {

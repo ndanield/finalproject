@@ -1,15 +1,15 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-<#include "navbar_auth.ftl">
+<#--<#include "navbar_auth.ftl">-->
 
-<div class="content">
+<div class="content container">
     <div class="row justify-content-around">
         <div class="col-lg-8">
             <h2 id="quoteText" class="centeredText" style="color: white"></h2>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-4 mb-4">
             <#if authenticationFailed!false>
                 <div class="alert alert-dismissible alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -21,7 +21,8 @@
                     <strong>¡Bien!</strong> Has iniciado sesión satisfactoriamente.
                 </div>
             </#if>
-            <div class="card border-primary mb-3 mx-auto">
+
+            <div class="card border-success mb-3 mx-auto">
                 <div class="card-body">
                     <h4 class="card-title" align="center" style="font-family: leaf,serif; font-size: 50px; color: #316a3a">BanaGreen</h4>
                     <form action="/login" method="post">
@@ -52,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="card border-primary mx-auto">
+            <div class="card border-success mx-auto">
                 <div class="card-body" align="center">
                     <p class="card-text">¿No tienes Cuenta? <a href="/register" class="card-link">registrate</a></p>
                 </div>

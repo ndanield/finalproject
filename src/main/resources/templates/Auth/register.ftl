@@ -1,16 +1,16 @@
 <#import "../base.ftl" as b>
 
 <@b.base>
-<#include "navbar_auth.ftl">
+<#--<#include "navbar_auth.ftl">-->
 
-<div class="content">
+<div class="content container">
     <div class="row justify-content-around">
         <div class="col-lg-8">
             <h2 class="card-text" style="color: white">Registrate en la red donde puedes compartir tus pensamientos</h2>
         </div>
 
-        <div class="col-lg-3">
-            <div class="card border-primary mb-3 mx-auto">
+        <div class="col-lg-4 mb-4">
+            <div class="card border-success mb-3 mx-auto">
                 <div class="card-body">
                     <h4 class="card-title" align="center" style="font-family: leaf,serif; font-size: 50px; color: #316a3a">BanaGreen</h4>
 
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="card border-primary mx-auto">
+            <div class="card border-success mx-auto">
                 <div class="card-body" align="center">
                     <p class="card-text">¿Tienes Cuenta? <a href="/login" class="card-link">Inicia Sesión</a></p>
                 </div>

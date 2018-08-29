@@ -2,8 +2,8 @@
     <div class="card-header">
         <span class="card-title">Amigos</span>
     </div>
-    <#if friendList?size gt 0>
-    <#list friendList>
+    <#if wallOwner.friendList?size gt 0>
+    <#list wallOwner.friendList>
     <div class="friend-list">
         <#items as friend>
         <div class="friend-list-group">

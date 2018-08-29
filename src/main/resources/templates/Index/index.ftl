@@ -9,18 +9,27 @@
             <div class="col">
                 <#if suggestedFriendList?has_content>
                     <div class="card">
-                        <div class="card-header">Sugerencias de amistad</div>
-                        <div class="card-body">
-                        <#list suggestedFriendList>
-                            <div class="list-group my-3 ">
-                            <#items as suggestedFriend>
-                                <a href="/walls/${ suggestedFriend.username }" class="list-group-item d-flex justify-content-between align-items-center">
-                                    ${ suggestedFriend.name + " " + suggestedFriend.lastname }
-                                </a>
-                            </#items>
-                            </div>
-                        </#list>
+                        <div class="card-header">
+                            <span class="card-title">Sugerencias de amistad</span>
                         </div>
+
+                        <#list suggestedFriendList>
+                        <div class="friend-list">
+                            <#items as suggestedFriend>
+                            <div class="friend-list-group">
+                                <#if suggestedFriend.profileImage??>
+                                    <img src="${ suggestedFriend.profileImage.path }" alt="Avatar" class="friend-list-pic">
+                                <#else>
+                                    <img src="/images/zeldris.jpg" alt="avatar">
+                                </#if>
+                                <a href="/walls/${ suggestedFriend.username }" class="friend-list-item">
+                                    ${ suggestedFriend.name } ${ suggestedFriend.lastname }
+                                </a>
+                                </div>
+                            </#items>
+                        </div>
+                        </#list>
+
                     </div>
                 </#if>
             </div>

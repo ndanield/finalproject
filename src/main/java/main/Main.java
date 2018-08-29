@@ -122,7 +122,7 @@ public class Main {
                     postFiltrados.add(post);
                 }
              }
-            
+            model.put("previousRoute", request.pathInfo());
             model.put("postList", postFiltrados);
             return ViewUtil.render(request, model, Path.INDEX) ;
         });
@@ -132,14 +132,16 @@ public class Main {
             
             User currentUser = request.session().attribute("currentUser");
             User wallOwner = userDAO.find(request.params("user"));
-            List<Post> postList = postDAO.findSomeByUser(wallOwner);
-            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
-            boolean isFriend = userDAO.getFriends(currentUser).contains(wallOwner); // Son amigos?
 
-            model.put("isFriend", isFriend);
+            wallOwner.setFriendList(userDAO.getFriends(wallOwner));
+
+            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
+            List<Post> postList = postDAO.findSomeByUserTagged(wallOwner);
+
             model.put("friendRequest", friendRequest);
             model.put("postList", postList);
             model.put("wallOwner", wallOwner);
+            model.put("previousRoute", request.pathInfo());
 
             return ViewUtil.render(request, model, Path.WALL);
         });
@@ -155,9 +157,10 @@ public class Main {
             if (taggedUser != null) {
                 Notification tagNotification = new Notification();
                 tagNotification.setDate(new Date());
-                tagNotification.setDescription(user.getUsername() + " te ha etiquetado en su " + "publicación");
+                tagNotification.setDescription(user.getName() +" " + user.getLastname() + " te ha etiquetado en su " + "publicación. Revisa tú muro.");
                 tagNotification.setType(NotificationType.TAGGED);
                 tagNotification.setSeen(false);
+                tagNotification.setSenderUser(user);
                 tagNotification.setUser(taggedUser);
                 notificationDAO.persist(tagNotification);
             }
@@ -186,7 +189,7 @@ public class Main {
 
             postDAO.persist(post);
 
-            response.redirect("/walls/" + user.getUsername());
+            response.redirect(request.queryParams("redirectPath"));
 
             return null;
         });
@@ -349,30 +352,40 @@ public class Main {
 
         post("/friendRequest/:target-user", (request, response) -> {
             User targetUser = userDAO.find(request.params("target-user"));
+            User currentUser = request.session().attribute("currentUser");
             FriendRequest friendRequest = new FriendRequest();
-            friendRequest.setRequestUser(request.session().attribute("currentUser"));
+            friendRequest.setRequestUser(currentUser);
             friendRequest.setAccepted(false);
             friendRequest.setTargetUser(targetUser);
             friendRequestDAO.persist(friendRequest);
 
-            Notification notification = new Notification();
-            notification.setDescription(targetUser.getName() + " te ha mandado una solicitud de amistad");
-            notification.setType(NotificationType.FRIEND_REQUEST);
-            notification.setUser(targetUser);
-            notification.setDate(new Date());
-            notification.setSeen(false);
-
-            notificationDAO.persist(notification);
+//            Notification notification = new Notification();
+//            notification.setDescription(currentUser.getName() + " " + currentUser.getLastname() + " te ha mandado una solicitud de amistad");
+//            notification.setType(NotificationType.FRIEND_REQUEST);
+//            notification.setSenderUser(currentUser);
+//            notification.setUser(targetUser);
+//            notification.setDate(new Date());
+//            notification.setSeen(false);
+//
+//            notificationDAO.persist(notification);
 
             response.redirect("/walls/"+targetUser.getUsername());
             return null;
         });
 
-        get("/friendRequest/delete/:request-user", (request, response) -> {
-            User requestUser = userDAO.find(request.params("request-user"));
-            User targetUser = request.session().attribute("currentUser");
-            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, targetUser);
-            friendRequestDAO.remove(friendRequest);
+//        get("/friendRequest/delete/:request-user", (request, response) -> {
+//            User requestUser = userDAO.find(request.params("request-user"));
+//            User targetUser = request.session().attribute("currentUser");
+//            FriendRequest friendRequest = friendRequestDAO.getFriendRequest(requestUser, targetUser);
+//            friendRequestDAO.remove(friendRequest);
+//            return null;
+//        });
+//
+        get("/descartNotification/:notification_id/:user", (request, response) -> {
+            Notification notification = notificationDAO.find(Long.parseLong(request.params("notification_id")));
+            notification.setSeen(true);
+            notificationDAO.update(notification);
+            response.redirect("/walls/"+request.params("user"));
             return null;
         });
 

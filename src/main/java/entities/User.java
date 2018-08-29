@@ -34,10 +34,10 @@ public class User implements Serializable {
 
     private String city;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Image profileImage;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Image portraitImage;
 
 //     De aqui para abajo son datos que se llenan al interactuar con el sistema
@@ -204,6 +204,10 @@ public class User implements Serializable {
 
     public void setFriendList(List<User> friendList) {
         this.friendList = friendList;
+    }
+
+    public boolean isFriend(User user) {
+        return this.friendList.contains(user);
     }
 
     @Override
