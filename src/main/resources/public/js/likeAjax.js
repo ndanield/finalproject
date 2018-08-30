@@ -1,5 +1,4 @@
 $('form.ajax').off().on("submit", function (e) {
-    console.log(entraste)
     var url = $(this).attr("action");
     var id = $(this).data("id");
     var method = $(this).attr("method");
