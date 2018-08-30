@@ -49,12 +49,17 @@ while True:
             getPosts(tempUser)
         elif opcion == "2":
             tempContent = input("Introduzca el contenido en texto del post: ")
-            tempimage = input("Introduzca la ruta de la imagen: ")
-            with open(tempimage, "rb") as imageFile:
-                image_b64 = base64.b64encode(imageFile.read())
+            try:
+                tempimage = input("Introduzca la ruta de la imagen: ")
+                with open(tempimage, "rb") as imageFile:
+                    image_b64 = base64.b64encode(imageFile.read())
 
-            user = input("Introduzca el usuario que lo está creando: ")
-            createPost(tempContent, image_b64, user)
+                user = input("Introduzca el usuario que lo está creando: ")
+                createPost(tempContent, image_b64, user)
+            except:
+                user = input("Introduzca el usuario que lo está creando: ")
+                image_b64 = ""
+                createPost(tempContent, image_b64, user)
         elif opcion == "3":
             break
     else:
