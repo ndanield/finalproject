@@ -22,6 +22,25 @@ body {
     padding-right: 1.25rem;
 }
 
+.comment-table {
+    padding: 15px;
+}
+
+.comment {
+    min-height: 54px;
+    border-bottom: 1px solid lightgray;
+    padding: 1em 0;
+}
+
+.comment:last-child {
+    border-bottom: 0;
+}
+
+.comment-pic {
+    margin-top: 3px;
+    width: 64px;
+}
+
 .link-pane {
     position: relative;
 }

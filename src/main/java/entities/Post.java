@@ -27,6 +27,9 @@ public class Post {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<Vote> voteList;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "post")
+    private List<Comment> commentList;
+
     public Post() {
     }
 
@@ -84,6 +87,22 @@ public class Post {
 
     public void setTaggedUser(User taggedUser) {
         this.taggedUser = taggedUser;
+    }
+
+    public List<Vote> getVoteList() {
+        return voteList;
+    }
+
+    public void setVoteList(List<Vote> voteList) {
+        this.voteList = voteList;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 
     public long getLikesCount() {

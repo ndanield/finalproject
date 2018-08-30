@@ -41,6 +41,7 @@ public class Main {
     public static NotificationDAO notificationDAO;
     private static ImageDAO imageDAO;
     private static VoteDAO voteDAO;
+    private static CommentDAO commentDAO;
 
     private final static String ACCEPT_TYPE_JSON = "application/json";
 
@@ -57,6 +58,7 @@ public class Main {
         notificationDAO = new NotificationDAO(Notification.class);
         imageDAO = new ImageDAO(Image.class);
         voteDAO = new VoteDAO(Vote.class);
+        commentDAO = new CommentDAO(Comment.class);
         Gson gson = new Gson();
 
         // Launch SOAP Services
@@ -117,7 +119,7 @@ public class Main {
 
             for (Post post :
                     postDAO.findAll()) {
-
+//                post.setCommentList(commentDAO.getByPost(post));
                 if (amigos.contains(post.getUser()) || post.getUser().equals(currentUser)) {
                     postFiltrados.add(post);
                 }
@@ -137,6 +139,10 @@ public class Main {
 
             FriendRequest friendRequest = friendRequestDAO.getFriendRequest(currentUser, wallOwner);
             List<Post> postList = postDAO.findSomeByUserTagged(wallOwner);
+
+//            for (Post post : postList) {
+//                post.setCommentList(commentDAO.getByPost(post));
+//            }
 
             model.put("friendRequest", friendRequest);
             model.put("postList", postList);
@@ -193,6 +199,7 @@ public class Main {
 
             return null;
         });
+
 
 
         get("/register", (request, response) -> {
@@ -485,6 +492,68 @@ public class Main {
             return counts[0] + "," + counts[1];
         });
 
+        post("/comment", (request, response) -> {
+            User user = request.session().attribute("currentUser");
+            String content = request.queryParams("content");
+            Post post = postDAO.find(Long.parseLong(request.queryParams("postId")));
+            Date date = new Date();
+            Comment comment = new Comment(content, user, post, date);
+            commentDAO.persist(comment);
+
+            return getCommentHTML(user, date, content, comment);
+        });
+
+        post("/comment/vote", (req, res) -> {
+            String stringId = req.queryParams("id");
+            Long commentid = Long.parseLong(stringId);
+            String type = req.queryParams("type");
+
+            User currentUser = req.session().attribute("currentUser");
+            Comment comment = commentDAO.find(commentid);
+
+            Vote vote = voteDAO.findByUserNComment(commentid, currentUser.getUsername());
+
+            if (vote != null) {
+                vote.setType(type);
+                voteDAO.update(vote);
+            } else {
+                vote = new Vote(type, currentUser, comment);
+                voteDAO.persist(vote);
+            }
+
+            String[] counts = new String[2];
+            counts[0] = voteDAO.voteCountByComment(commentid, "like");
+            counts[1] = voteDAO.voteCountByComment(commentid, "dislike");
+
+            return counts[0] + "," + counts[1];
+        });
+
+    }
+
+    public static String getCommentHTML(User user, Date date, String content, Comment comment) {
+        return "<div class=\"comment row\">\n" +
+                    "<div class=\"col-sm-2 px-0\">\n" +
+                        "<img alt=\"PIC\" class=\"comment-pic\" src=\"" + user.getProfileImage().getPath() + "\">\n" +
+                    "</div>\n" +
+
+                    "<div class=\"col-sm-10\">\n" +
+                        "<span><strong>" + user.getName() + " " + user.getLastname() + "</strong></span>\n" +
+                        "<span class=\"text-muted mx-1\"><time datetime=\"" + date + "\">" + date + "</time></span>\n" +
+
+                        "<div class=\"comment-content\">\n" +
+                            content +
+                        "</div>\n" +
+
+                        "<div>\n" +
+                            "<form class=\"ajax\" action=\"/comment/vote\" method=\"POST\" style=\"display: inline;\" data-id=\""+  comment.getId() +"\" data-type=\"like\">\n" +
+                                "<button class=\"btn btn-link\">\uD83D\uDC4D Me gusta</button><span id=\"badge-like" + comment.getId() + "\" class=\"badge\">0</span>\n" +
+                            "</form>\n" +
+                            "<form class=\"ajax\" action=\"/comment/vote\" method=\"POST\" style=\"display: inline;\" data-id=\"" + comment.getId() + "\" data-type=\"dislike\">\n" +
+                                "<button  class=\"btn btn-link\">\uD83D\uDC4E No me gusta</button><span id=\"badge-dislike"+comment.getId()+"\" class=\"badge\">0</span>\n" +
+                            "</form>" +
+                        "</div>"+
+                    "</div>\n" +
+                "</div>";
     }
 
     // User Controller

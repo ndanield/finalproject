@@ -77,4 +77,18 @@ public class PostDAO extends DAOImpl<Post, Long> {
             em.close();
         }
     }
+
+    public void _deleteAll() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createQuery("delete from Post p").executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw  e;
+        } finally {
+            em.close();
+        }
+    }
 }

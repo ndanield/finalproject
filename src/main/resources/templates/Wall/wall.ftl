@@ -70,7 +70,7 @@
         </div>
 
         <div class="col-lg-4">
-            <#if !currentUser.isFriend(wallOwner)>
+            <#if !currentUser.equals(wallOwner) && !currentUser.isFriend(wallOwner)>
                 <#include "/newPostForm.ftl">
             </#if>
         </div>

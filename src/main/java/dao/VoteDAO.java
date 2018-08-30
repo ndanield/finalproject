@@ -29,6 +29,23 @@ public class VoteDAO extends DAOImpl<Vote, Long> {
         return null;
     }
 
+    public Vote findByUserNComment(Long commentId, String username) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Vote> q = em.createQuery("from Vote v where v.user.username = :username and v.comment.id = :commentId", Vote.class)
+                    .setParameter("username", username)
+                    .setParameter("commentId", commentId);
+
+            return (Vote) JpaResultHelper.getSingleResultOrNull(q);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return null;
+    }
+
     public List<Vote> findAllByPost(Long postid) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -48,6 +65,23 @@ public class VoteDAO extends DAOImpl<Vote, Long> {
         try {
             TypedQuery<Long> q = em.createQuery("select count(*) from Vote v where v.post.id = :postid and v.type = :type", Long.class)
                     .setParameter("postid", postid)
+                    .setParameter("type", type);
+
+            return q.getSingleResult().toString();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return "0";
+    }
+
+    public String voteCountByComment(Long commentid, String type) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Long> q = em.createQuery("select count(*) from Vote v where v.comment.id = :commentid and v.type = :type", Long.class)
+                    .setParameter("commentid", commentid)
                     .setParameter("type", type);
 
             return q.getSingleResult().toString();

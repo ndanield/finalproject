@@ -5,7 +5,7 @@
             <div class="card mb-4 below-shadow">
                 <div class="card-header">
                     <h5 class="card-title"><strong>${ post.user.name }</strong> hizo una publicación </h5>
-                    <h6 class="card-subtitle text-muted"><time datetime="${ post.date }">${ post.date }</time></span></h6>
+                    <h6 class="card-subtitle text-muted"><time datetime="${ post.date }">${ post.date }</time></h6>
                     <#if post.taggedUser??>
                         <span class="card-subtitle text-muted"><i class="fas fa-tag"></i> Usuario etiquetado: ${post.taggedUser.name} ${post.taggedUser.lastname}</span>
                     </#if>
@@ -29,15 +29,13 @@
 
                 <div class="my-panel">
                     <form class="ajax" action="/post/vote" method="POST" style="display: inline;" data-id="${post.id}" data-type="like">
-                        <button class="btn btn-sm btn-outline-success" name="like" value="like">
-                            <i class="fa fa-thumbs-up"></i>&nbsp;Me gusta&nbsp;
-                            <span id="badge-like${post.id}" class="badge badge-light">${ post.getLikesCount() }</span>
+                        <button class="btn btn-link btn-sm btn-outline-success" name="like" value="like">👍 Me gusta
+                            <span id="badge-like${post.id}" class="badge">${ post.getLikesCount() }</span>
                         </button>
                     </form>
                     <form class="ajax" action="/post/vote" method="POST" style="display: inline;" data-id="${post.id}" data-type="dislike">
-                        <button class="btn btn-sm btn-outline-danger" name="dislike" value="dislike">
-                            <i class="fa fa-thumbs-down"></i>&nbsp;No me gusta&nbsp;
-                            <span id="badge-dislike${post.id}" class="badge badge-light">${ post.getDislikesCount() }</span>
+                        <button class="btn btn-link btn-sm btn-outline-danger" name="dislike" value="dislike">👎 No me gusta
+                            <span id="badge-dislike${post.id}" class="badge">${ post.getDislikesCount() }</span>
                         </button>
                     </form>
                 </div>
@@ -45,16 +43,43 @@
                 <hr>
 
                 <div class="my-panel">
-                    <form action="#">
+                    <form class="ajax-comment"  action="/comment" method="post" >
+                        <input type="hidden" name="postId" value="${post.id}">
                         <div class="form-group">
-                            <textarea name="comment" class="form-control rounded" placeholder="Escribe un comentario" rows="1"></textarea>
+                            <textarea id="comment-form${post.id}" name="comment-form" class="form-control rounded" placeholder="Escribe un comentario" rows="1"></textarea>
                         </div>
                         <button class="btn btn-sm btn-primary">Comentar</button>
                     </form>
-                    <p>No hay comentarios por ahora.</p>
+
+
+                    <div id="comment-table${post.id}" class="comment-table">
+                        <#list post.commentList>
+                            <#items as comment>
+                            <div class="comment row">
+                                <div class="col-sm-2 px-0">
+                                    <img alt="Pic" class="comment-pic" src="${comment.user.profileImage.path}">
+                                </div>
+                                <div class="col-sm-10">
+                                    <span><strong>${ comment.user.name } ${ comment.user.lastname }</strong></span>
+                                    <span class="text-muted mx-1"><time datetime="${ comment.date }">${ comment.date }</time></span>
+                                    <div class="comment-content">
+                                        ${comment.content }
+                                    </div>
+                                    <div>
+                                        <form class="ajax" action="/comment/vote" method="POST" style="display: inline;" data-id="${comment.id}" data-type="like">
+                                            <button class="btn btn-link">👍 Me gusta</button><span id="badge-like${comment.id}" class="badge">${comment.getLikesCount()}</span>
+                                        </form>
+                                        <form class="ajax" action="/comment/vote" method="POST" style="display: inline;" data-id="${comment.id}" data-type="dislike">
+                                            <button  class="btn btn-link">👎 No me gusta</button><span id="badge-dislike${comment.id}" class="badge">${comment.getDislikesCount()}</span>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </#items>
+                        </#list>
+                    </div>
                 </div>
             </div>
-
         </#items>
     </#list>
 

@@ -1,10 +1,8 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Comment {
@@ -19,6 +17,9 @@ public class Comment {
 
     @ManyToOne
     private Post post;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "comment")
+    private List<Vote> voteList;
 
     private Date date;
 
@@ -70,5 +71,27 @@ public class Comment {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public long getLikesCount() {
+        long likes = 0;
+        for (Vote vote :
+                voteList) {
+            if (vote.getType().equals("like")) {
+                likes++;
+            }
+        }
+        return likes;
+    }
+
+    public long getDislikesCount() {
+        long dislikes = 0;
+        for (Vote vote :
+                voteList) {
+            if (vote.getType().equals("dislike")) {
+                dislikes++;
+            }
+        }
+        return dislikes;
     }
 }
